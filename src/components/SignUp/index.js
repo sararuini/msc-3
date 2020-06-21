@@ -5,7 +5,11 @@ import * as ROUTES from '../../constants/routes';
 
 const SignUpPage = () => (
     <div>
-        <h1> Sign Up </h1>
+        <h1> Sign Up to Music Connector </h1>
+        <p> </p>
+
+        <h2> Sign Up with your LinkedIn account </h2>
+        <h2> Sign Up with your Creative Passport account </h2>
         <SignUpForm />
     </div>
 );
@@ -33,10 +37,11 @@ class SignUpForm extends Component {
 
     };
 
+    //onChange updates the local state of components below
     onChange = event => {
-
+        this.setState({[event.target.name]: event.target.value});
     };
-
+    
     render(){
         const {
             firstName,
@@ -49,72 +54,84 @@ class SignUpForm extends Component {
             error,
         } = this.state;
 
+        // checks for password validity --TO DO: FINISH
+        // checks that fields are not null, and that passwordOne is the same as passwordTwo ...
+        const isInvalid = 
+            passwordOne !== passwordTwo ||
+            passwordOne === '' ||
+            email === '' ||
+            firstName === '' || 
+            lastName === '' ||
+            DOB === '' ||
+            location === '';
+
         return  (
             <form onSubmit={this.onSubmit}>
                 {/* first name input */}
                 <input
-                    name = "First Name"
+                    name = "firstName"
                     value= {firstName}
                     onChange= {this.onChange}
                     type= "text"
-                    placeholder="John"
+                    placeholder="First Name"
                 />
 
                 {/* last name input */}
                     <input
-                    name = "Last Name"
+                    name = "lastName"
                     value= {lastName}
                     onChange= {this.onChange}
                     type= "text"
-                    placeholder="Doe"
+                    placeholder="Last Name"
                 />
 
-                {/* email input -- INSERT EMAIL CHECKER */}
+                {/* email input -- TO DO: INSERT EMAIL CHECKER */}
                 <input
-                    name = "Email Address"
+                    name = "email"
                     value= {email}
                     onChange= {this.onChange}
                     type= "text"
-                    placeholder="email@musicconnector.com"
+                    placeholder="Email Address"
                 />
 
-                {/* password input -- USE PSW CHECKER */}
+                {/* password one  input -- TO DO: USE PSW CHECKER (min no. characters, etc*/}
                 <input
-                    name = "Password (One)"
+                    name = "passwordOne"
                     value= {passwordOne}
                     onChange= {this.onChange}
                     type= "text"
-                    placeholder="******"
+                    placeholder="Password"
                 />
 
-                {/* password input -- USE PSW CHECKER */}
+                {/* password two input */}
                 <input
-                    name = "Password (Two)"
+                    name = "passwordTwo"
                     value= {passwordTwo}
                     onChange= {this.onChange}
                     type= "text"
-                    placeholder="******"
+                    placeholder="Insert Password Again"
                 />
 
-                {/* location input -- USE LOCATION API */}
+                {/* location input -- TO DO: USE LOCATION API */}
                 <input
-                    name = "Location"
+                    name = "location"
                     value= {location}
                     onChange= {this.onChange}
                     type= "text"
-                    placeholder= "London, UK"
+                    placeholder= "Location"
                 />
 
-                {/* DOB input -- USE DOB API TO CHECK >18 */}
+                {/* DOB input -- TO DO: USE DOB API TO CHECK >18 */}
                 <input
-                    name = "Date of Birth"
+                    name = "DOB"
                     value= {DOB}
                     onChange= {this.onChange}
                     type= "text"
-                    placeholder="01 July 2002"
+                    placeholder="Date of Birth"
                 />
-                <button type="submit">Sign Up</button>
+                <button disabled={isInvalid} type="submit">Sign Up</button>
 
+                {/* Error handling -- TO DO: COMPLETE ERROR HANDLING*/}
                 {error && <p>{error.message}</p>}
             </form>
         );
@@ -123,7 +140,7 @@ class SignUpForm extends Component {
 
 const SignUpLink = () => (
     <p>
-        Don't have an account? <Link to = {ROUTES.SIGN_UP}>Sign Up</Link>
+        Register here if you don't have a Music Connector account already: <Link to = {ROUTES.SIGN_UP}>Sign Up</Link>
     </p>
 )
 
