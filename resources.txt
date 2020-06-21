@@ -1,0 +1,13 @@
+Author notes
+Boilerplate code take from:
+Wieruch, R., 2019. The Road To React With Firebase.
+I used this book to setup my starter code, which I then modified to build my web app
+This link takes you to the boilerplate code taken from the book:(link)
+Up to this stage, the starter code has been taken from the book.
+I then proceeded to modify it
+
+
+List of Resources used:
+
+Wieruch, R., 2019. The Road To React With Firebase.
+
