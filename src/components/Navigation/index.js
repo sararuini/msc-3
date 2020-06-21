@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; //"Link" enables navigation to different routes
 // router which routes with equivalent react components 
 
 import * as ROUTES from '../../constants/routes'; // access to routes file

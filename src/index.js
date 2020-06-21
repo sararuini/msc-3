@@ -5,9 +5,15 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 import App from './components/App';
+import Firebase, { FirebaseContext } from './components/Firebase';
 
+//A Firebase instance is generated and passed it as props to React context.
+//This Firebase instance can be accessed by every component in the React component hierarchy 
+// via "Firebase.Context.Consumer"
 ReactDOM.render(
-  <App />,
+  <FirebaseContext.Provider value={new Firebase()}>
+    <App /> {/* App instance (main component*/}
+  </FirebaseContext.Provider>,
   document.getElementById('root')
 );
 

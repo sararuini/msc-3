@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 
+//configuration is present in '.env' file, not shared on github
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -11,6 +12,7 @@ const config = {
     measurementId: process.env.REACT_APP_MEASUREMENTID
   };
 
+//class is used to encapsulate firebase functionalities
 class Firebase {
     constructur(){
         app.initializeApp(config);
