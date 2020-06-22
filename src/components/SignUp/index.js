@@ -1,15 +1,12 @@
-import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
-
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
+import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 const SignUpPage = () => (
     <div>
         <h1> Sign Up to Music Connector </h1>
-        <p> </p>
-
-        <h2> Sign Up with your LinkedIn account </h2>
-        <h2> Sign Up with your Creative Passport account </h2>
         <SignUpForm />
     </div>
 );
@@ -26,15 +23,30 @@ const INITIAL_STATE = {
     error: null,
 };
 
-class SignUpForm extends Component {
+//Class that manages react local state
+class SignUpFormBase extends Component {
     constructor(props) {
         super(props);
 
         this.state = { ...INITIAL_STATE}
     };
-
+    // if request is resolved, local state of component empties.
+    // if it's rejected, there's a catch block that set the block where the error is to the local state
+   // 'onSubmit' uses firebase logic to sign a user in
     onSubmit = event => {
+        const {email, passwordOne} = this.state;
 
+        this.props.firebase
+        .doCreateUserWithEmailAndPassword(email, passwordOne)
+        .then(authUser => {
+            this.setState({...INITIAL_STATE}); //state is changed to empty fields
+            this.props.history.push(ROUTES.HOME); // User is re-directed to homepage
+        })
+        .catch(error => {
+            this.setState({error}); // prints error if there's one
+        });
+
+        event.preventDefault(); //prevents browser from reloading after form is submitted
     };
 
     //onChange updates the local state of components below
@@ -42,6 +54,7 @@ class SignUpForm extends Component {
         this.setState({[event.target.name]: event.target.value});
     };
     
+    // captures information input by the user
     render(){
         const {
             firstName,
@@ -53,7 +66,7 @@ class SignUpForm extends Component {
             location, 
             error,
         } = this.state;
-
+        
         // checks for password validity --TO DO: FINISH
         // checks that fields are not null, and that passwordOne is the same as passwordTwo ...
         const isInvalid = 
@@ -65,6 +78,7 @@ class SignUpForm extends Component {
             DOB === '' ||
             location === '';
 
+            // *** Input fields ***
         return  (
             <form onSubmit={this.onSubmit}>
                 {/* first name input */}
@@ -99,7 +113,7 @@ class SignUpForm extends Component {
                     name = "passwordOne"
                     value= {passwordOne}
                     onChange= {this.onChange}
-                    type= "text"
+                    type= "password"
                     placeholder="Password"
                 />
 
@@ -108,7 +122,7 @@ class SignUpForm extends Component {
                     name = "passwordTwo"
                     value= {passwordTwo}
                     onChange= {this.onChange}
-                    type= "text"
+                    type= "password"
                     placeholder="Insert Password Again"
                 />
 
@@ -129,6 +143,7 @@ class SignUpForm extends Component {
                     type= "text"
                     placeholder="Date of Birth"
                 />
+                {/* button checks that no variable is invalid */}
                 <button disabled={isInvalid} type="submit">Sign Up</button>
 
                 {/* Error handling -- TO DO: COMPLETE ERROR HANDLING*/}
@@ -143,6 +158,9 @@ const SignUpLink = () => (
         Register here if you don't have a Music Connector account already: <Link to = {ROUTES.SIGN_UP}>Sign Up</Link>
     </p>
 )
+
+//components gain access to router props
+const SignUpForm = compose(withRouter, withFirebase,)(SignUpFormBase);
 
 export default SignUpPage;
 export { SignUpForm, SignUpLink };

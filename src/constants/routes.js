@@ -1,4 +1,4 @@
-// routes to application
+// routes to different applications
 export const LANDING = "/";
 export const SIGN_UP = "/signup";
 export const SIGN_IN = "/signin";
@@ -6,3 +6,5 @@ export const HOME = "/home";
 export const ACCOUNT = "/account";
 export const ADMIN = "/admin";
 export const PASSWORD_FORGET = "/pw-forget";
+//export const OPPORTUNITIES = "/opportunities";
+//export const CONNECTIONS = "/connections";

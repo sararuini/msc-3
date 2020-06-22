@@ -15,7 +15,7 @@ const config = {
 
 //class is used to encapsulate firebase functionalities
 class Firebase {
-    constructur(){
+    constructor(){
         app.initializeApp(config);
         this.auth = app.auth(); //Firebase authentication package
     }
