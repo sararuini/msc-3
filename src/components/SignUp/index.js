@@ -39,13 +39,19 @@ class SignUpFormBase extends Component {
         this.props.firebase
         .doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
+            return this.props.firebase
+                .user(authUser.user.uid)
+                .set({
+                    email,
+            });
+        })
+        .then(() => {
             this.setState({...INITIAL_STATE}); //state is changed to empty fields
             this.props.history.push(ROUTES.HOME); // User is re-directed to homepage
         })
         .catch(error => {
             this.setState({error}); // prints error if there's one
         });
-
         event.preventDefault(); //prevents browser from reloading after form is submitted
     };
 

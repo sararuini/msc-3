@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth'; //Firebase authentication component
+import 'firebase/database';
 
 //configuration is present in '.env' file, not shared on github
 const config = {
@@ -17,7 +18,9 @@ const config = {
 class Firebase {
     constructor(){
         app.initializeApp(config);
+
         this.auth = app.auth(); //Firebase authentication package
+        this.db = app.database();
     }
 
 // ****** Authentication API ******
@@ -41,6 +44,11 @@ class Firebase {
     //Change password
     doPasswordUpdate = password =>
         this.auth.currentUser.updatePassword(password);
+    
+    // *** USER API *** 
+    user = uid => this.db.ref(`users/${uid}`);
+
+    users = () => this.db.ref('users');
 }
 
 export default Firebase;
