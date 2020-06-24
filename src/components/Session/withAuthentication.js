@@ -8,10 +8,11 @@ const withAuthentication = Component => {
         constructor(props) {
             super(props);
             //authentication of a user is stored in local state and passed down to other components
-        this.state = {
-            authUser: null,
-        };
-    }
+            this.state = {
+                authUser: null,
+            };
+        }
+        
     //listener function that gets the user authenticated from firebase
     componentDidMount() {
         this.listener = this.props.firebase.auth.onAuthStateChanged(

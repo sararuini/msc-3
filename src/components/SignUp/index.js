@@ -15,6 +15,7 @@ const SignUpPage = () => (
 const INITIAL_STATE = {
     firstName: '',
     lastName: '',
+    username: '',
     email: '', // make these fields grey
     passwordOne: '',
     passwordTwo: '', //insert password API here
@@ -34,14 +35,16 @@ class SignUpFormBase extends Component {
     // if it's rejected, there's a catch block that set the block where the error is to the local state
    // 'onSubmit' uses firebase logic to sign a user in
     onSubmit = event => {
-        const {email, passwordOne} = this.state;
+        const {username, email, passwordOne} = this.state;
 
         this.props.firebase
         .doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
+            // user is created and stored in database
             return this.props.firebase
                 .user(authUser.user.uid)
                 .set({
+                    username,
                     email,
             });
         })
@@ -66,6 +69,7 @@ class SignUpFormBase extends Component {
             firstName,
             lastName,
             email,
+            username,
             passwordOne,
             passwordTwo,
             DOB,
@@ -78,6 +82,7 @@ class SignUpFormBase extends Component {
         const isInvalid = 
             passwordOne !== passwordTwo ||
             passwordOne === '' ||
+            username === '' ||
             email === '' ||
             firstName === '' || 
             lastName === '' ||
@@ -103,6 +108,15 @@ class SignUpFormBase extends Component {
                     onChange= {this.onChange}
                     type= "text"
                     placeholder="Last Name"
+                />
+
+                {/* first name input */}
+                <input
+                    name = "username"
+                    value= {username}
+                    onChange= {this.onChange}
+                    type= "text"
+                    placeholder="Username"
                 />
 
                 {/* email input -- TO DO: INSERT EMAIL CHECKER */}

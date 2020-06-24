@@ -14,7 +14,7 @@ const withAuthorization = condition => Component => {
         componentDidMount() {
             this.listener = this.props.firebase.auth.onAuthStateChanged(
                 authUser => {
-                    if (!condition(authUser)) {
+                    if (!condition(authUser)) { // condition for authentication. if not logged in, sign in
                         this.props.history.push(ROUTES.SIGN_IN);
                     }
                 },
@@ -25,7 +25,7 @@ const withAuthorization = condition => Component => {
             this.listener();
         }
         
-        // render displays the passeed components
+        // render displays the components that are accessible to auth users only
         render() {
             return (
                 <AuthUserContext.Consumer>

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+/* import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
 
+// Admins manage users
 class AdminPage extends Component {
   constructor(props) {
     super(props);
@@ -14,10 +15,11 @@ class AdminPage extends Component {
   // fetching users from realtime db
   componentDidMount() {
     this.setState({ loading: true });
-
+    //listener is triggered when something is changed
     this.props.firebase.users().on('value', snapshot => {
       const usersObject = snapshot.val();
 
+      //Users are displayed as arrays rather than json objects
       const usersList = Object.keys(usersObject).map(key => ({
         ...usersObject[key],
         uid: key,
@@ -30,17 +32,19 @@ class AdminPage extends Component {
     });
   }
 
+  //listener is removed
   componentWillUnmount() {
     this.props.firebase.users().off();
   }
 
+  //list of users is rendered
   render() {
     const { users, loading } = this.state;
 
     return (
       <div>
         <h1>Admin</h1>
-
+      
         {loading && <div>Loading ...</div>}
 
         <UserList users={users} />
@@ -68,3 +72,4 @@ const UserList = ({ users }) => (
 );
 
 export default withFirebase(AdminPage);
+*/
