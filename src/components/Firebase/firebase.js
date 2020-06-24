@@ -1,5 +1,5 @@
 import app from 'firebase/app';
-import 'firebase/auth'; //Firebase authentication component
+import 'firebase/auth';
 import 'firebase/database';
 
 //configuration is present in '.env' file, not shared on github
@@ -16,24 +16,23 @@ const config = {
 
 //class is used to encapsulate firebase functionalities
 class Firebase {
-    constructor(){
+    constructor() {
         app.initializeApp(config);
-
-        this.auth = app.auth(); //Firebase authentication package
+  
+        this.auth = app.auth();
         this.db = app.database();
     }
-
 // ****** Authentication API ******
 // Communication channel from Firebase class to Firebase API
     // Email + psw is used for authentication
 
     // Creates user
-    doCreateUserWithEmailAndPassword = (email, password) => 
-        this.auth.createUserWithEmailAndPassword(email, password);
+    doCreateUserWithEmailAndPassword = (email, password) =>
+    this.auth.createUserWithEmailAndPassword(email, password);
     
     // Sign in
     doSignInWithEmailAndPassword = (email, password) =>
-        this.auth.signInWithEmailAndPassword(email, password);
+    this.auth.signInWithEmailAndPassword(email, password);
 
     // Sign out
     doSignOut = () => this.auth.signOut();
@@ -43,12 +42,12 @@ class Firebase {
 
     //Change password
     doPasswordUpdate = password =>
-        this.auth.currentUser.updatePassword(password);
+    this.auth.currentUser.updatePassword(password);
     
     // *** USER API *** 
     user = uid => this.db.ref(`users/${uid}`);
 
     users = () => this.db.ref('users');
-}
-
-export default Firebase;
+  }
+  
+  export default Firebase;
