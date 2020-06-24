@@ -12,12 +12,14 @@ const withAuthorization = condition => Component => {
         // main authorisation logic, uses a firebase listeners to trigger
         //a callback function every time the authenticated user changes
         componentDidMount() {
-            this.listener = this.props.firebase.auth.onAuthStateChanged(
+            //using firebase class logic to merge authentication and database user
+            this.listener = this.props.firebase.auth.onAuthUserListener(
                 authUser => {
-                    if (!condition(authUser)) { // condition for authentication. if not logged in, sign in
+                    if (!condition(authUser)){
                         this.props.history.push(ROUTES.SIGN_IN);
                     }
                 },
+                () => this.props.history.push(ROUTES.SIGN_IN),            
             );
         }
 

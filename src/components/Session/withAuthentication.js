@@ -7,6 +7,7 @@ const withAuthentication = Component => {
     class WithAuthentication extends React.Component {
         constructor(props) {
             super(props);
+
             //authentication of a user is stored in local state and passed down to other components
             this.state = {
                 authUser: null,
@@ -17,9 +18,9 @@ const withAuthentication = Component => {
     componentDidMount() {
         this.listener = this.props.firebase.auth.onAuthStateChanged(
             authUser => {
-                authUser
-                ? this.setState({ authUser })
-                : this.setState({ authUser: null });
+                this.setState({ authUser });
+            },() => {
+                this.setState({ authUser: null });
             },
         );
     }

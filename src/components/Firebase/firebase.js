@@ -22,7 +22,7 @@ class Firebase {
         this.auth = app.auth();
         this.db = app.database();
     }
-// ****** Authentication API ******
+// *** Authentication ***
 // Communication channel from Firebase class to Firebase API
     // Email + psw is used for authentication
 
@@ -44,6 +44,30 @@ class Firebase {
     doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
     
+    //*** AUTH + DB USER API ***
+
+    onAuthUserListener = (next, fallback) =>
+      this.auth.onAuthStateChanged(authUser => {
+        if (authUser){
+          this.user(authUser.uid)
+          .once('value')
+          .then(snapshot => {
+            const dbUser = snapshot.val();
+
+            //merge auth and db based on user id and email
+            authUser = {
+              uid: authUser.uid,
+              email: authUser.email,
+              ...dbUser,
+            };
+
+            next(authUser);
+          });
+        } else {
+          fallback();
+          }
+      });
+
     // *** USER API *** 
     //REST APIs
     user = uid => this.db.ref(`users/${uid}`);
