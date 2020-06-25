@@ -1,186 +1,137 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
-import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
+
+import { withFirebase } from "../Firebase";
+import * as ROUTES from "../../constants/routes";
 
 const SignUpPage = () => (
-    <div>
-        <h1> Sign Up to Music Connector </h1>
-        <SignUpForm />
-    </div>
+  <div>
+    <h1>SignUp</h1>
+    <SignUpForm />
+  </div>
 );
 
-//State captures user info & resets state after a user manages to sign up successfully
 const INITIAL_STATE = {
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '', // make these fields grey
-    passwordOne: '',
-    passwordTwo: '', //insert password API here
-    location: '', //insert API here
-    DOB: '',
-    error: null,
+  username: "",
+  email: "",
+  passwordOne: "",
+  passwordTwo: "",
+  error: null,
 };
 
-//Class that manages react local state
+const ERROR_CODE_ACCOUNT_EXISTS = "auth/email-already-in-use";
+
+const ERROR_MSG_ACCOUNT_EXISTS = `
+  An account with this E-Mail address already exists.
+  Try to login with this account instead. If you think the
+  account is already used from one of the social logins, try
+  to sign in with one of them. Afterward, associate your accounts
+  on your personal account page.
+`;
+
 class SignUpFormBase extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = { ...INITIAL_STATE}
-    };
-    // if request is resolved, local state of component empties.
-    // if it's rejected, there's a catch block that set the block where the error is to the local state
-   // 'onSubmit' uses firebase logic to sign a user in
-    onSubmit = event => {
-        const {username, email, passwordOne} = this.state;
+    this.state = { ...INITIAL_STATE };
+  }
 
-        this.props.firebase
-        .doCreateUserWithEmailAndPassword(email, passwordOne)
-        .then(authUser => {
-            // user is created and stored in database
-            return this.props.firebase
-                .user(authUser.user.uid)
-                .set({
-                    username,
-                    email,
-            });
-        })
-        .then(() => {
-            this.setState({...INITIAL_STATE}); //state is changed to empty fields
-            this.props.history.push(ROUTES.HOME); // User is re-directed to homepage
-        })
-        .catch(error => {
-            this.setState({error}); // prints error if there's one
+  onSubmit = (event) => {
+    const { username, email, passwordOne } = this.state;
+
+    this.props.firebase
+      .doCreateUserWithEmailAndPassword(email, passwordOne)
+      .then((authUser) => {
+        // Create a user in your Firebase realtime database
+        return this.props.firebase.user(authUser.user.uid).set({
+          username,
+          email,
         });
-        event.preventDefault(); //prevents browser from reloading after form is submitted
-    };
+      })
+      .then(() => {
+        return this.props.firebase.doSendEmailVerification();
+      })
+      .then(() => {
+        this.setState({ ...INITIAL_STATE });
+        this.props.history.push(ROUTES.HOME);
+      })
+      .catch((error) => {
+        if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+          error.message = ERROR_MSG_ACCOUNT_EXISTS;
+        }
 
-    //onChange updates the local state of components below
-    onChange = event => {
-        this.setState({[event.target.name]: event.target.value});
-    };
-    
-    // captures information input by the user
-    render(){
-        const {
-            firstName,
-            lastName,
-            email,
-            username,
-            passwordOne,
-            passwordTwo,
-            DOB,
-            location, 
-            error,
-        } = this.state;
-        
-        // checks for password validity --TO DO: FINISH
-        // checks that fields are not null, and that passwordOne is the same as passwordTwo ...
-        const isInvalid = 
-            passwordOne !== passwordTwo ||
-            passwordOne === '' ||
-            username === '' ||
-            email === '' ||
-            firstName === '' || 
-            lastName === '' ||
-            DOB === '' ||
-            location === '';
+        this.setState({ error });
+      });
 
-            // *** Input fields ***
-        return  (
-            <form onSubmit={this.onSubmit}>
-                {/* first name input */}
-                <input
-                    name = "firstName"
-                    value= {firstName}
-                    onChange= {this.onChange}
-                    type= "text"
-                    placeholder="First Name"
-                />
+    event.preventDefault();
+  };
 
-                {/* last name input */}
-                    <input
-                    name = "lastName"
-                    value= {lastName}
-                    onChange= {this.onChange}
-                    type= "text"
-                    placeholder="Last Name"
-                />
+  onChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
-                {/* first name input */}
-                <input
-                    name = "username"
-                    value= {username}
-                    onChange= {this.onChange}
-                    type= "text"
-                    placeholder="Username"
-                />
+  onChangeCheckbox = (event) => {
+    this.setState({ [event.target.name]: event.target.checked });
+  };
 
-                {/* email input -- TO DO: INSERT EMAIL CHECKER */}
-                <input
-                    name = "email"
-                    value= {email}
-                    onChange= {this.onChange}
-                    type= "text"
-                    placeholder="Email Address"
-                />
+  render() {
+    const { username, email, passwordOne, passwordTwo, error } = this.state;
 
-                {/* password one  input -- TO DO: USE PSW CHECKER (min no. characters, etc*/}
-                <input
-                    name = "passwordOne"
-                    value= {passwordOne}
-                    onChange= {this.onChange}
-                    type= "password"
-                    placeholder="Password"
-                />
+    const isInvalid =
+      passwordOne !== passwordTwo ||
+      passwordOne === "" ||
+      email === "" ||
+      username === "";
 
-                {/* password two input */}
-                <input
-                    name = "passwordTwo"
-                    value= {passwordTwo}
-                    onChange= {this.onChange}
-                    type= "password"
-                    placeholder="Insert Password Again"
-                />
+    return (
+      <form onSubmit={this.onSubmit}>
+        <input
+          name="username"
+          value={username}
+          onChange={this.onChange}
+          type="text"
+          placeholder="Full Name"
+        />
+        <input
+          name="email"
+          value={email}
+          onChange={this.onChange}
+          type="text"
+          placeholder="Email Address"
+        />
+        <input
+          name="passwordOne"
+          value={passwordOne}
+          onChange={this.onChange}
+          type="password"
+          placeholder="Password"
+        />
+        <input
+          name="passwordTwo"
+          value={passwordTwo}
+          onChange={this.onChange}
+          type="password"
+          placeholder="Confirm Password"
+        />
 
-                {/* location input -- TO DO: USE LOCATION API */}
-                <input
-                    name = "location"
-                    value= {location}
-                    onChange= {this.onChange}
-                    type= "text"
-                    placeholder= "Location"
-                />
+        <button disabled={isInvalid} type="submit">
+          Sign Up
+        </button>
 
-                {/* DOB input -- TO DO: USE DOB API TO CHECK >18 */}
-                <input
-                    name = "DOB"
-                    value= {DOB}
-                    onChange= {this.onChange}
-                    type= "text"
-                    placeholder="Date of Birth"
-                />
-                {/* button checks that no variable is invalid */}
-                <button disabled={isInvalid} type="submit">Sign Up</button>
-
-                {/* Error handling -- TO DO: COMPLETE ERROR HANDLING*/}
-                {error && <p>{error.message}</p>}
-            </form>
-        );
-    }
+        {error && <p>{error.message}</p>}
+      </form>
+    );
+  }
 }
 
 const SignUpLink = () => (
-    <p>
-        Register here if you don't have a Music Connector account already: <Link to = {ROUTES.SIGN_UP}>Sign Up</Link>
-    </p>
-)
+  <p>
+    Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+  </p>
+);
 
-//components gain access to router props
-const SignUpForm = compose(withRouter, withFirebase,)(SignUpFormBase);
+const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 
 export default SignUpPage;
+
 export { SignUpForm, SignUpLink };
