@@ -1,3 +1,13 @@
+The setup app was created using the book "The Road to React with Firebase" by Robin Wieruch.
+The functionalities I took from the book are:
+- User SignIn/Logout/SignUp
+- Admin
+- Navigation + Homepage
+
+Up to (tree branch number), the code is exactly the same as the book.
+I then proceeded to develop further functionalities for the purpose of my app.
+
+*******
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

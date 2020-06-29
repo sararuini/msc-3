@@ -7,7 +7,7 @@ import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
 //Authorisation is used to make sure that sensible information is not accessed by users that are not logged in
-const withAuthorization = (condition) => (Component) => {
+const withAuthorization = condition => Component => {
   class WithAuthorization extends React.Component {
     // main authorisation logic, uses a firebase listeners to trigger
     //a callback function every time the authenticated user changes
@@ -15,7 +15,7 @@ const withAuthorization = (condition) => (Component) => {
       //using firebase class logic to merge authentication and database user
 
       this.listener = this.props.firebase.onAuthUserListener(
-        (authUser) => {
+        authUser => {
           if (!condition(authUser)) {
             this.props.history.push(ROUTES.SIGN_IN);
           }

@@ -6,6 +6,7 @@ import {
   withAuthorization,
   withEmailVerification,
 } from "../Session";
+
 import { withFirebase } from "../Firebase";
 import { PasswordForgetForm } from "../PasswordForget";
 import PasswordChangeForm from "../PasswordChange";
@@ -21,11 +22,13 @@ const SIGN_IN_METHODS = [
     id: "google.com",
     provider: "googleProvider",
   },
+  // add Creative Passport here
+  // add LinkedIn
 ];
 
 const AccountPage = () => (
   <AuthUserContext.Consumer>
-    {(authUser) => (
+    {authUser => (
       <div>
         <h1>Account: {authUser.email}</h1>
         <PasswordForgetForm />
@@ -51,7 +54,6 @@ class LoginManagementBase extends Component {
   }
 
   //firebase api method to fetch sign in methods for a specific email address
-
   fetchSignInMethods = () => {
     this.props.firebase.auth
       .fetchSignInMethodsForEmail(this.props.authUser.email)
@@ -61,6 +63,7 @@ class LoginManagementBase extends Component {
       .catch((error) => this.setState({ error }));
   };
 
+  // directs to login of specific provider
   onSocialLoginLink = (provider) => {
     this.props.firebase.auth.currentUser
       .linkWithPopup(this.props.firebase[provider])
@@ -68,10 +71,11 @@ class LoginManagementBase extends Component {
       .catch((error) => this.setState({ error }));
   };
 
+  // email + psw
   onDefaultLoginLink = (password) => {
     const credential = this.props.firebase.emailAuthProvider.credential(
       this.props.authUser.email,
-      password
+      password,
     );
 
     this.props.firebase.auth.currentUser
@@ -80,7 +84,8 @@ class LoginManagementBase extends Component {
       .catch((error) => this.setState({ error }));
   };
 
-  onUnlink = (providerId) => {
+  //remove provider
+  onUnlink = providerId => {
     this.props.firebase.auth.currentUser
       .unlink(providerId)
       .then(this.fetchSignInMethods)
@@ -144,7 +149,9 @@ const SocialLoginToggle = ({
       Deactivate {signInMethod.id}
     </button>
   ) : (
-    <button type="button" onClick={() => onLink(signInMethod.provider)}>
+    <button
+      type="button"
+      onClick={() => onLink(signInMethod.provider)}>
       Link {signInMethod.id}
     </button>
   );
@@ -168,7 +175,12 @@ class DefaultLoginToggle extends Component {
   };
 
   render() {
-    const { onlyOneLeft, isEnabled, signInMethod, onUnlink } = this.props;
+    const {
+      onlyOneLeft,
+      isEnabled,
+      signInMethod,
+      onUnlink }
+    = this.props;
 
     const { passwordOne, passwordTwo } = this.state;
 

@@ -19,13 +19,22 @@ class Firebase {
   constructor() {
     app.initializeApp(config);
 
-    this.emailAuthProvider = app.auth.EmailAuthProvider;
+    // *** Firebase APIs ***
     this.auth = app.auth();
     this.db = app.database();
 
+    // *** Helper ***
+    this.emailAuthProvider = app.auth.EmailAuthProvider;
+    this.serverValue = app.database.ServerValue;
+
+    // *** Social Log In Providers ***
+
     this.googleProvider = new app.auth.GoogleAuthProvider();
+    // add Creative Passport
+    // add LinkedIn
   }
-  // *** Authentication ***
+
+  // *** Authentication API ***
   // Communication channel from Firebase class to Firebase API
   // Email + psw is used for authentication
 
@@ -59,12 +68,17 @@ class Firebase {
   //*** AUTH + DB USER API ***
 
   onAuthUserListener = (next, fallback) =>
-    this.auth.onAuthStateChanged((authUser) => {
+    this.auth.onAuthStateChanged(authUser => {
       if (authUser) {
         this.user(authUser.uid)
           .once("value")
           .then((snapshot) => {
             const dbUser = snapshot.val();
+            
+            // default empty roles
+            if(!dbUser.roles){
+              dbUser.roles= [];
+            }
 
             // merge auth and db user
             authUser = {
@@ -83,10 +97,12 @@ class Firebase {
     });
 
   // *** User API ***
-
   user = (uid) => this.db.ref(`users/${uid}`);
+  users = () => this.db.ref('users');
 
-  users = () => this.db.ref("users");
+// *** MESSAGES ***
+  message = uid => this.db.ref(`messages/${uid}`);
+  messages = () => this.db.ref('messages');
 }
 
 export default Firebase;
