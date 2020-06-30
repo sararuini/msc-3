@@ -4,7 +4,7 @@ The functionalities I took from the book are:
 - Admin
 - Navigation + Homepage
 
-Up to (tree branch number), the code is exactly the same as the book.
+Up to https://github.com/sararuini/msc-3/tree/79f43b3aa6143f20992e3d1d122422ca2a509ce3, the code is exactly the same as the book.
 I then proceeded to develop further functionalities for the purpose of my app.
 
 *******
