@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
-import { withFirebase } from "../Firebase";
-import * as ROUTES from "../../constants/routes";
-import * as ROLES from "../../constants/roles";
+import { withFirebase } from '../Firebase';
+import * as ROUTES from '../../constants/routes';
+import * as ROLES from '../../constants/roles';
 
 const SignUpPage = () => (
   <div>
@@ -13,18 +14,22 @@ const SignUpPage = () => (
 );
 
 const INITIAL_STATE = {
-  username: "",
-  email: "",
-  passwordOne: "",
-  passwordTwo: "",
-  isAdmin: "false",
+  username: '',
+  email: '',
+  passwordOne: '',
+  passwordTwo: '',
+  isAdmin: false,
   error: null,
 };
 
-const ERROR_CODE_ACCOUNT_EXISTS = "auth/email-already-in-use";
+const ERROR_CODE_ACCOUNT_EXISTS = 'auth/email-already-in-use';
 
 const ERROR_MSG_ACCOUNT_EXISTS = `
   An account with this E-Mail address already exists.
+  Try to login with this account instead. If you think the
+  account is already used from one of the social logins, try
+  to sign in with one of them. Afterward, associate your accounts
+  on your personal account page.
 `;
 
 class SignUpFormBase extends Component {
@@ -36,16 +41,15 @@ class SignUpFormBase extends Component {
 
   onSubmit = event => {
     const { username, email, passwordOne, isAdmin } = this.state;
+    const roles = {};
 
-    const roles= [];
-
-    if(isAdmin){
-      roles.push(ROLES.ADMIN);
+    if (isAdmin) {
+      roles[ROLES.ADMIN] = ROLES.ADMIN;
     }
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then((authUser) => {
+      .then(authUser => {
         // Create a user in your Firebase realtime database
         return this.props.firebase.user(authUser.user.uid).set({
           username,
@@ -60,7 +64,7 @@ class SignUpFormBase extends Component {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
       })
-      .catch((error) => {
+      .catch(error => {
         if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
           error.message = ERROR_MSG_ACCOUNT_EXISTS;
         }
@@ -80,13 +84,20 @@ class SignUpFormBase extends Component {
   };
 
   render() {
-    const { username, email, passwordOne, passwordTwo, isAdmin, error } = this.state;
-    
+    const {
+      username,
+      email,
+      passwordOne,
+      passwordTwo,
+      isAdmin,
+      error,
+    } = this.state;
+
     const isInvalid =
       passwordOne !== passwordTwo ||
-      passwordOne === "" ||
-      email === "" ||
-      username === "";
+      passwordOne === '' ||
+      email === '' ||
+      username === '';
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -122,13 +133,11 @@ class SignUpFormBase extends Component {
           Admin:
           <input
             name="isAdmin"
-            value={isAdmin}
             type="checkbox"
             checked={isAdmin}
             onChange={this.onChangeCheckbox}
           />
         </label>
-        
         <button disabled={isInvalid} type="submit">
           Sign Up
         </button>
@@ -145,7 +154,10 @@ const SignUpLink = () => (
   </p>
 );
 
-const SignUpForm = withRouter(withFirebase(SignUpFormBase));
+const SignUpForm = compose(
+  withRouter,
+  withFirebase,
+)(SignUpFormBase);
 
 export default SignUpPage;
 

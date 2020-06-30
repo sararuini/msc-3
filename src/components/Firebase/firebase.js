@@ -1,8 +1,7 @@
-import app from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
+import app from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 
-//configuration is present in '.env' file, not shared on github
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -10,74 +9,65 @@ const config = {
   projectId: process.env.REACT_APP_PROJECT_ID,
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APPID,
-  measurementId: process.env.REACT_APP_MEASUREMENTID,
 };
 
-//class is used to encapsulate firebase functionalities
 class Firebase {
   constructor() {
     app.initializeApp(config);
 
-    // *** Firebase APIs ***
+    /* Helper */
+
+    this.serverValue = app.database.ServerValue;
+    this.emailAuthProvider = app.auth.EmailAuthProvider;
+
+    /* Firebase APIs */
+
     this.auth = app.auth();
     this.db = app.database();
 
-    // *** Helper ***
-    this.emailAuthProvider = app.auth.EmailAuthProvider;
-    this.serverValue = app.database.ServerValue;
-
-    // *** Social Log In Providers ***
+    /* Social Sign In Method Provider */
 
     this.googleProvider = new app.auth.GoogleAuthProvider();
-    // add Creative Passport
-    // add LinkedIn
+    this.facebookProvider = new app.auth.FacebookAuthProvider();
+    this.twitterProvider = new app.auth.TwitterAuthProvider();
   }
 
-  // *** Authentication API ***
-  // Communication channel from Firebase class to Firebase API
-  // Email + psw is used for authentication
+  // *** Auth API ***
 
-  // Creates user
   doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password);
 
-  // Sign in
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
 
-  //Sign in with google
-  doSignInWithGoogle = () => this.auth.signInWithPopup(this.googleProvider);
+  doSignInWithGoogle = () =>
+    this.auth.signInWithPopup(this.googleProvider);
 
-  // Sign out
   doSignOut = () => this.auth.signOut();
 
-  //Password reset
-  doPasswordReset = (email) => this.auth.sendPasswordResetEmail(email);
+  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
-  //Change password
-  doPasswordUpdate = (password) =>
-    this.auth.currentUser.updatePassword(password);
-
-  //Send user email verification
   doSendEmailVerification = () =>
     this.auth.currentUser.sendEmailVerification({
       url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
     });
 
-  //*** AUTH + DB USER API ***
+  doPasswordUpdate = password =>
+    this.auth.currentUser.updatePassword(password);
+
+  // *** Merge Auth and DB User API *** //
 
   onAuthUserListener = (next, fallback) =>
     this.auth.onAuthStateChanged(authUser => {
       if (authUser) {
         this.user(authUser.uid)
-          .once("value")
-          .then((snapshot) => {
+          .once('value')
+          .then(snapshot => {
             const dbUser = snapshot.val();
-            
+
             // default empty roles
-            if(!dbUser.roles){
-              dbUser.roles= [];
+            if (!dbUser.roles) {
+              dbUser.roles = {};
             }
 
             // merge auth and db user
@@ -97,11 +87,15 @@ class Firebase {
     });
 
   // *** User API ***
-  user = (uid) => this.db.ref(`users/${uid}`);
+
+  user = uid => this.db.ref(`users/${uid}`);
+
   users = () => this.db.ref('users');
 
-// *** MESSAGES ***
+  // *** Message API ***
+
   message = uid => this.db.ref(`messages/${uid}`);
+
   messages = () => this.db.ref('messages');
 }
 
