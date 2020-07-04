@@ -26,7 +26,7 @@ const SIGN_IN_METHODS = [
   // add LinkedIn
 ];
 
-const AccountPage = () => (
+const SettingsPage = () => (
   <AuthUserContext.Consumer>
     {authUser => (
       <div>
@@ -220,10 +220,9 @@ class DefaultLoginToggle extends Component {
 }
 
 const LoginManagement = withFirebase(LoginManagementBase);
-
 const condition = (authUser) => !!authUser;
 
 export default compose(
   withEmailVerification,
   withAuthorization(condition)
-)(AccountPage);
+)(SettingsPage);

@@ -2,14 +2,11 @@ import React from 'react';
 import { compose } from 'recompose';
 
 import { withAuthorization, withEmailVerification } from '../Session';
-import Messages from '../Timeline';
 
-const HomePage = () => (
+const Groups = () => (
   <div>
-    <h1>Home Page</h1>
-    <p>The Home Page is accessible by every signed in user.</p>
-
-    <Messages />
+    <h1>Groups</h1>
+    <p>Manage your groups here.</p>
   </div>
 );
 

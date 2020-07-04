@@ -27,7 +27,16 @@ const NavigationAuth = ({ authUser }) => (
       <Link to={ROUTES.HOME}>Home</Link>
     </li>
     <li>
-      <Link to={ROUTES.ACCOUNT}>Account</Link>
+      <Link to={ROUTES.SETTINGS}>Settings</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.PROFILE_MODIFY}>Modify Profile</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.ALL_MESSAGES}>Messages</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.OPPORTUNITIES_STATUS}>Opportunities</Link>
     </li>
     {!!authUser.roles[ROLES.ADMIN] && (
       <li>
