@@ -7,15 +7,16 @@ import {
 } from "../Session";
 
 import { withFirebase } from "../Firebase";
-import { Picker } from "react-native-web";
+import { Picker, CheckBox, View, Text} from "react-native-web";
 import * as ROUTES from '../../constants/routes';
+import page_styles from './styles';
 
 //page displaying 'modify profile'
 const ModifyProfilePage = () => (
   <AuthUserContext.Consumer>
     {authUser => (
       <div>
-        <h1>Modify Profile: {authUser.username}</h1>
+        <Text style={page_styles.text_h1}>Modify Profile: {authUser.username}</Text>
         <ModifyProfile authUser={authUser} />
       </div>
     )}
@@ -52,9 +53,12 @@ class ModifyProfileBase extends Component {
       website,
       biography, 
    } = this.state;
-
-   this.props.firebase.user()
-    .set({
+  
+   this.props.firebase.auth.onAuthStateChanged(
+     authUser => {
+       if (authUser ) {
+         this.props.firebase.user(authUser.uid)
+    .update({
       location:location,
       headline:headline,
       phoneNumber:phoneNumber,
@@ -62,13 +66,16 @@ class ModifyProfileBase extends Component {
       website:website,
       biography:biography
     })
-    .then(() => {
+    .then( () => {
       this.setState({...PROFILE_CONTENT});
-      this.props.history.push(ROUTES.HOME);
     })
       .catch(error => {
         this.setState({ error });
       });
+       }
+     }
+   )
+   
     event.preventDefault();
 
   };
@@ -85,9 +92,14 @@ class ModifyProfileBase extends Component {
     } = this.state;
     
     return (
+      <View style={page_styles.whole_page}>
       <div>
+          
+          {/* Profile picture here */}
           <form onSubmit={this.onSubmit}>
-            <label htmlFor="headline">Headline</label>
+          <View style={page_styles.pic_section}>
+          <Text styles={page_styles.text_h2}>Profile Picture</Text>
+          <Text styles={page_styles.text_h3}>Headline</Text>
               <input
                 type="text"
                 id="headline"
@@ -96,7 +108,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Headline"
               />
-            <label htmlFor="location">Current Location</label>
+            <Text styles={page_styles.text_h3}>Location</Text>
             <input
               type="text"
               id="location"
@@ -105,7 +117,8 @@ class ModifyProfileBase extends Component {
               onChange={this.onChange}
               placeholder="Location"
             />
-            <label htmlFor="biography">Biography</label>
+            </View>
+            <Text styles={page_styles.text_h3}>Biography</Text>
               <input
                 type="textarea"
                 id="biography"
@@ -113,8 +126,8 @@ class ModifyProfileBase extends Component {
                 value={biography}
                 onChange={this.onChange}
                 placeholder="Biography"
-              />              
-                <h3>Contact Details</h3>
+              />             
+                <Text style={page_styles.text_h2}>Contact Details</Text>
                 <label htmlFor="email">Email Address</label>
                 <input
                   type="email"
@@ -144,14 +157,49 @@ class ModifyProfileBase extends Component {
                   id="website"
                   placeholder="Website"
                 />
-                <button type="submit">
+                <View style={page_styles.checkboxes}>
+                <Text style={page_styles.text_h2}> Why did you join music connector?</Text>
+                <label htmlFor="music-connector-join">Why did you join Music Connector?</label>
+                
+                <input
+                  type="checkbox"
+                  name="connect-others"
+                  id="connect-others"
+                  value="onnect-others"
+                />
+                <label htmlFor="connect-others">Connect with others</label>
+                <input
+                  type="checkbox"
+                  name="find-opportunities"
+                  id="find-opportunities"
+                  value="find-opportunities"
+                />
+                <label htmlFor="find-opportunities">Find new opportunities</label>
+                </View>
+                
+                
+                <View style={page_styles.picker}>
+                <Picker>
+                  <Picker.Item label="Music Industry Professional" />
+                  <Picker.Item label="Musician" />
+                  <Picker.Item label="Both" />
+                  <Picker.Item label="Neither" />
+                </Picker>
+                </View>
+
+                <View style={page_styles.save_button}>
+                  <button type="submit">
                   Save Profile
                 </button>
+                </View>
+                
               </form>
-            </div>
+            </div>   
+      </View>
     )
   }
 }
+
 const ModifyProfile = withFirebase(ModifyProfileBase);
 const condition = (authUser) => !!authUser;
   

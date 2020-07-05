@@ -2,7 +2,6 @@
 export const LANDING = "/";
 export const HOME = "/home";
 export const PASSWORD_FORGET = "/pw-forget";
-export const USER_PROFILE= "/profile/:id";
 
 //accessing app (auth)
 export const SIGN_UP = "/signup";

@@ -21,9 +21,6 @@ const Navigation = () => (
 const NavigationAuth = ({ authUser }) => (
   <ul>
     <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
       <Link to={ROUTES.HOME}>Home</Link>
     </li>
     <li>
@@ -38,6 +35,9 @@ const NavigationAuth = ({ authUser }) => (
     <li>
       <Link to={ROUTES.OPPORTUNITIES_STATUS}>Opportunities</Link>
     </li>
+    {/* <li>
+      <Link to={ROUTES.PUBLIC_PROFILE}>My Profile</Link>
+    </li> */}
     {!!authUser.roles[ROLES.ADMIN] && (
       <li>
         <Link to={ROUTES.ADMIN}>Admin</Link>
