@@ -24,7 +24,7 @@ export const MESSAGE_CONVERSATION = "message/:id";
 export const OPPORTUNITIES_SAVED = "/opportunity/saved";
 export const OPPORTUNITIES_STATUS = "/opportunity/status";
 export const OPPORTUNITIES_RECOMMENDED = "/opportunity/recommended";
-export const OPPORTUNITY_ID ="/opportunity/id";
+export const OPPORTUNITY_ID ="/opportunity/:id";
 
 //timeline
 export const CREATE_POST = "/create_post";

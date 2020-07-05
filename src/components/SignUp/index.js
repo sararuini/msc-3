@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  isOver18: false,
   isAdmin: false,
   error: null,
 };
@@ -40,7 +41,7 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne, isAdmin } = this.state;
+    const { username, email, passwordOne, isAdmin, isOver18 } = this.state;
     const roles = {};
 
     if (isAdmin) {
@@ -90,6 +91,7 @@ class SignUpFormBase extends Component {
       passwordOne,
       passwordTwo,
       isAdmin,
+      isOver18,
       error,
     } = this.state;
 
@@ -97,6 +99,7 @@ class SignUpFormBase extends Component {
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       email === '' ||
+      isOver18 === false ||
       username === '';
 
     return (
@@ -135,6 +138,15 @@ class SignUpFormBase extends Component {
             name="isAdmin"
             type="checkbox"
             checked={isAdmin}
+            onChange={this.onChangeCheckbox}
+          />
+        </label>
+        <label>
+          By ticking this box, I confirm that I am over 18.
+          <input
+            name="isOver18"
+            type="checkbox"
+            checked={isOver18}
             onChange={this.onChangeCheckbox}
           />
         </label>

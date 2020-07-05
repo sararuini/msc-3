@@ -38,19 +38,6 @@ class ModifyProfileBase extends Component {
   
     this.state = { ...PROFILE_CONTENT};
   }
-
-  // saveProfileData = (location, headline, phoneNumber, publicEmailAddress,
-  // website, biography) => {
-  //   firebase.database().ref('users/' + userId).set({
-  //     location: location,
-  //     headline: headline,
-  //     phoneNumber : phoneNumber,
-  //     publicEmailAddress: publicEmailAddress,
-  //     website: website,
-  //     biography: biography,
-  //   });
-  // }
-
   onChange = (event) => {
     this.setState({ [event.target.name]: event.target.value }); 
   };
@@ -66,23 +53,19 @@ class ModifyProfileBase extends Component {
       biography, 
    } = this.state;
 
-    this.props.firebase
-      .onAuthUserListener(location, headline, phoneNumber, publicEmailAddress, website, biography)
-      .then(authUser => {
-        return this.props.firebase
-          .user(authUser.user.uid)
-          .set({
-            location,
-            headline,
-            phoneNumber,
-            publicEmailAddress,
-            website,
-            biography
-        });
-      })
-      .then(() => {
-        this.props.history.push(ROUTES.HOME);
-      })
+   this.props.firebase.user()
+    .set({
+      location:location,
+      headline:headline,
+      phoneNumber:phoneNumber,
+      publicEmailAddress:publicEmailAddress,
+      website:website,
+      biography:biography
+    })
+    .then(() => {
+      this.setState({...PROFILE_CONTENT});
+      this.props.history.push(ROUTES.HOME);
+    })
       .catch(error => {
         this.setState({ error });
       });
