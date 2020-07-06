@@ -7,23 +7,24 @@ const page_styles = StyleSheet.create({
     },
     text_h1: {
       fontWeight: 'bold',
-      fontSize: 45,
-      fontFamily: 'Arial',
+      fontSize: 40,
       textAlign: "center",
     },
     text_h2: {
-      fontSize: 28,
-      fontFamily: 'Arial'
+      fontSize: 24,
+      fontWeight: 'bold',
     },
     text_h3: {
         fontSize: 20,
-        fontFamily: 'Arial'
       },
     picker: {
   
     },
-    checkboxes: {
+    checkbox: {
   
+    },
+    checkboxRow: {
+
     },
     save_button: {
       height: 30,
