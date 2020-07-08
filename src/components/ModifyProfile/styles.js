@@ -30,10 +30,18 @@ const page_styles = StyleSheet.create({
       height: 30,
       length: 30,
     },
-    pic_section: {
+    top_section: {
         flex: 1,
         flexDirection: 'row',
     },
+    middle_right_section: {
+      flex: 1,
+      flexDirection: 'row',
+  },
+  middle_left_section: {
+    flex: 1,
+    flexDirection: 'row',
+},
     label: {
 
     },
