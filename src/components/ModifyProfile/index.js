@@ -72,8 +72,55 @@ class ModifyProfileBase extends Component {
     this.setState({ [event.target.name]: event.target.checked });
   };
 
+  componentDidMount = () => {
+    this.showUser();
+  };
+
+  showUser = () => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const user = this.props.firebase.user(authUser.uid);
+
+        user.on("value", (snapshot) => {
+          this.setState({
+            location: snapshot.val().location,
+            headline: snapshot.val().headline,
+            phoneNumber: snapshot.val().phoneNumber,
+            publicEmailAddress: snapshot.val().publicEmailAddress,
+            website: snapshot.val().website,
+            biography: snapshot.val().biography,
+            reasonsForJoining_findOpportunities: snapshot.val()
+              .reasonsForJoining_findOpportunities,
+            reasonsForJoining_connectOthers: snapshot.val()
+              .reasonsForJoining_connectOthers,
+            reasonsForJoining_offerOpportunities: snapshot.val()
+              .reasonsForJoining_offerOpportunities,
+            reasonsForJoining_promoteServices: snapshot.val()
+              .reasonsForJoining_promoteServices,
+            typeOfUserSelection: snapshot.val().typeOfUserSelection,
+            facebook: snapshot.val().facebook,
+            instagram: snapshot.val().instagram,
+            twitter: snapshot.val().twitter,
+            linkedin: snapshot.val().linkedin,
+            tiktok: snapshot.val().tiktok,
+            youtube: snapshot.val().youtube,
+            spotify: snapshot.val().spotify,
+            soundcloud: snapshot.val().soundcloud,
+            appleMusic: snapshot.val().appleMusic,
+            amazonMusic: snapshot.val().amazonMusic,
+            deezer: snapshot.val().deezer,
+            pandora: snapshot.val().pandora,
+            bandcamp: snapshot.val().bandcamp,
+            interests: snapshot.val().interests,
+            musicalSkills: snapshot.val().musicalSkills,
+            otherSkills: snapshot.val().otherSkills,
+          });
+        });
+      }
+    });
+  };
+
   onSubmit = (event) => {
-    
     const {
       profilePicture,
       location,
@@ -105,38 +152,42 @@ class ModifyProfileBase extends Component {
       musicalSkills,
       otherSkills,
     } = this.state;
-    
 
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         const user = this.props.firebase.user(authUser.uid);
         let newPost = user.push().key;
-        
 
         const processUpdates = (newPost) => {
           const updates = {};
-          if (user.location !== this.location) {
-            updates["location"] = this.location;
+
+          if (user.location !== location) {
+            updates["location"] = location;
           }
 
-          if (user.headline !== headline) {
+          if (user.headline !== headline && headline !== "") {
             updates["headline"] = headline;
           }
-          if (user.website !== website) {
+
+          if (user.website !== website && website !== "") {
             updates["website"] = website;
           }
 
-          if (user.phoneNumber !== phoneNumber) {
+          if (user.phoneNumber !== phoneNumber && phoneNumber !== "") {
             updates["phoneNumber"] = phoneNumber;
           }
 
-          if (user.publicEmailAddress !== publicEmailAddress) {
+          if (
+            user.publicEmailAddress !== publicEmailAddress &&
+            publicEmailAddress !== ""
+          ) {
             updates["publicEmailAddress"] = publicEmailAddress;
           }
 
           if (
             user.reasonsForJoining_findOpportunities !==
-            reasonsForJoining_findOpportunities
+              reasonsForJoining_findOpportunities &&
+            reasonsForJoining_findOpportunities !== false
           ) {
             updates[
               "reasonsForJoining_findOpportunities"
@@ -145,7 +196,8 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_connectOthers !==
-            reasonsForJoining_connectOthers
+              reasonsForJoining_connectOthers &&
+            reasonsForJoining_connectOthers !== false
           ) {
             updates[
               "reasonsForJoining_connectOthers"
@@ -154,7 +206,8 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_offerOpportunities !==
-            reasonsForJoining_offerOpportunities
+              reasonsForJoining_offerOpportunities &&
+            reasonsForJoining_offerOpportunities !== false
           ) {
             updates[
               "reasonsForJoining_offerOpportunities"
@@ -163,72 +216,75 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_promoteServices !==
-            reasonsForJoining_promoteServices
+              reasonsForJoining_promoteServices &&
+            reasonsForJoining_promoteServices !== false
           ) {
             updates[
               "reasonsForJoining_promoteServices"
             ] = reasonsForJoining_promoteServices;
           }
 
-          if (user.typeOfUserSelection !== typeOfUserSelection) {
+          if (
+            user.typeOfUserSelection !== typeOfUserSelection &&
+            typeOfUserSelection !== ""
+          ) {
             updates["typeOfUserSelection"] = typeOfUserSelection;
           }
 
-          if (user.biography !== biography) {
+          if (user.biography !== biography && biography !== "") {
             updates["biography"] = biography;
           }
 
-          if (user.facebook !== facebook) {
+          if (user.facebook !== facebook && facebook !== "") {
             updates["facebook"] = facebook;
           }
-
-          if (user.instagram !== instagram) {
+          if (user.instagram !== instagram && instagram !== "") {
             updates["instagram"] = instagram;
           }
 
-          if (user.twitter !== twitter) {
+          if (user.twitter !== twitter && twitter !== "") {
             updates["twitter"] = twitter;
           }
-          if (user.linkedin !== linkedin) {
+          if (user.linkedin !== linkedin && linkedin !== "") {
             updates["linkedin"] = linkedin;
           }
-          if (user.tiktok !== tiktok) {
+          if (user.tiktok !== tiktok && tiktok !== "") {
             updates["tiktok"] = tiktok;
           }
-          if (user.youtube !== youtube) {
+          if (user.youtube !== youtube && youtube !== "") {
             updates["youtube"] = youtube;
           }
-          if (user.spotify !== spotify) {
+          if (user.spotify !== spotify && spotify !== "") {
             updates["spotify"] = spotify;
           }
-          if (user.soundcloud !== soundcloud) {
+          if (user.soundcloud !== soundcloud && soundcloud !== "") {
             updates["soundcloud"] = soundcloud;
           }
-          if (user.appleMusic !== appleMusic) {
+          if ((user.appleMusic !== appleMusic) !== "") {
             updates["appleMusic"] = appleMusic;
           }
-          if (user.amazonMusic !== amazonMusic) {
+          if (user.amazonMusic !== amazonMusic && amazonMusic !== "") {
             updates["amazonMusic"] = amazonMusic;
           }
-          if (user.deezer !== deezer) {
+          if (user.deezer !== deezer && deezer !== "") {
             updates["deezer"] = deezer;
           }
-          if (user.pandora !== pandora) {
+          if (user.pandora !== pandora && pandora !== "") {
             updates["pandora"] = pandora;
           }
-          if (user.bandcamp !== bandcamp) {
+          if (user.bandcamp !== bandcamp && bandcamp !== "") {
             updates["bandcamp"] = bandcamp;
           }
 
-          if (user.interests !== interests) {
+          if (user.interests !== interests && interests !== "") {
             updates["interests"] = interests;
           }
 
-          if (user.musicalSkills !== musicalSkills) {
+          if (user.musicalSkills !== musicalSkills && musicalSkills !== "") {
             updates["musicalSkills"] = musicalSkills;
           }
 
-          if (user.otherSkills !== otherSkills) {
+          if (user.otherSkills !== otherSkills && otherSkills !== "") {
             updates["otherSkills"] = otherSkills;
           }
 
@@ -236,6 +292,9 @@ class ModifyProfileBase extends Component {
         };
 
         processUpdates(newPost)
+          .then(function (snapshot) {
+            let data = snapshot.val();
+          })
           .then(() => {
             this.setState({ ...PROFILE_CONTENT });
           })
@@ -389,7 +448,7 @@ class ModifyProfileBase extends Component {
                 name="linkedin"
                 value={linkedin}
                 onChange={this.onChange}
-                placeholder="LinkedIn"
+                placeholder="linkedin"
               />
               <Text styles={page_styles.text_h3}>TikTok</Text>
               <input
@@ -575,10 +634,11 @@ class ModifyProfileBase extends Component {
 
             <View style={page_styles.picker}>
               <label>
-                <Text styles={page_styles.text_h2} >
-                  Are you a ...
-                </Text>
-                <select defaultValue={typeOfUserSelection} onChange={this.onChange}>
+                <Text styles={page_styles.text_h2}>Are you a ...</Text>
+                <select
+                  defaultValue={typeOfUserSelection}
+                  onChange={this.onChange}
+                >
                   <option value="professional">
                     Music Industry Professional
                   </option>

@@ -5,6 +5,7 @@ import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+//import {SearchBar} from './searchBar';
 
 const Navigation = () => (
   <AuthUserContext.Consumer>
@@ -20,6 +21,7 @@ const Navigation = () => (
 
 const NavigationAuth = ({ authUser }) => (
   <ul>
+    
     <li>
       <Link to={ROUTES.HOME}>Home</Link>
     </li>
