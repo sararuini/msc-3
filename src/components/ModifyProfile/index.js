@@ -165,29 +165,27 @@ class ModifyProfileBase extends Component {
             updates["location"] = location;
           }
 
-          if (user.headline !== headline && headline !== "") {
+          if (user.headline !== headline) {
             updates["headline"] = headline;
           }
 
-          if (user.website !== website && website !== "") {
+          if (user.website !== website) {
             updates["website"] = website;
           }
 
-          if (user.phoneNumber !== phoneNumber && phoneNumber !== "") {
+          if (user.phoneNumber !== phoneNumber) {
             updates["phoneNumber"] = phoneNumber;
           }
 
           if (
-            user.publicEmailAddress !== publicEmailAddress &&
-            publicEmailAddress !== ""
+            user.publicEmailAddress !== publicEmailAddress
           ) {
             updates["publicEmailAddress"] = publicEmailAddress;
           }
 
           if (
             user.reasonsForJoining_findOpportunities !==
-              reasonsForJoining_findOpportunities &&
-            reasonsForJoining_findOpportunities !== false
+              reasonsForJoining_findOpportunities
           ) {
             updates[
               "reasonsForJoining_findOpportunities"
@@ -196,8 +194,7 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_connectOthers !==
-              reasonsForJoining_connectOthers &&
-            reasonsForJoining_connectOthers !== false
+              reasonsForJoining_connectOthers
           ) {
             updates[
               "reasonsForJoining_connectOthers"
@@ -206,8 +203,7 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_offerOpportunities !==
-              reasonsForJoining_offerOpportunities &&
-            reasonsForJoining_offerOpportunities !== false
+              reasonsForJoining_offerOpportunities
           ) {
             updates[
               "reasonsForJoining_offerOpportunities"
@@ -216,8 +212,7 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_promoteServices !==
-              reasonsForJoining_promoteServices &&
-            reasonsForJoining_promoteServices !== false
+              reasonsForJoining_promoteServices
           ) {
             updates[
               "reasonsForJoining_promoteServices"
@@ -225,54 +220,54 @@ class ModifyProfileBase extends Component {
           }
 
           if (
-            user.typeOfUserSelection !== typeOfUserSelection &&
-            typeOfUserSelection !== ""
+            user.typeOfUserSelection !== typeOfUserSelection
           ) {
             updates["typeOfUserSelection"] = typeOfUserSelection;
           }
 
-          if (user.biography !== biography && biography !== "") {
+          if (user.biography !== biography) {
             updates["biography"] = biography;
           }
 
-          if (user.facebook !== facebook && facebook !== "") {
+          if (user.facebook !== facebook) {
             updates["facebook"] = facebook;
           }
-          if (user.instagram !== instagram && instagram !== "") {
+          if (user.instagram !== instagram) {
             updates["instagram"] = instagram;
           }
 
-          if (user.twitter !== twitter && twitter !== "") {
+          if (user.twitter !== twitter) {
             updates["twitter"] = twitter;
           }
-          if (user.linkedin !== linkedin && linkedin !== "") {
+          if (user.linkedin !== linkedin) {
             updates["linkedin"] = linkedin;
           }
-          if (user.tiktok !== tiktok && tiktok !== "") {
+          if (user.tiktok !== tiktok) {
             updates["tiktok"] = tiktok;
           }
-          if (user.youtube !== youtube && youtube !== "") {
+          if (user.youtube !== youtube) {
             updates["youtube"] = youtube;
           }
-          if (user.spotify !== spotify && spotify !== "") {
+          if (user.spotify !== spotify) {
             updates["spotify"] = spotify;
           }
-          if (user.soundcloud !== soundcloud && soundcloud !== "") {
+          if (user.soundcloud !== soundcloud) {
             updates["soundcloud"] = soundcloud;
           }
-          if ((user.appleMusic !== appleMusic) !== "") {
+          if (user.appleMusic !== appleMusic) {
             updates["appleMusic"] = appleMusic;
           }
-          if (user.amazonMusic !== amazonMusic && amazonMusic !== "") {
+
+          if (user.amazonMusic !== amazonMusic) {
             updates["amazonMusic"] = amazonMusic;
           }
-          if (user.deezer !== deezer && deezer !== "") {
+          if (user.deezer !== deezer) {
             updates["deezer"] = deezer;
           }
-          if (user.pandora !== pandora && pandora !== "") {
+          if (user.pandora !== pandora) {
             updates["pandora"] = pandora;
           }
-          if (user.bandcamp !== bandcamp && bandcamp !== "") {
+          if (user.bandcamp !== bandcamp) {
             updates["bandcamp"] = bandcamp;
           }
 
