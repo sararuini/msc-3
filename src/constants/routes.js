@@ -7,6 +7,9 @@ export const PASSWORD_FORGET = "/pw-forget";
 export const SIGN_UP = "/signup";
 export const SIGN_IN = "/signin";
 
+// users
+export const USER_PROFILE = "/users/:id";
+
 //admin
 export const ADMIN = "/admin";
 export const ADMIN_DETAILS = "/admin/:id";
@@ -24,6 +27,3 @@ export const OPPORTUNITIES_SAVED = "/opportunity/saved";
 export const OPPORTUNITIES_STATUS = "/opportunity/status";
 export const OPPORTUNITIES_RECOMMENDED = "/opportunity/recommended";
 export const OPPORTUNITY_ID ="/opportunity/:id";
-
-//timeline
-export const CREATE_POST = "/create_post";

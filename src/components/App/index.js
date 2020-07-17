@@ -9,8 +9,7 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import SettingsPage from '../Settings';
 import AdminPage from '../Admin';
-import ModifyProfile from '../ModifyProfile';
-
+import {ModifyProfile, PublicProfile }from '../Profile';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
@@ -32,6 +31,7 @@ const App = () => (
       <Route path={ROUTES.SETTINGS} component={SettingsPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
       <Route path = {ROUTES.PROFILE_MODIFY} component={ModifyProfile}/>
+      <Route path = {ROUTES.USER_PROFILE} component={PublicProfile}/>
     </div>
   </Router>
 );

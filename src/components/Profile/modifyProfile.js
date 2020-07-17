@@ -8,7 +8,6 @@ import {
 
 import { withFirebase } from "../Firebase";
 import { View, Text } from "react-native-web";
-import * as ROUTES from "../../constants/routes";
 import page_styles from "./styles";
 
 //page displaying 'modify profile'
