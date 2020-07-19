@@ -2,60 +2,60 @@ import React, { Component } from 'react';
 
 import { AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
-import MessageList from './MessageList';
+import PostList from './PostList';
 
-class Messages extends Component {
+class Posts extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       text: '',
       loading: false,
-      messages: [],
+      posts: [],
       limit: 5,
     };
   }
 
   componentDidMount() {
-    this.onListenForMessages();
+    this.onListenForPosts();
   }
 
-  onListenForMessages = () => {
+  onListenForPosts = () => {
     this.setState({ loading: true });
 
     this.props.firebase
-      .messages()
+      .posts()
       .orderByChild('createdAt')
       .limitToLast(this.state.limit)
       .on('value', snapshot => {
-        const messageObject = snapshot.val();
+        const postObject = snapshot.val();
 
-        if (messageObject) {
-          const messageList = Object.keys(messageObject).map(key => ({
-            ...messageObject[key],
+        if (postObject) {
+          const postList = Object.keys(postObject).map(key => ({
+            ...postObject[key],
             uid: key,
           }));
 
           this.setState({
-            messages: messageList,
+            posts: postList,
             loading: false,
           });
         } else {
-          this.setState({ messages: null, loading: false });
+          this.setState({ posts: null, loading: false });
         }
       });
   };
 
   componentWillUnmount() {
-    this.props.firebase.messages().off();
+    this.props.firebase.posts().off();
   }
 
   onChangeText = event => {
     this.setState({ text: event.target.value });
   };
 
-  onCreateMessage = (event, authUser) => {
-    this.props.firebase.messages().push({
+  onCreatePost = (event, authUser) => {
+    this.props.firebase.posts().push({
       text: this.state.text,
       userId: authUser.uid,
       createdAt: this.props.firebase.serverValue.TIMESTAMP,
@@ -66,35 +66,35 @@ class Messages extends Component {
     event.preventDefault();
   };
 
-  onEditMessage = (message, text) => {
-    const { uid, ...messageSnapshot } = message;
+  onEditPost = (post, text) => {
+    const { uid, ...postSnapshot } = post;
 
-    this.props.firebase.message(message.uid).set({
-      ...messageSnapshot,
+    this.props.firebase.post(post.uid).set({
+      ...postSnapshot,
       text,
       editedAt: this.props.firebase.serverValue.TIMESTAMP,
     });
   };
 
-  onRemoveMessage = uid => {
-    this.props.firebase.message(uid).remove();
+  onRemovePost = uid => {
+    this.props.firebase.post(uid).remove();
   };
 
   onNextPage = () => {
     this.setState(
       state => ({ limit: state.limit + 5 }),
-      this.onListenForMessages,
+      this.onListenForPosts,
     );
   };
 
   render() {
-    const { text, messages, loading } = this.state;
+    const { text, posts, loading } = this.state;
 
     return (
       <AuthUserContext.Consumer>
         {authUser => (
           <div>
-            {!loading && messages && (
+            {!loading && posts && (
               <button type="button" onClick={this.onNextPage}>
                 More
               </button>
@@ -102,20 +102,20 @@ class Messages extends Component {
 
             {loading && <div>Loading ...</div>}
 
-            {messages && (
-              <MessageList
+            {posts && (
+              <PostList
                 authUser={authUser}
-                messages={messages}
-                onEditMessage={this.onEditMessage}
-                onRemoveMessage={this.onRemoveMessage}
+                posts={posts}
+                onEditPost={this.onEditPost}
+                onRemovePost = {this.onRemovePost}
               />
             )}
 
-            {!messages && <div>There are no messages ...</div>}
+            {!posts && <div>There are no posts ...</div>}
 
             <form
               onSubmit={event =>
-                this.onCreateMessage(event, authUser)
+                this.onCreatePost(event, authUser)
               }
             >
               <input
@@ -132,4 +132,4 @@ class Messages extends Component {
   }
 }
 
-export default withFirebase(Messages);
+export default withFirebase(Posts);

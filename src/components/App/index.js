@@ -8,10 +8,10 @@ import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import SettingsPage from '../Settings';
-import UsersDisplayPage from '../Admin';
-import {ModifyProfile, PublicProfile }from '../Profile';
+import {ModifyProfile, PublicProfile} from '../Profile';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
+import UsersDisplayPage from '../Users'
 
 const App = () => (
   <Router>

@@ -92,11 +92,18 @@ class Firebase {
 
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
+  userFriends = uid => this.db.ref(`users/${uid}/friends`)
 
-  // *** Message API ***
+  // *** Posts API ***
+
+  post = uid => this.db.ref(`posts/${uid}`);
+
+  posts = () => this.db.ref('posts');
+
+
+  // *** Messages API ***
 
   message = uid => this.db.ref(`messages/${uid}`);
-
   messages = () => this.db.ref('messages');
 }
 

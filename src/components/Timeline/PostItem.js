@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
-class MessageItem extends Component {
+class PostItem extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       editMode: false,
-      editText: this.props.message.text,
+      editText: this.props.post.text,
     };
   }
 
   onToggleEditMode = () => {
     this.setState(state => ({
       editMode: !state.editMode,
-      editText: this.props.message.text,
+      editText: this.props.post.text,
     }));
   };
 
@@ -22,13 +22,13 @@ class MessageItem extends Component {
   };
 
   onSaveEditText = () => {
-    this.props.onEditMessage(this.props.message, this.state.editText);
+    this.props.onEditPost(this.props.post, this.state.editText);
 
     this.setState({ editMode: false });
   };
 
   render() {
-    const { authUser, message, onRemoveMessage } = this.props;
+    const { authUser, post, onRemovePost } = this.props;
     const { editMode, editText } = this.state;
 
     return (
@@ -41,12 +41,12 @@ class MessageItem extends Component {
           />
         ) : (
           <span>
-            <strong>{message.userId}</strong> {message.text}
-            {message.editedAt && <span>(Edited)</span>}
+            <strong>{post.userId}</strong> {post.text}
+            {post.editedAt && <span>(Edited)</span>}
           </span>
         )}
 
-        {authUser.uid === message.userId && (
+        {authUser.uid === post.userId && (
           <span>
             {editMode ? (
               <span>
@@ -60,7 +60,7 @@ class MessageItem extends Component {
             {!editMode && (
               <button
                 type="button"
-                onClick={() => onRemoveMessage(message.uid)}
+                onClick={() => onRemovePost(post.uid)}
               >
                 Delete
               </button>
@@ -72,4 +72,4 @@ class MessageItem extends Component {
   }
 }
 
-export default MessageItem;
+export default PostItem;
