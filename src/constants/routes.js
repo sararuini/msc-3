@@ -7,16 +7,14 @@ export const PASSWORD_FORGET = "/pw-forget";
 export const SIGN_UP = "/signup";
 export const SIGN_IN = "/signin";
 
-// users
+// profiles
+export const EDIT_PROFILE = "/profile/edit";
+export const OWN_PROFILE = "/profile";
+export const USERS = "/users";
 export const USER_PROFILE = "/users/:id";
-
-//admin
-export const ADMIN = "/admin";
-export const ADMIN_DETAILS = "/admin/:id";
 
 //settings
 export const SETTINGS = "/settings";
-export const PROFILE_MODIFY = "/editprofile";
 
 //messenger
 export const ALL_MESSAGES = "/message";

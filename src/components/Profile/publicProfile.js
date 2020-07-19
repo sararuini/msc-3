@@ -5,8 +5,10 @@ import {
   withAuthorization,
   withEmailVerification,
 } from "../Session";
+import { Link} from 'react-router-dom';
 import { withFirebase } from "../Firebase";
 import { View, Text } from "react-native-web";
+import * as ROUTES from '../../constants/routes';
 
 const PublicProfilePage = () => (
   <AuthUserContext.Consumer>
@@ -228,6 +230,9 @@ class PublicProfileBase extends Component {
             <span>
               <strong>Non-Musical Skills:</strong> {otherSkills}
             </span>
+            <li>
+      <Link to={ROUTES.EDIT_PROFILE}>Modify Profile</Link>
+    </li>
               {/*
               <button
                 type="button"

@@ -56,9 +56,12 @@ class UserList extends Component {
                 <strong>Username:</strong> {user.username}
               </span>
               <span>
+              <strong>Location</strong>{user.location}
+            </span>
+              <span>
                 <Link
                   to={{
-                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                    pathname: `${ROUTES.USERS}/${user.uid}`,
                     state: { user },
                   }}
                 >

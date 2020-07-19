@@ -58,12 +58,7 @@ class UserItem extends Component {
               <strong>Username:</strong> {user.username}
             </span> 
             <span>
-              <button
-                type="button"
-                onClick={this.onSendPasswordResetEmail}
-              >
-                Send Password Reset
-              </button>
+              <strong>Location</strong>{user.location}
             </span>
           </div>
         )}
