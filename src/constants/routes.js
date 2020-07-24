@@ -12,16 +12,17 @@ export const EDIT_PROFILE = "/profile/edit";
 export const OWN_PROFILE = "/profile";
 export const USERS = "/users";
 export const USER_PROFILE = "/users/:id";
-
+export const USER_CHATS = "/users/:id/chats";
 //settings
 export const SETTINGS = "/settings";
 
 //messenger
-export const ALL_MESSAGES = "/message";
-export const MESSAGE_CONVERSATION = "message/:id";
+export const CHATS = "/chats";
+export const CHAT = "chats/:id";
 
 //opportunities
-export const OPPORTUNITIES_SAVED = "/opportunity/saved";
-export const OPPORTUNITIES_STATUS = "/opportunity/status";
-export const OPPORTUNITIES_RECOMMENDED = "/opportunity/recommended";
-export const OPPORTUNITY_ID ="/opportunity/:id";
+//export const OPPORTUNITIES_SAVED = "/opportunities/saved";
+export const OPPORTUNITIES= "/opportunities";
+//export const OPPORTUNITIES_STATUS = "/opportunities/status";
+//export const OPPORTUNITIES_RECOMMENDED = "/opportunities/recommended";
+export const OPPORTUNITY ="/opportunities/:id";

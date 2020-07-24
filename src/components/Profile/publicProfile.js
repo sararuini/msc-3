@@ -213,6 +213,9 @@ class PublicProfileBase extends Component {
               <strong>Spotify:</strong> {spotify}
             </span>
             <span>
+              <strong>Youtube:</strong> {youtube}
+            </span>
+            <span>
               <strong>Deezer:</strong> {deezer}
             </span>
             <span>
@@ -233,13 +236,13 @@ class PublicProfileBase extends Component {
             <li>
       <Link to={ROUTES.EDIT_PROFILE}>Modify Profile</Link>
     </li>
-              {/*
+              
               <button
                 type="button"
                 onClick={this.onSendConnectionRequest}
               >
                 Send Connection Request
-              */}
+              </button>
       </div>
     );
   }

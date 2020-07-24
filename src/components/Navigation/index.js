@@ -4,8 +4,6 @@ import { Link} from 'react-router-dom';
 import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
-//import {SearchBar} from './searchBar';
 
 const Navigation = () => (
   <AuthUserContext.Consumer>
@@ -32,10 +30,10 @@ const NavigationAuth = ({ authUser }) => (
       <Link to={ROUTES.EDIT_PROFILE}>Modify Profile</Link>
     </li>
     <li>
-      <Link to={ROUTES.ALL_MESSAGES}>Messages</Link>
+      <Link to={ROUTES.CHATS}>Messages</Link>
     </li>
     <li>
-      <Link to={ROUTES.OPPORTUNITIES_STATUS}>Opportunities</Link>
+      <Link to={ROUTES.OPPORTUNITIES}>Opportunities</Link>
     </li>
     <li>
       <Link to={ROUTES.OWN_PROFILE}>My Profile</Link>

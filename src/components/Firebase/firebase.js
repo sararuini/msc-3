@@ -1,7 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import 'firebase/storage'
+import 'firebase/storage';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -56,6 +56,9 @@ class Firebase {
 
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
+  
+    
+
 
   // *** Merge Auth and DB User API *** //
 
@@ -66,11 +69,6 @@ class Firebase {
           .once('value')
           .then(snapshot => {
             const dbUser = snapshot.val();
-
-            // default empty roles
-            if (!dbUser.roles) {
-              dbUser.roles = {};
-            }
 
             // merge auth and db user
             authUser = {
@@ -92,19 +90,23 @@ class Firebase {
 
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
-  userFriends = uid => this.db.ref(`users/${uid}/friends`)
+  userConections = uid => this.db.ref(`users/${uid}/connections`)
+    userCreatedOpps = uid => this.db.ref(`users/${uid}/opportunities`)
 
-  // *** Posts API ***
-
+  // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
-
   posts = () => this.db.ref('posts');
-
-
-  // *** Messages API ***
-
-  message = uid => this.db.ref(`messages/${uid}`);
-  messages = () => this.db.ref('messages');
-}
+  
+  //***  Opportunity API ***/
+  opportunity = uid => this.db.ref(`opportunities/${uid}`)
+  opportunities = () => this.db.ref('opportunities');
+  
+  // *** Messanger API ***
+  //*** chat api ***/
+  chat = chatUid => this.db.ref(`chats/${chatUid}`);
+  chats = () => this.db.ref(`chats`);
+  chatMessages = chatUid => this.db.ref(`chatMessages/${chatUid}`);
+  chatParticipants = (chatUid)  => this.db.ref(`chatMembers/${chatUid}`)
+ }
 
 export default Firebase;

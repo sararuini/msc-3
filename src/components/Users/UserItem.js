@@ -133,6 +133,10 @@ class UserItem extends Component {
             <span>
               <strong>Portfolio Items</strong>{user.portfolioItems}
             </span>
+
+            <button onSubmit={this.sendMessage}>
+
+            </button>
           </div>
         )}
       </div>

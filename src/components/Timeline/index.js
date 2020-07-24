@@ -1,3 +1,3 @@
-import Messages from './Posts';
+import Posts from './Posts';
 
-export default Messages;
+export default Posts;

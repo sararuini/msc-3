@@ -1,4 +1,4 @@
-import React, { Component, Row, Col } from "react";
+import React, { Component } from "react";
 import { compose } from "recompose";
 import {
   AuthUserContext,
