@@ -12,6 +12,7 @@ import {
 const OpportunityPage = () => (
   <div>
     <Opportunities />
+    
   </div>
 );
 const condition = (authUser) => !!authUser;

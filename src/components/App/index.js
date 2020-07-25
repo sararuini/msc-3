@@ -7,6 +7,7 @@ import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
+import Footbar from '../Footbar';
 import ConversationPage from '../Messenger';
 import SettingsPage from '../Settings';
 import {ModifyProfile, PublicProfile} from '../Profile';
@@ -36,6 +37,7 @@ const App = () => (
       <Route path = {ROUTES.EDIT_PROFILE} component={ModifyProfile}/>
       <Route path = {ROUTES.OWN_PROFILE} component={PublicProfile}/>
       <Route path = {ROUTES.OPPORTUNITIES} component={OpportunityPage}/>
+      <Footbar />
     </div>
   </Router>
 );

@@ -115,10 +115,6 @@ class OpportunityItem extends Component {
       isHidden,
     } = this.state;
 
-    const infoSaved = this.props.firebase.userCreatedOpp(authUser.uid, opportunity.uid).on('value', function(snapshot){
-      return snapshot.val().savedOpportunity;
-    })
-
     const isInvalid = editTitle === '' || editLocation === "" || editContact === "" || editJobType === "";
 
     return (
