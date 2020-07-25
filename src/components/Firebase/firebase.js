@@ -90,8 +90,8 @@ class Firebase {
 
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
-  userConections = uid => this.db.ref(`users/${uid}/connections`)
-    userCreatedOpps = uid => this.db.ref(`users/${uid}/opportunities`)
+  userConnections = uid => this.db.ref(`users/${uid}/connections`)
+  userCreatedOpp = (uid, oid) => this.db.ref(`users/${uid}/opportunities/${oid}`)
 
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
@@ -101,7 +101,7 @@ class Firebase {
   opportunity = uid => this.db.ref(`opportunities/${uid}`)
   opportunities = () => this.db.ref('opportunities');
   
-  // *** Messanger API ***
+  // *** Messenger API ***
   //*** chat api ***/
   chat = chatUid => this.db.ref(`chats/${chatUid}`);
   chats = () => this.db.ref(`chats`);

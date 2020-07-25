@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import { withFirebase } from "../Firebase";
+import { View, Text, Button } from "react-native-web";
+
 class OpportunityItem extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +17,8 @@ class OpportunityItem extends Component {
       editJobTags: this.props.opportunity.jobTags,
       editStartingDate: this.props.opportunity.startingDate,
       editContact: this.props.opportunity.contact,
+      savedOpportunity: false,
+      isHidden: true,
       loading: false,
     };
   }
@@ -31,11 +36,33 @@ class OpportunityItem extends Component {
       editContact: this.props.opportunity.contact,
     }));
   };
-
+  
   onChangeEdit = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+    if (event.target.name !== "editSavedOpportunity") {
+      this.setState({ [event.target.name]: event.target.value });
+    }
+    
   };
 
+  onSaveOpportunity = () => {
+    const userUid = this.props.authUser.uid;
+    const opportunityId = this.props.opportunity.uid
+   
+    const oppReference = this.props.firebase
+      .userCreatedOpp(userUid, opportunityId)
+        oppReference.set({savedOpportunity:true})
+  }
+
+  onUnsaveOpportunity = () => {
+    const userUid = this.props.authUser.uid;
+    const opportunityId = this.props.opportunity.uid
+   
+    const oppReference = this.props.firebase
+      .userCreatedOpp(userUid, opportunityId)
+        oppReference.set({savedOpportunity:false})
+    
+  }
+  
   onSaveEdit = () => {
     this.props.onEditOpportunity(this.props.opportunity, this.state.editTitle);
     this.props.onEditOpportunity(
@@ -67,6 +94,12 @@ class OpportunityItem extends Component {
     this.setState({ editMode: false });
   };
 
+  toggleHidden = () => {
+    this.setState({
+      isHidden: !this.state.isHidden,
+    })
+  }
+
   render() {
     const { authUser, opportunity, onRemoveOpportunity } = this.props;
     const {
@@ -79,7 +112,14 @@ class OpportunityItem extends Component {
       editJobTags,
       editStartingDate,
       editContact,
+      isHidden,
     } = this.state;
+
+    const infoSaved = this.props.firebase.userCreatedOpp(authUser.uid, opportunity.uid).on('value', function(snapshot){
+      return snapshot.val().savedOpportunity;
+    })
+
+    const isInvalid = editTitle === '' || editLocation === "" || editContact === "" || editJobType === "";
 
     return (
       <li>
@@ -149,45 +189,70 @@ class OpportunityItem extends Component {
           <span>
             <ul>
               <label>Created by: </label>
-            <strong>{opportunity.createdBy}</strong>
+              <strong>{opportunity.createdBy}</strong>
             </ul>
 
-            <ul><label>Title: </label>{opportunity.title}</ul>
             <ul>
-<label> Description: 
-              </label>{opportunity.description}
+              <label>Title: </label>
+              {opportunity.title}
+            </ul>
+            <ul>
+              <label> Description:</label>
+              {opportunity.description}
             </ul>
             <ul>
               <label>Location: </label>
-                {opportunity.location} 
+              {opportunity.location}
             </ul>
             <ul>
-              <label>Job Type:  </label>{opportunity.jobType} 
+              <label>Job Type: </label>
+              {opportunity.jobType}
             </ul>
             <ul>
-              <label>Contact: </label> {opportunity.contact} 
+              <label>Contact: </label> {opportunity.contact}
             </ul>
             <ul>
-              <label>Tags: </label>{opportunity.jobTags}
+              <label>Tags: </label>
+              {opportunity.jobTags}
             </ul>
             <ul>
-              <label>Salary: </label>{opportunity.salary}
+              <label>Salary: </label>
+              {opportunity.salary}
             </ul>
             <ul>
-              <label>
-                Starting Date: 
-              </label>{opportunity.startingDate}
+              <label>Starting Date:</label>
+              {opportunity.startingDate}
             </ul>
-               
+            <ul>
+              <label>Opportunity Code:</label>
+              {opportunity.uid}
+            </ul>
+
             {opportunity.editedAt && <span>(Edited)</span>}
           </span>
         )}
 
-        {authUser.uid === opportunity.userId && (
+      { authUser.uid !== opportunity.createdBy && !isHidden ? (
+          <span>
+            <button onClick={()=> {
+              this.onUnsaveOpportunity();
+              this.toggleHidden();
+            }}>Unsave Opportunity</button>
+          </span>
+        ) : (
+          <span>
+            <button onClick={()=> {
+              this.onSaveOpportunity();
+              this.toggleHidden();
+            }}>Save Opportunity</button>
+          </span>
+        )}
+
+        {authUser.uid === opportunity.createdBy && (
           <span>
             {editMode ? (
               <span>
-                <button onClick={this.onSaveEdit}>Save</button>
+                <button onClick={this.onSaveEdit} disabled={isInvalid}>Save</button>
                 <button onClick={this.onToggleEditMode}>Reset</button>
               </span>
             ) : (
@@ -209,4 +274,4 @@ class OpportunityItem extends Component {
   }
 }
 
-export default OpportunityItem;
+export default withFirebase(OpportunityItem);

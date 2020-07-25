@@ -29,9 +29,10 @@ const NavigationAuth = ({ authUser }) => (
     <li>
       <Link to={ROUTES.EDIT_PROFILE}>Modify Profile</Link>
     </li>
-    <li>
+    {/* <li>
       <Link to={ROUTES.CHATS}>Messages</Link>
-    </li>
+    </li>*/}
+    
     <li>
       <Link to={ROUTES.OPPORTUNITIES}>Opportunities</Link>
     </li>

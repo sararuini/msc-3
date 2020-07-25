@@ -1,22 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { AuthUserContext } from '../Session';
-import { withFirebase } from '../Firebase';
-import OpportunityList from './OpportunityList';
+import { AuthUserContext } from "../Session";
+import { withFirebase } from "../Firebase";
+import OpportunityList from "./OpportunityList";
 
 class Opportunities extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      title: '',
-      description: '',
-      location: '',
-      jobType: '',
-      salary: '',
-      jobTags: '',
-      startingDate: '',
-      contact: '',
+      title: "",
+      description: "",
+      location: "",
+      jobType: "",
+      salary: "",
+      jobTags: "",
+      startingDate: "",
+      contact: "",
+      savedOpportunity: false,
       loading: false,
       opportunities: [],
       limit: 5,
@@ -32,13 +33,13 @@ class Opportunities extends Component {
 
     this.props.firebase
       .opportunities()
-      .orderByChild('createdAt')
+      .orderByChild("createdAt")
       .limitToLast(this.state.limit)
-      .on('value', snapshot => {
+      .on("value", (snapshot) => {
         const opportunityObject = snapshot.val();
 
         if (opportunityObject) {
-          const opportunityList = Object.keys(opportunityObject).map(key => ({
+          const opportunityList = Object.keys(opportunityObject).map((key) => ({
             ...opportunityObject[key],
             uid: key,
           }));
@@ -57,9 +58,7 @@ class Opportunities extends Component {
     this.props.firebase.opportunities().off();
   }
 
-  onChangeText = event => {
-    console.log([event.target.name]);
-    console.log(event.target.value);
+  onChangeText = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -77,39 +76,77 @@ class Opportunities extends Component {
       startingDate: this.state.startingDate,
     });
 
-    this.setState({ title: '', description: '', contact: '', location: '', jobType: '', jobTags: '', salary: '', startingDate:'' });
+    this.setState({
+      title: "",
+      description: "",
+      contact: "",
+      location: "",
+      jobType: "",
+      jobTags: "",
+      salary: "",
+      startingDate: "",
+    });
 
     event.preventDefault();
   };
 
-  onEditOpportunity= (opportunity, title, description, contact, location, jobType, jobTags, salary, startingDate,) => {
+  onEditOpportunity = (
+    opportunity,
+    title,
+    description,
+    contact,
+    location,
+    jobType,
+    jobTags,
+    salary,
+    startingDate
+  ) => {
     const { uid, ...opportunitySnapshot } = opportunity;
 
     this.props.firebase.opportunity(opportunity.uid).set({
       ...opportunitySnapshot,
-      title, description, location, contact, jobType, jobTags, salary, startingDate,
+      title,
+      description,
+      location,
+      contact,
+      jobType,
+      jobTags,
+      salary,
+      startingDate,
       editedAt: this.props.firebase.serverValue.TIMESTAMP,
     });
   };
 
-  onRemoveOpportunity = uid => {
+  onRemoveOpportunity = (uid) => {
     this.props.firebase.opportunity(uid).remove();
   };
 
   onNextPage = () => {
     this.setState(
-      state => ({ limit: state.limit + 5 }),
-      this.onListenForOpportunities,
+      (state) => ({ limit: state.limit + 5 }),
+      this.onListenForOpportunities
     );
   };
 
   render() {
-    const {  title, description, contact, location, jobType, jobTags, salary, startingDate, opportunities, loading } = this.state;
-    const isInvalid = title === '' || location === "" || contact === "" || jobType === "";
+    const {
+      title,
+      description,
+      contact,
+      location,
+      jobType,
+      jobTags,
+      salary,
+      startingDate,
+      opportunities,
+      loading,
+    } = this.state;
+    const isInvalid =
+      title === "" || location === "" || contact === "" || jobType === "";
 
     return (
       <AuthUserContext.Consumer>
-        {authUser => (
+        {(authUser) => (
           <div>
             {!loading && opportunities && (
               <button type="button" onClick={this.onNextPage}>
@@ -124,23 +161,24 @@ class Opportunities extends Component {
                 authUser={authUser}
                 opportunities={opportunities}
                 onEditOpportunity={this.onEditOpportunity}
-                onRemoveOpportunity= {this.onRemoveOpportunity}
+                onRemoveOpportunity={this.onRemoveOpportunity}
               />
             )}
 
             {!opportunities && <div>There are no opportunities ...</div>}
 
             <form
-              onSubmit={event =>
-                this.onCreateOpportunity(event, authUser)
-              }
+              onSubmit={(event) => this.onCreateOpportunity(event, authUser)}
             >
+              <label>
+                <strong>Create a new opportunity</strong>
+              </label>
               <input
                 type="text"
                 value={title}
                 name="title"
                 placeholder="Opportunity title"
-                onChange={event => this.onChangeText(event, 'firstName')}
+                onChange={(event) => this.onChangeText(event, "firstName")}
               />
               <input
                 type="text"
@@ -191,7 +229,9 @@ class Opportunities extends Component {
                 placeholder="Salary"
                 onChange={this.onChangeText}
               />
-              <button disabled={isInvalid} type="submit">Publish</button>
+              <button disabled={isInvalid} type="submit">
+                Publish
+              </button>
             </form>
           </div>
         )}
