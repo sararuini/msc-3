@@ -6,13 +6,16 @@ import { StyleSheet} from "react-native-web";
 
 const page_styles = StyleSheet.create({
     footer: {
-        backgroundColor: "#000000",
-        position:"absolute",
-        float: "bottom",
-        left: 0,
-        right: 0,
-        bottom: 0,
-        flex: 1,
+        backgroundColor: "black",
+    borderTop: "1px solid #E7E7E7",
+    textAlign: "center",
+    padding: "20px",
+    position: "fixed",
+    left: "0",
+    bottom: "0",
+    right: "0",
+    height: "130px",
+    width: "100%",
     },
     text_container: {
         padding: 10,

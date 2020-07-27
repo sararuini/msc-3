@@ -8,14 +8,15 @@ import {
 
 import { withFirebase } from "../Firebase";
 import { View, Text } from "react-native-web";
-import page_styles from "./styles";
+//import page_styles from "./styles";
+import page_styles_template from '../StyleTemplate';
 
 //page displaying 'modify profile'
 const ModifyProfilePage = () => (
   <AuthUserContext.Consumer>
     {(authUser) => (
       <div>
-        <Text style={page_styles.text_h1}>
+        <Text>
           Modify Profile: {authUser.username}
         </Text>
         <ModifyProfile authUser={authUser} />
@@ -335,13 +336,13 @@ class ModifyProfileBase extends Component {
     } = this.state;
 
     return (
-      <View style={page_styles.whole_page}>
+      <View style={page_styles_template.main_page}>
         <div>
           {/* Profile picture here */}
           <form onSubmit={this.onSubmit}>
-            <View style={page_styles.top_section}>
-              <Text styles={page_styles.text_h2}>Profile Picture</Text>
-              <Text style={page_styles.text_h3}>Headline</Text>
+            <View >
+              <Text>Profile Picture</Text>
+              <Text>Headline</Text>
               <input
                 type="text"
                 id="headline"
@@ -350,7 +351,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Headline"
               />
-              <Text style={page_styles.text_h3}>Location</Text>
+              <Text>Location</Text>
               <input
                 type="text"
                 id="location"
@@ -360,7 +361,7 @@ class ModifyProfileBase extends Component {
                 placeholder="Location"
               />
 
-              <Text style={page_styles.text_h3}>Biography</Text>
+              <Text>Biography</Text>
               <input
                 type="textarea"
                 id="biography"
@@ -371,8 +372,8 @@ class ModifyProfileBase extends Component {
               />
             </View>
 
-            <View style={page_styles.middle_right_section}>
-              <Text style={page_styles.text_h2}>Public Contact Details</Text>
+            <View>
+              <Text>Public Contact Details</Text>
               <label htmlFor="publicEmailAddress">Email Address</label>
               <input
                 type="publicEmailAddress"
@@ -405,10 +406,10 @@ class ModifyProfileBase extends Component {
             </View>
 
             <View>
-              <Text styles={page_styles.text_h2}>
+              <Text>
                 Social Media and Music Profiles
               </Text>
-              <Text styles={page_styles.text_h3}>Facebook</Text>
+              <Text>Facebook</Text>
               <input
                 type="textarea"
                 id="facebook"
@@ -417,7 +418,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Facebook"
               />
-              <Text styles={page_styles.text_h3}>Instagram</Text>
+              <Text>Instagram</Text>
               <input
                 type="textarea"
                 id="instagram"
@@ -426,7 +427,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Instagram"
               />
-              <Text styles={page_styles.text_h3}>Twitter</Text>
+              <Text>Twitter</Text>
               <input
                 type="textarea"
                 id="twitter"
@@ -435,7 +436,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="twitter"
               />
-              <Text styles={page_styles.text_h3}>LinkedIn</Text>
+              <Text>LinkedIn</Text>
               <input
                 type="url"
                 id="linkedin"
@@ -444,7 +445,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="linkedin"
               />
-              <Text styles={page_styles.text_h3}>TikTok</Text>
+              <Text>TikTok</Text>
               <input
                 type="textarea"
                 id="tiktok"
@@ -453,7 +454,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="TikTok"
               />
-              <Text styles={page_styles.text_h3}>YouTube</Text>
+              <Text>YouTube</Text>
               <input
                 type="url"
                 id="youtube"
@@ -462,7 +463,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="YouTube"
               />
-              <Text styles={page_styles.text_h3}>Spotify</Text>
+              <Text>Spotify</Text>
               <input
                 type="url"
                 id="spotify"
@@ -471,7 +472,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Spotify"
               />
-              <Text styles={page_styles.text_h3}>SoundCloud</Text>
+              <Text>SoundCloud</Text>
               <input
                 type="url"
                 id="soundcloud"
@@ -480,7 +481,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="SoundCloud"
               />
-              <Text styles={page_styles.text_h3}>Apple Music</Text>
+              <Text>Apple Music</Text>
               <input
                 type="url"
                 id="appleMusic"
@@ -489,7 +490,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Apple Music"
               />
-              <Text styles={page_styles.text_h3}>Amazon Music</Text>
+              <Text>Amazon Music</Text>
               <input
                 type="url"
                 id="amazonMusic"
@@ -498,7 +499,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Amazon Music"
               />
-              <Text styles={page_styles.text_h3}>Deezer</Text>
+              <Text>Deezer</Text>
               <input
                 type="url"
                 id="deezer"
@@ -507,7 +508,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Deezer"
               />
-              <Text styles={page_styles.text_h3}>Pandora</Text>
+              <Text>Pandora</Text>
               <input
                 type="textarea"
                 id="pandora"
@@ -516,7 +517,7 @@ class ModifyProfileBase extends Component {
                 onChange={this.onChange}
                 placeholder="Pandora"
               />
-              <Text styles={page_styles.text_h3}>BandCamp</Text>
+              <Text>BandCamp</Text>
               <input
                 type="textarea"
                 id="bandcamp"
@@ -526,14 +527,14 @@ class ModifyProfileBase extends Component {
                 placeholder="BandCamp"
               />
             </View>
-            <View style={page_styles.middle_left_section}>
-              <View style={page_styles.checkbox}>
-                <Text style={page_styles.text_h2}>
+            <View >
+              <View>
+                <Text>
                   {" "}
                   Why did you join music connector?
                 </Text>
 
-                <View style={page_styles.checkboxRow}>
+                <View>
                   <input
                     type="checkbox"
                     name="reasonsForJoining_connectOthers"
@@ -542,13 +543,13 @@ class ModifyProfileBase extends Component {
                     onChange={this.onChangeCheckbox}
                   />
                   <label htmlFor="reasonsForJoining_connectOthers">
-                    <Text styles={page_styles.text_h3}>
+                    <Text>
                       Connect with others
                     </Text>
                   </label>
                 </View>
 
-                <View style={page_styles.checkboxRow}>
+                <View>
                   <input
                     type="checkbox"
                     name="reasonsForJoining_findOpportunities"
@@ -557,13 +558,13 @@ class ModifyProfileBase extends Component {
                     onChange={this.onChangeCheckbox}
                   />
                   <label htmlFor="reasonsForJoining_findOpportunities">
-                    <Text styles={page_styles.text_h3}>
+                    <Text>
                       Find new opportunities
                     </Text>
                   </label>
                 </View>
 
-                <View style={page_styles.checkboxRow}>
+                <View>
                   <input
                     type="checkbox"
                     name="reasonsForJoining_promoteServices"
@@ -572,12 +573,12 @@ class ModifyProfileBase extends Component {
                     onChange={this.onChangeCheckbox}
                   />
                   <label htmlFor="reasonsForJoining_promoteServices">
-                    <Text styles={page_styles.text_h3}>
+                    <Text>
                       Promote my Services and/or my work
                     </Text>
                   </label>
                 </View>
-                <View style={page_styles.checkboxRow}>
+                <View>
                   <input
                     type="checkbox"
                     name="reasonsForJoining_offerOpportunities"
@@ -586,13 +587,13 @@ class ModifyProfileBase extends Component {
                     onChange={this.onChangeCheckbox}
                   />
                   <label htmlFor="reasonsForJoining_offerOpportunities">
-                    <Text styles={page_styles.text_h3}>
+                    <Text>
                       Offer Opportunities
                     </Text>
                   </label>
                   <View>
-                    <Text style={page_styles.text_h2}>Skills & Interests</Text>
-                    <Text style={page_styles.text_h3}>Interests</Text>
+                    <Text>Skills & Interests</Text>
+                    <Text>Interests</Text>
                     <input
                       type="text"
                       id="interests"
@@ -602,7 +603,7 @@ class ModifyProfileBase extends Component {
                       placeholder="Interests"
                     />
 
-                    <Text style={page_styles.text_h3}>Musical Skills</Text>
+                    <Text>Musical Skills</Text>
                     <input
                       type="text"
                       id="musicalSkills"
@@ -612,7 +613,7 @@ class ModifyProfileBase extends Component {
                       placeholder="Musical Skills"
                     />
 
-                    <Text style={page_styles.text_h3}>Non-Musical Skills</Text>
+                    <Text>Non-Musical Skills</Text>
                     <input
                       type="text"
                       id="otherSkills"
@@ -626,9 +627,9 @@ class ModifyProfileBase extends Component {
               </View>
             </View>
 
-            <View style={page_styles.picker}>
+            <View>
               <label>
-                <Text styles={page_styles.text_h2}>Are you a ...</Text>
+                <Text>Are you a ...</Text>
                 <select
                   defaultValue={typeOfUserSelection}
                   onChange={this.onChange}
@@ -643,7 +644,7 @@ class ModifyProfileBase extends Component {
               </label>
             </View>
 
-            <View style={page_styles.save_button}>
+            <View>
               <button type="submit">Save Profile</button>
             </View>
           </form>

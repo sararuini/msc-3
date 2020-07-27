@@ -4,6 +4,9 @@ import { Link} from 'react-router-dom';
 import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
+import { View, Text} from "react-native-web";
+//import page_styles from "./styles";
+import page_styles_template from "../StyleTemplate"
 
 const Navigation = () => (
   <AuthUserContext.Consumer>
@@ -18,38 +21,43 @@ const Navigation = () => (
 );
 
 const NavigationAuth = ({ authUser }) => (
-  <ul>
-    
-    <li>
+  <View style={page_styles_template.main_page}>
+    <ul>
+    <View>
+      <Text >
       <Link to={ROUTES.HOME}>Home</Link>
-    </li>
-    <li>
+    </Text>
+    <Text >
       <Link to={ROUTES.SETTINGS}>Settings</Link>
-    </li>
-    <li>
+    </Text>
+    <Text >
       <Link to={ROUTES.EDIT_PROFILE}>Modify Profile</Link>
-    </li>
+    </Text>
     {/* <li>
       <Link to={ROUTES.CHATS}>Messages</Link>
     </li>*/}
     
-    <li>
+    <Text >
       <Link to={ROUTES.OPPORTUNITIES}>Opportunities</Link>
-    </li>
-    <li>
+    </Text>
+    <Text >
       <Link to={ROUTES.OWN_PROFILE}>My Profile</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.USERS}>Users</Link>
-    </li>
-    <li>
+    </Text>
+    <Text>
+       <Link to={ROUTES.USERS}>Users</Link>
+    </Text>
+  
       <SignOutButton />
-    </li>
+    </View>
+    
   </ul>
+  </View>
+  
 );
 
 const NavigationNonAuth = () => (
-  <ul>
+  <View style={page_styles_template.main_page}>
+    <ul>
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>
@@ -57,6 +65,7 @@ const NavigationNonAuth = () => (
       <Link to={ROUTES.SIGN_IN}>Sign In</Link>
     </li>
   </ul>
+  </View>
 );
 
 export default Navigation;

@@ -15,13 +15,16 @@ import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 import UsersDisplayPage from '../Users'
 import OpportunityPage from '../Opportunities';
+import { ScrollView, View} from "react-native-web";
+//import page_styles from './styles';
+import page_styles_template from '../StyleTemplate';
 
 const App = () => (
-  <Router>
+  
+    <Router>
+      <ScrollView style={page_styles_template.main_page}>
     <div>
       <Navigation />
-
-      <hr />
 
       <Route exact path={ROUTES.LANDING} component={LandingPage} />
       <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
@@ -37,9 +40,14 @@ const App = () => (
       <Route path = {ROUTES.EDIT_PROFILE} component={ModifyProfile}/>
       <Route path = {ROUTES.OWN_PROFILE} component={PublicProfile}/>
       <Route path = {ROUTES.OPPORTUNITIES} component={OpportunityPage}/>
-      <Footbar />
+      
     </div>
+  
+
+  </ScrollView>
+  <Footbar />
   </Router>
+  
 );
 
 export default withAuthentication(App);

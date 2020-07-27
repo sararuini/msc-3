@@ -10,7 +10,7 @@ import {
 import { withFirebase } from "../Firebase";
 import { PasswordForgetForm } from "../PasswordForget";
 import PasswordChangeForm from "../PasswordChange";
-
+import page_styles_template from "../StyleTemplate"
 // sign in options
 // ADD LINKEDIN + CREATIVE PASSPORT
 const SIGN_IN_METHODS = [
@@ -96,6 +96,7 @@ class LoginManagementBase extends Component {
     const { activeSignInMethods, error } = this.state;
 
     return (
+      
       <div>
         Sign In Methods:
         <ul>
@@ -187,6 +188,7 @@ class DefaultLoginToggle extends Component {
     const isInvalid = passwordOne !== passwordTwo || passwordOne === "";
 
     return isEnabled ? (
+      
       <button
         type="button"
         onClick={() => onUnlink(signInMethod.id)}

@@ -1,6 +1,9 @@
 import { StyleSheet} from "react-native-web";
 
+
 const page_styles = StyleSheet.create({
+  whole_page: {}
+  {/*
     whole_page: {
       padding: 10,
       flexDirection: 'column',
@@ -17,15 +20,6 @@ const page_styles = StyleSheet.create({
     text_h3: {
         fontSize: 20,
       },
-    picker: {
-  
-    },
-    checkbox: {
-  
-    },
-    checkboxRow: {
-
-    },
     save_button: {
       height: 30,
       length: 30,
@@ -42,9 +36,7 @@ const page_styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
 },
-    label: {
-
-    },
+     */}
 });
 
 export default page_styles;

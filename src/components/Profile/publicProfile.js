@@ -9,6 +9,7 @@ import { Link} from 'react-router-dom';
 import { withFirebase } from "../Firebase";
 import { View, Text } from "react-native-web";
 import * as ROUTES from '../../constants/routes';
+import page_styles_template from "../StyleTemplate";
 
 const PublicProfilePage = () => (
   <AuthUserContext.Consumer>
@@ -151,6 +152,7 @@ class PublicProfileBase extends Component {
 
     return (
       <div>
+        <View style={page_styles_template.main_page}>
             <span>
               <strong>Username:</strong> {username}
             </span>
@@ -178,9 +180,6 @@ class PublicProfileBase extends Component {
               {reasonsForJoining_connectOthers}
               {reasonsForJoining_offerOpportunities}
               {reasonsForJoining_promoteServices}
-            </span>
-            <span>
-              <strong>I am a:</strong> {typeOfUserSelection}
             </span>
             <span>
               <strong>Facebook:</strong> {facebook}
@@ -233,6 +232,7 @@ class PublicProfileBase extends Component {
             <span>
               <strong>Non-Musical Skills:</strong> {otherSkills}
             </span>
+             </View>
             <li>
       <Link to={ROUTES.EDIT_PROFILE}>Modify Profile</Link>
     </li>
@@ -244,6 +244,7 @@ class PublicProfileBase extends Component {
                 Send Connection Request
               </button>
       </div>
+     
     );
   }
 }
