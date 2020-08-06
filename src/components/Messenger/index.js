@@ -1,54 +1,61 @@
-/*import React from "react";
+import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { v4 as uuidv4 } from 'uuid';
 
 
-const ConversationPage = () => {
-  const [userId, users] = useAuth();
-  const {
-    activeConversations,
-    setCurrentConversation,
-    createConversation,
-    sendMessage,
-    currentConversation,
-    currentConversationMessages,
-  } = useChats(userId);
+class Connect extends Component{
+  constructor(props){
+    super(props);
 
+    this.state={
+      connect: "",
+    }
+  }
+  render() {
+      const {connect} = this.state;
+
+      const username= this.props.authUser.username;
+      return (
+          
+    <div>
+    <button onClick={()=> connect(username)} disabled={!username}>Connect to Messenger </button>
+  </div>
+  )
+  } 
+}
+
+const CreateConversation = ({ createConversation, users }) => {
+  const [messageObject, setMessageObject] = React.useState("");
+  const [recipient, setRecipient] = React.useState(users[0]);
   return (
     <div>
-      <p> {userId} conversations</p>
-      <ActiveConversations
-        setCurrentConversation={setCurrentConversation}
-        activeConversations={activeConversations}
+      <h3>Send a message</h3>
+      <p> Select a recipient for your message</p>
+
+      <input
+        onChange={(event) => setMessageObject(event.target.value)}
+        value={messageObject}
+        placeholder="Message Object"
       />
-      <CreateConversation
-        createConversation={createConversation}
-        users={users.filter((user) => user !== userId)}
-      />
-      {currentConversation && (
-        <ChatWindow
-          sendMessage={sendMessage}
-          currentConversation={currentConversation}
-          messages={currentConversationMessages}
-        />
-      )}
+      <select onChange={(event) => setRecipient(event.target.value)}>
+        {users.map((user) => (
+          <option value={user}>{user}</option>
+        ))}
+      </select>
+      <p>
+        Message Object: {messageObject}, recipient: {recipient}
+      </p>
+      <button
+        onClick={() => createConversation(recipient, messageObject)}
+        disabled={!recipient}
+      >
+        Send
+      </button>
     </div>
   );
 };
 
-const getFromDatabase = (dbString, callback) => {
-  const ref = this.props.firebase.ref(dbString);
 
-  ref.on("value", (snapshot) => {
-    if (snapshot.val()) {
-      callback(snapshot.val());
-    }
-  });
-};
-
-const saveToDatabase = (dbString, val) => {
-  this.props.firebase.ref(dbString).set(val);
-};
 
 const useChats = (userId) => {
   const [currentConversation, setCurrentConversation] = React.useState(null);
@@ -108,14 +115,12 @@ const useAuth = () => {
   }
 
   const getUsers = () => {
-    const users = this.props.firebase.users();
-    setUsers(Object.keys(users));
-    /* getFromDatabase(`/users`, res => {
+    getFromDatabase(`/users`, res => {
       setUsers(Object.keys(res));
     })
   };
 
-  return [userId, users];
+  return [userId, users, connect];
 };
 
 
@@ -128,7 +133,7 @@ const ActiveConversations = ({
 
     {activeConversations.map((conversation) => (
       <div onClick={() => setCurrentConversation(conversation)}>
-        {conversation}{" "}
+        {conversation}
       </div>
     ))}
   </div>
@@ -166,38 +171,46 @@ const ChatWindow = ({ messages = [], sendMessage, currentConversation }) => {
   );
 };
 
-const CreateConversation = ({ createConversation, users }) => {
-  const [messageObject, setMessageObject] = React.useState("");
-  const [recipient, setRecipient] = React.useState(users[0]);
+
+const ConversationPage = () => {
+  const [userId, users, connect] = useAuth();
+  const {
+    activeConversations,
+    setCurrentConversation,
+    createConversation,
+    sendMessage,
+    currentConversation,
+    currentConversationMessages,
+  } = useChats(userId);
+
+
   return (
     <div>
-      <h3>Send a message</h3>
-      <p> Select a recipient for your message</p>
-
-      <input
-        onChange={(event) => setMessageObject(event.target.value)}
-        value={messageObject}
-        placeholder="Message Object"
+      {!userId ? <Connect connect={connect} /> : (
+        <>
+        <p>Connected as: {userId}</p>
+        <ActiveConversations
+        setCurrentConversation={setCurrentConversation}
+        activeConversations={activeConversations}
       />
-      <select onChange={(event) => setRecipient(event.target.value)}>
-        {users.map((user) => (
-          <option value={user}>{user}</option>
-        ))}
-      </select>
-      <p>
-        Message Object: {messageObject}, recipient: {recipient}
-      </p>
-      <button
-        onClick={() => createConversation(recipient, messageObject)}
-        disabled={!recipient}
-      >
-        Send
-      </button>
+      <CreateConversation
+        createConversation={createConversation}
+        users={users.filter((user) => user !== userId)}
+      />
+      {currentConversation && (
+        <ChatWindow
+          sendMessage={sendMessage}
+          currentConversation={currentConversation}
+          messages={currentConversationMessages}
+      />
+      )}
+        </> 
+      )}
     </div>
-  );
+  )
 };
 
+
 export default withFirebase(ConversationPage);
-*/
 // Source for this file:
 // https://medium.com/javascript-in-plain-english/creating-an-instant-messenger-with-react-custom-hooks-firebase-355bd544192

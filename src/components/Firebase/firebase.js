@@ -1,7 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-import 'firebase/storage';
+//import 'firebase/storage';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -25,7 +25,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
-    this.storage = app.storage();
+    //this.storage = app.storage();
 
     /* Social Sign In Method Provider */
 
@@ -57,9 +57,6 @@ class Firebase {
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
   
-    
-
-
   // *** Merge Auth and DB User API *** //
 
   onAuthUserListener = (next, fallback) =>
@@ -93,6 +90,7 @@ class Firebase {
   userConnections = uid => this.db.ref(`users/${uid}/connections`)
   userCreatedOpps = (uid, oid) => this.db.ref(`users/${uid}/opportunities`)
   userCreatedOpp = (uid, oid) => this.db.ref(`users/${uid}/opportunities/${oid}`)
+  userPendingConnections = (receiverId, senderId) => this.db.ref(`users/${receiverId}/pendingConnections/${senderId}`)
 
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
@@ -102,12 +100,14 @@ class Firebase {
   opportunity = uid => this.db.ref(`opportunities/${uid}`)
   opportunities = () => this.db.ref('opportunities');
   
-  // *** Messenger API ***
-  //*** chat api ***/
+
+  // ** Connections API *** /
+  /*
   chat = chatUid => this.db.ref(`chats/${chatUid}`);
   chats = () => this.db.ref(`chats`);
   chatMessages = chatUid => this.db.ref(`chatMessages/${chatUid}`);
   chatParticipants = (chatUid)  => this.db.ref(`chatMembers/${chatUid}`)
+  */
  }
 
 export default Firebase;

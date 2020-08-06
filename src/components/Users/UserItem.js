@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-
-import { withFirebase } from '../Firebase';
+import React, { Component } from "react";
+import page_styles_template from "../StyleTemplate";
+import { View, Text } from "react-native-web";
+import { withFirebase } from "../Firebase";
 
 class UserItem extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class UserItem extends Component {
     this.state = {
       loading: false,
       user: null,
+      requestSent: false,
       ...props.location.state,
     };
   }
@@ -22,7 +24,7 @@ class UserItem extends Component {
 
     this.props.firebase
       .user(this.props.match.params.id)
-      .on('value', snapshot => {
+      .on("value", (snapshot) => {
         this.setState({
           user: snapshot.val(),
           loading: false,
@@ -34,111 +36,134 @@ class UserItem extends Component {
     this.props.firebase.user(this.props.match.params.id).off();
   }
 
-  sendConnectionRequest () {
+  sendConnectionRequest = () => {
+      let user = this.props.firebase.auth.currentUser;
+      const senderId = user.uid;
+      console.log("sender" + senderId)
+    const receiverId = this.props.match.params.id;
+    console.log("receiver" + receiverId)
 
-  }
-
-  sendMessage () {
-    
+    const connectionSent = this.props.firebase
+      .userPendingConnections(receiverId, senderId)
+      console.log(connectionSent)
+      connectionSent.set({ requestSent: true });
   }
 
   render() {
     const { user, loading } = this.state;
+    const { authUser } = this.props;
 
     return (
       <div>
-        <h2>User ({this.props.match.params.id})</h2>
+        <h2>User ({user.username})</h2>
         {loading && <div>Loading ...</div>}
 
         {user && (
-          <div>
-            <span>
-              <strong>ID:</strong> {user.uid}
-            </span>
-            <span>
-              <strong>Username:</strong> {user.username}
-            </span> 
-            <span>
-              <strong>Location</strong>{user.location}
-            </span>
-            <span>
-              <strong>Headline</strong>{user.headline}
-            </span>
-            <span>
-              <strong>Phone Number</strong>{user.phoneNumber}
-            </span>
-            <span>
-              <strong>Email</strong>{user.publicEmailAddress}
-            </span>
-            <span>
-              <strong>Website</strong>{user.website}
-            </span>
-            <span>
-              <strong>Biography</strong>{user.biography}
-            </span>
-            <span>
-              <strong>Reasons for Joining</strong>{user.reasonsForJoining_findOpportunities}
-              {user.reasonsForJoining_connectOthers}
-              {user.reasonsForJoining_offerOpportunities}
-              {user.reasonsForJoining_promoteServices}
-            </span>
-            <span>
-              <strong>I am </strong>{user.typeOfUserSelection}
-            </span>
-            <span>
-              <strong>Facebook</strong>{user.facebook}
-            </span>
-            <span>
-              <strong>Instagram</strong>{user.instagram}
-            </span>
-            <span>
-              <strong>Twitter</strong>{user.twitter}
-            </span>
-            <span>
-              <strong>LinkedIn</strong>{user.linkedin}
-            </span>
-            <span>
-              <strong>TikTok</strong>{user.tiktok}
-            </span>
-            <span>
-              <strong>Spotify</strong>{user.spotify}
-            </span>
-            <span>
-              <strong>SoundCloud</strong>{user.soundcloud}
-            </span>
-            <span>
-              <strong>Apple Music</strong>{user.appleMusic}
-            </span>
-            <span>
-              <strong>Amazon Music</strong>{user.amazonMusic}
-            </span>
-            <span>
-              <strong>Deezer</strong>{user.deezer}
-            </span>
-            <span>
-              <strong>Pandora</strong>{user.pandora}
-            </span>
-            <span>
-              <strong>BandCamp</strong>{user.bandcamp}
-            </span>
-            <span>
-              <strong>Interests</strong>{user.interests}
-            </span>
-            <span>
-              <strong>Musical Skills</strong>{user.musicalSkills}
-            </span>
-            <span>
-              <strong>Other Skills</strong>{user.otherSkills}
-            </span>
-            <span>
-              <strong>Portfolio Items</strong>{user.portfolioItems}
-            </span>
+          <View style={page_styles_template.main_page}>
+            <div>
+              <span>
+                <strong>Location</strong>
+                {user.location}
+              </span>
+              <span>
+                <strong>Headline</strong>
+                {user.headline}
+              </span>
+              <span>
+                <strong>Phone Number</strong>
+                {user.phoneNumber}
+              </span>
+              <span>
+                <strong>Email</strong>
+                {user.publicEmailAddress}
+              </span>
+              <span>
+                <strong>Website</strong>
+                {user.website}
+              </span>
+              <span>
+                <strong>Biography</strong>
+                {user.biography}
+              </span>
+              <span>
+                <strong>Reasons for Joining</strong>
+                {user.reasonsForJoining_findOpportunities}
+                {user.reasonsForJoining_connectOthers}
+                {user.reasonsForJoining_offerOpportunities}
+                {user.reasonsForJoining_promoteServices}
+              </span>
+              <span>
+                <strong>I am </strong>
+                {user.typeOfUserSelection}
+              </span>
+              <span>
+                <strong>Facebook</strong>
+                {user.facebook}
+              </span>
+              <span>
+                <strong>Instagram</strong>
+                {user.instagram}
+              </span>
+              <span>
+                <strong>Twitter</strong>
+                {user.twitter}
+              </span>
+              <span>
+                <strong>LinkedIn</strong>
+                {user.linkedin}
+              </span>
+              <span>
+                <strong>TikTok</strong>
+                {user.tiktok}
+              </span>
+              <span>
+                <strong>Spotify</strong>
+                {user.spotify}
+              </span>
+              <span>
+                <strong>SoundCloud</strong>
+                {user.soundcloud}
+              </span>
+              <span>
+                <strong>Apple Music</strong>
+                {user.appleMusic}
+              </span>
+              <span>
+                <strong>Amazon Music</strong>
+                {user.amazonMusic}
+              </span>
+              <span>
+                <strong>Deezer</strong>
+                {user.deezer}
+              </span>
+              <span>
+                <strong>Pandora</strong>
+                {user.pandora}
+              </span>
+              <span>
+                <strong>BandCamp</strong>
+                {user.bandcamp}
+              </span>
+              <span>
+                <strong>Interests</strong>
+                {user.interests}
+              </span>
+              <span>
+                <strong>Musical Skills</strong>
+                {user.musicalSkills}
+              </span>
+              <span>
+                <strong>Other Skills</strong>
+                {user.otherSkills}
+              </span>
+            </div>
 
-            <button onSubmit={this.sendMessage}>
-
-            </button>
-          </div>
+            <button type="submit" onClick={this.sendConnectionRequest}>
+                Send Connection Request
+              </button>
+          </View>
         )}
+        
       </div>
     );
   }

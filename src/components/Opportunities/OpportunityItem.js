@@ -46,7 +46,7 @@ class OpportunityItem extends Component {
 
   onSaveOpportunity = () => {
     const userUid = this.props.authUser.uid;
-    const opportunityId = this.props.opportunity.uid
+    const opportunityId = this.props.opportunity.uid;
    
     const oppReference = this.props.firebase
       .userCreatedOpp(userUid, opportunityId)
@@ -228,7 +228,7 @@ class OpportunityItem extends Component {
           </span>
         )}
 
-      { authUser.uid !== opportunity.createdBy && !isHidden ? (
+      { (authUser.uid !== opportunity.createdBy) && !isHidden ? (
           <span>
             <button onClick={()=> {
               this.onUnsaveOpportunity();

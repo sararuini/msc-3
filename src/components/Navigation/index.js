@@ -33,18 +33,14 @@ const NavigationAuth = ({ authUser }) => (
     <Text >
       <Link to={ROUTES.EDIT_PROFILE}>Modify Profile</Link>
     </Text>
-    {/* <li>
-      <Link to={ROUTES.CHATS}>Messages</Link>
-    </li>*/}
-    
     <Text >
       <Link to={ROUTES.OPPORTUNITIES}>Opportunities</Link>
     </Text>
-    <Text >
-      <Link to={ROUTES.OWN_PROFILE}>My Profile</Link>
-    </Text>
     <Text>
        <Link to={ROUTES.USERS}>Users</Link>
+    </Text>
+    <Text>
+       <Link to={ROUTES.CONNECTION_REQUESTS}>Connections</Link>
     </Text>
   
       <SignOutButton />

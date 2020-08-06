@@ -1,0 +1,75 @@
+[{'repeat(20)':
+  {
+  "opportunities" : {
+    "{{guid()}}" : {
+      "contact" : "'+44 {{phone()}}'",
+      "createdAt" : "{{date(new Date(2020, 0, 1), new Date()).getTime()}}",
+      "createdBy" : "{{guid()}}",
+      "description" : "{{lorem(4) 'sentences'}}",
+      "jobTags" : "asfas",
+      "jobType" : "fsaf",
+      "location" : "{{city()}}, {{country()}}",
+      "salary" : "fasfasfa",
+      "startingDate" : "{{date()}}",
+      "title" : "sadas"
+    }
+  },
+  "posts" : {
+    "-{{guid()}}" : {
+      "createdAt" : 1596483470968,
+      "text" : "{{lorem(3)}}",
+      "userId" : "{{guid()}}"
+    }
+  },
+  "users" : {
+    "{{guid()}}" : {
+      "amazonMusic" : "https://www.amazon.co.uk/{{lorem(1, 'words')}}/e/{{lorem(1, 'words')}}",
+      "appleMusic" :  "https://music.apple.com/gb/artist/{{lorem(1, 'words')}}/{{integer(6)}}",
+      "bandcamp" :  "https://{{lorem(1, 'words')}}.bandcamp.com/releases",
+      "biography" :  "{{lorem(4, 'paragraphs')}}",
+      "deezer" : "https://deezer.com/en/artist/{{integer(7)}}",
+      "email" : "{{lorem(2, 'words')}}@{{company()}}.com",
+      "facebook" : "wwww.facebook.com/{{firstName()}}{{surname()}}",
+      "headline" : "{{lorem(1, 'sentences')}}",
+      "instagram" : "@{{lorem(3, 'words')}}",
+      "interests": [
+        {
+          'repeat(1,7)': "{{random( 'cooking','gardening', 'knitting', 'rock-climbing', 'drawing', 'painting', 'clubbing', 'travelling', 'sky-diving', 'eating', 'sleeping', 'gaming', 'sports', 'gym', 'reading', 'rock music', 'indie music', 'classical music', 'R&B', 'jazz', 'pop music', 'dubstep', 'house music', 'rap', 'contemporary music' )}}"
+        }
+      ],
+      "linkedin" : "https://www.linkedin.com/in/{{firstName()}}{{surname()}}/",
+      "location" : "{{city()}}, {{country()}}",
+      "musicalSkills": [
+        {
+          'repeat(1,10)': "{{random('bass guitar', 'electric guitar','classical guitar', 'singing', 'teaching music', 'music production', 'DJing', 'problem-solving', 'rapping', 'music composition', 'drums', 'piano', 'keyboards', 'cello', 'violin' )}}"
+        }
+      ],
+      "opportunities" : {
+        "-{{guid()}}" : {
+          "savedOpportunity" : "{{bool()}}"
+        }
+      },
+      "otherSkills": [
+        {
+          'repeat(1,5)': "{{random('communication', 'teamwork','microsoft office', 'coding', 'photography', 'writing', 'time management', 'problem-solving', 'data analysis', 'driving', 'public speaking', 'creativity', 'emotional intelligence', 'ux design', 'video production' )}}"
+        }
+      ],
+      "pandora" : "https://www.youtube.com",
+      "phoneNumber" : "'+44 {{phone()}}'",
+      "publicEmailAddress" : "{{lorem(1, 'words')}}@{{company()}}.com",
+      "reasonsForJoining_connectOthers" : "{{bool()}}",
+      "reasonsForJoining_findOpportunities" :"{{bool()}}",
+      "reasonsForJoining_offerOpportunities" : "{{bool()}}",
+      "reasonsForJoining_promoteServices" : "{{bool()}}",
+      "soundcloud" : "https://www.youtube.com",
+      "spotify" : "https://www.spotify.com",
+      "tiktok" : "@{{lorem(1, 'words')}}",
+      "twitter" : "@{{lorem(1, 'words')}}",
+      "username" : "{{firstName()}} {{surname()}}",
+      "website" : "https://{{lorem(1, 'words')}}.com",
+      "youtube" : "https://www.youtube.com/user/{{lorem(1, 'words')}}"
+    }
+  }
+}
+ }
+]

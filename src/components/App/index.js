@@ -8,12 +8,12 @@ import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import Footbar from '../Footbar';
-import ConversationPage from '../Messenger';
 import SettingsPage from '../Settings';
 import {ModifyProfile, PublicProfile} from '../Profile';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 import UsersDisplayPage from '../Users'
+import ConnectionPage from '../Connections';
 import OpportunityPage from '../Opportunities';
 import { ScrollView, View} from "react-native-web";
 //import page_styles from './styles';
@@ -29,7 +29,6 @@ const App = () => (
       <Route exact path={ROUTES.LANDING} component={LandingPage} />
       <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
       <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-      {/* <Route path={ROUTES.CHATS} component={ConversationPage} />*/}
       <Route
         path={ROUTES.PASSWORD_FORGET}
         component={PasswordForgetPage}
@@ -38,8 +37,8 @@ const App = () => (
       <Route path={ROUTES.SETTINGS} component={SettingsPage} />
       <Route path={ROUTES.USERS} component={UsersDisplayPage} />
       <Route path = {ROUTES.EDIT_PROFILE} component={ModifyProfile}/>
-      <Route path = {ROUTES.OWN_PROFILE} component={PublicProfile}/>
       <Route path = {ROUTES.OPPORTUNITIES} component={OpportunityPage}/>
+      <Route path = {ROUTES.CONNECTION_REQUESTS} component={ConnectionPage}/>
       
     </div>
   
