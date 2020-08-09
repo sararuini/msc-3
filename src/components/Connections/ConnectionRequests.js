@@ -9,146 +9,78 @@ class ConnectionRequests extends Component {
     super(props);
 
     this.state = {
-      title: "",
-      description: "",
-      location: "",
-      jobType: "",
-      salary: "",
-      jobTags: "",
-      startingDate: "",
-      contact: "",
-      savedOpportunity: false,
-      loading: false,
-      opportunities: [],
+      connectionRequests: [],
       limit: 5,
     };
   }
 
-  componentDidMount() {
-    this.onListenForOpportunities();
-  }
-
-  onListenForOpportunities = () => {
-    this.setState({ loading: true });
+  listenForConnectionRequests = () => {
+      this.setState({ loading: true });
 
     this.props.firebase
-      .opportunities()
-      .orderByChild("createdAt")
+      .connectionRequests()
+      .orderByChild('createdAt')
       .limitToLast(this.state.limit)
       .on("value", (snapshot) => {
-        const opportunityObject = snapshot.val();
+        const requestObject = snapshot.val();
 
-        if (opportunityObject) {
-          const opportunityList = Object.keys(opportunityObject).map((key) => ({
-            ...opportunityObject[key],
+        if (requestObject) {
+          const connectionRequestList = Object.keys(requestObject).map((key) => ({
+            ...requestObject[key],
             uid: key,
           }));
 
           this.setState({
-            opportunities: opportunityList,
+            connectionRequests: connectionRequestList,
             loading: false,
           });
         } else {
-          this.setState({ opportunities: null, loading: false });
+          this.setState({ connectionRequests: null, loading: false });
         }
       });
+  }
+
+  componentDidMount = () => {
+    this.listenForConnectionRequests();
   };
 
   componentWillUnmount() {
-    this.props.firebase.opportunities().off();
+    this.props.firebase.connectionRequests().off();
   }
 
-  onChangeText = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  acceptConnectionRequest = (requestObject) => {
+    const userId = this.props.firebase.auth.currentUser.uid;
+    const receiverId = requestObject.uid.toString();
 
-  onCreateOpportunity = (event, authUser) => {
-    this.props.firebase.opportunities().push({
-      createdBy: authUser.uid,
-      createdAt: this.props.firebase.serverValue.TIMESTAMP,
-      title: this.state.title,
-      description: this.state.description,
-      location: this.state.location,
-      jobType: this.state.jobType,
-      contact: this.state.contact,
-      salary: this.state.salary,
-      jobTags: this.state.jobTags,
-      startingDate: this.state.startingDate,
-    });
+    const friendshipCreated = this.props.firebase
+      .userConnections(userId).push({
+        receiverId: true,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP,
+      })
+  }
 
-    this.setState({
-      title: "",
-      description: "",
-      contact: "",
-      location: "",
-      jobType: "",
-      jobTags: "",
-      salary: "",
-      startingDate: "",
-    });
-
-    event.preventDefault();
-  };
-
-  onEditOpportunity = (
-    opportunity,
-    title,
-    description,
-    contact,
-    location,
-    jobType,
-    jobTags,
-    salary,
-    startingDate
-  ) => {
-    const { uid, ...opportunitySnapshot } = opportunity;
-
-    this.props.firebase.opportunity(opportunity.uid).set({
-      ...opportunitySnapshot,
-      title,
-      description,
-      location,
-      contact,
-      jobType,
-      jobTags,
-      salary,
-      startingDate,
-      editedAt: this.props.firebase.serverValue.TIMESTAMP,
-    });
-  };
-
-  onRemoveOpportunity = (uid) => {
-    this.props.firebase.opportunity(uid).remove();
-  };
+  //declineConnectionRequest = (event, authUser) => {
+  //  this.props.firebase.connectionRequestsUsers(uid).remove();
+//}
 
   onNextPage = () => {
     this.setState(
       (state) => ({ limit: state.limit + 5 }),
-      this.onListenForOpportunities
+      this.listenForConnectionRequests
     );
   };
 
   render() {
     const {
-      title,
-      description,
-      contact,
-      location,
-      jobType,
-      jobTags,
-      salary,
-      startingDate,
-      opportunities,
+      connectionRequests,
       loading,
     } = this.state;
-    const isInvalid =
-      title === "" || location === "" || contact === "" || jobType === "";
 
     return (
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-            {!loading && opportunities && (
+            {!loading && connectionRequests && (
               <button type="button" onClick={this.onNextPage}>
                 More
               </button>
@@ -156,83 +88,16 @@ class ConnectionRequests extends Component {
 
             {loading && <div>Loading ...</div>}
 
-            {opportunities && (
-              <OpportunityList
+            {connectionRequests && (
+              <ConnectionRequestList
                 authUser={authUser}
-                opportunities={opportunities}
-                onEditOpportunity={this.onEditOpportunity}
-                onRemoveOpportunity={this.onRemoveOpportunity}
+                connectionRequests={connectionRequests}
+                acceptConnectionRequest={this.acceptConnectionRequest}
+                declineConnectionRequest={this.declineConnectionRequest}
               />
             )}
 
-            {!opportunities && <div>There are no opportunities ...</div>}
-
-            <form
-              onSubmit={(event) => this.onCreateOpportunity(event, authUser)}
-            >
-              <label>
-                <strong>Create a new opportunity</strong>
-              </label>
-              <input
-                type="text"
-                value={title}
-                name="title"
-                placeholder="Opportunity title"
-                onChange={(event) => this.onChangeText(event, "firstName")}
-              />
-              <input
-                type="text"
-                placeholder="Opportunity description"
-                value={description}
-                name="description"
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="location"
-                value={location}
-                placeholder="Location"
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="jobType"
-                placeholder="Job Type e.g.(Full-time, Part-time, Commission, Freelancer, One-Off...)"
-                value={jobType}
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="jobTags"
-                placeholder="Job Tags e.g.(Music Publishing, London, etc.)"
-                value={jobTags}
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="startingDate"
-                value={startingDate}
-                placeholder="Starting Date"
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="contact"
-                value={contact}
-                placeholder="Contact Details to Apply to opportunity"
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="salary"
-                value={salary}
-                placeholder="Salary"
-                onChange={this.onChangeText}
-              />
-              <button disabled={isInvalid} type="submit">
-                Publish
-              </button>
-            </form>
+            {!connectionRequests && <div>There are no pending connection requests ...</div>}
           </div>
         )}
       </AuthUserContext.Consumer>
@@ -240,4 +105,4 @@ class ConnectionRequests extends Component {
   }
 }
 
-export default withFirebase(Opportunities);
+export default withFirebase(ConnectionRequests);

@@ -1,8 +1,7 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import {ConnectionRequestItem} from './ConnectionRequestItem';
-//import {ConnectionRequests} from './ConnectionRequests';
+import ConnectionRequests from './ConnectionRequests';
 
 import { compose } from "recompose";
 import {
@@ -15,7 +14,7 @@ import {
 const ConnectionPage = () => (
     <div>
       Your Connection Requests
-       {/*<ConnectionRequests /> */}
+       <ConnectionRequests />
       
     </div>
   );
