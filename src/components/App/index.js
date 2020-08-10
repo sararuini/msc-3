@@ -9,7 +9,7 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import Footbar from '../Footbar';
 import SettingsPage from '../Settings';
-import {ModifyProfile, PublicProfile} from '../Profile';
+import {ModifyProfile} from '../Profile';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 import UsersDisplayPage from '../Users'

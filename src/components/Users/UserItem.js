@@ -11,8 +11,16 @@ class UserItem extends Component {
       loading: false,
       user: null,
       requestSent: false,
+      //requestMessage: "",
+      isHidden: true,
       ...props.location.state,
     };
+  }
+
+  toggleHidden = () => {
+    this.setState({
+      isHidden: !this.state.isHidden,
+    })
   }
 
   componentDidMount() {
@@ -37,20 +45,27 @@ class UserItem extends Component {
   }
 
   sendConnectionRequest = () => {
-      let user = this.props.firebase.auth.currentUser;
-      const senderId = user.uid;
-      console.log("sender" + senderId)
+      let senderUser = this.props.firebase.auth.currentUser;
+      const senderId = senderUser.uid;
     const receiverId = this.props.match.params.id;
-    console.log("receiver" + receiverId)
 
     const connectionSent = this.props.firebase
-      .userPendingConnections(receiverId, senderId)
-      console.log(connectionSent)
-      connectionSent.set({ requestSent: true });
+      .connectionRequestsUsers(receiverId, senderId)
+      connectionSent.set({ requestSent: true});
+      
   }
+  removeConnectionRequest = () => {
+    let senderUser = this.props.firebase.auth.currentUser;
+    const senderId = senderUser.uid;
+  const receiverId = this.props.match.params.id;
+
+  const connectionUnsent = this.props.firebase
+    .connectionRequestsUsers(receiverId, senderId)
+    connectionUnsent.remove();
+}
 
   render() {
-    const { user, loading } = this.state;
+    const { user, loading, isHidden, requestMessage} = this.state;
     const { authUser } = this.props;
 
     return (
@@ -157,13 +172,37 @@ class UserItem extends Component {
                 {user.otherSkills}
               </span>
             </div>
-
-            <button type="submit" onClick={this.sendConnectionRequest}>
-                Send Connection Request
-              </button>
           </View>
         )}
-        
+
+
+      { !isHidden ? (
+          <span>
+            <button onClick={()=> {
+              this.removeConnectionRequest();
+              this.toggleHidden();
+            }}>Remove Connection Request</button>
+          </span>
+        ) : (
+          <span>
+            <form>
+              {/*
+              <input
+                type="text"
+                value={requestMessage}
+                name="requestMessage"
+                placeholder="Message to user"
+                onChange={this.writeRequestMessage}
+              />
+               */}
+            
+            <button  type="submit" onClick={()=> {
+              this.sendConnectionRequest();
+              this.toggleHidden();
+            }}>Send Connection Request</button>
+             </form>
+          </span>
+        )}   
       </div>
     );
   }

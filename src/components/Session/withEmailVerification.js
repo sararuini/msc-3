@@ -11,7 +11,9 @@ const needsEmailVerification = authUser =>
     .includes('password');
 
 const withEmailVerification = Component => {
+
   class WithEmailVerification extends React.Component {
+    
     constructor(props) {
       super(props);
 
@@ -19,6 +21,7 @@ const withEmailVerification = Component => {
     }
 
     onSendEmailVerification = () => {
+     
       this.props.firebase
         .doSendEmailVerification()
         .then(() => this.setState({ isSent: true }));

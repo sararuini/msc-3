@@ -17,7 +17,7 @@ const ModifyProfilePage = () => (
     {(authUser) => (
       <div>
         <Text>
-          Modify Profile: {authUser.username}
+          Edit Profile: {authUser.username}
         </Text>
         <ModifyProfile authUser={authUser} />
       </div>

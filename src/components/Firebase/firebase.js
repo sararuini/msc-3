@@ -84,14 +84,14 @@ class Firebase {
     });
 
   // *** User API ***
-
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
   userConnections = uid => this.db.ref(`users/${uid}/connections`)
-  userCreatedOpps = (uid, oid) => this.db.ref(`users/${uid}/opportunities`)
+  userCreatedOpps = (uid) => this.db.ref(`users/${uid}/opportunities`)
   userCreatedOpp = (uid, oid) => this.db.ref(`users/${uid}/opportunities/${oid}`)
-  userPendingConnections = (receiverId, senderId) => this.db.ref(`users/${receiverId}/pendingConnections/${senderId}`)
-
+  connectionRequests = (uid) => this.db.ref(`users/${uid}/pendingConnections`)
+  connectionRequestsUsers = (receiverId, senderId) => this.db.ref(`users/${receiverId}/pendingConnections/${senderId}`)
+  
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
   posts = () => this.db.ref('posts');
@@ -99,9 +99,9 @@ class Firebase {
   //***  Opportunity API ***/
   opportunity = uid => this.db.ref(`opportunities/${uid}`)
   opportunities = () => this.db.ref('opportunities');
-  
 
   // ** Connections API *** /
+  userConnections = uid =>  this.db.ref(`connections/${uid}`)
   /*
   chat = chatUid => this.db.ref(`chats/${chatUid}`);
   chats = () => this.db.ref(`chats`);
