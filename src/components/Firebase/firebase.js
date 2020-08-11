@@ -90,24 +90,18 @@ class Firebase {
   userCreatedOpps = (uid) => this.db.ref(`users/${uid}/opportunities`)
   userCreatedOpp = (uid, oid) => this.db.ref(`users/${uid}/opportunities/${oid}`)
   connectionRequests = (uid) => this.db.ref(`users/${uid}/pendingConnections`)
-  connectionRequestsUsers = (receiverId, senderId) => this.db.ref(`users/${receiverId}/pendingConnections/${senderId}`)
+  //connectionRequestsUsers = (receiverId, senderId) => this.db.ref(`users/${receiverId}/pendingConnections/${senderId}`)
   
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
   posts = () => this.db.ref('posts');
   
   //***  Opportunity API ***/
-  opportunity = uid => this.db.ref(`opportunities/${uid}`)
+  opportunity = uid => this.db.ref(`opportunities/${uid}`);
   opportunities = () => this.db.ref('opportunities');
 
   // ** Connections API *** /
-  userConnections = uid =>  this.db.ref(`connections/${uid}`)
-  /*
-  chat = chatUid => this.db.ref(`chats/${chatUid}`);
-  chats = () => this.db.ref(`chats`);
-  chatMessages = chatUid => this.db.ref(`chatMessages/${chatUid}`);
-  chatParticipants = (chatUid)  => this.db.ref(`chatMembers/${chatUid}`)
-  */
+  userConnections = uid =>  this.db.ref(`connections/${uid}`);
  }
 
 export default Firebase;

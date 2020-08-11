@@ -11,7 +11,8 @@ class UserItem extends Component {
       loading: false,
       user: null,
       requestSent: false,
-      //requestMessage: "",
+      senderId: null,
+      senderUsername: null,
       isHidden: true,
       ...props.location.state,
     };
@@ -20,10 +21,10 @@ class UserItem extends Component {
   toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
-    })
-  }
+    });
+  };
 
-  componentDidMount() {
+  componentDidMount () {
     if (this.state.user) {
       return;
     }
@@ -38,34 +39,54 @@ class UserItem extends Component {
           loading: false,
         });
       });
-  }
+
+      {/* const senderUser = this.props.firebase.auth.currentUser;
+    const senderId = senderUser.uid;
+    const receiverId = this.props.match.params.id;
+    let requestObj = null;
+
+    this.props.firebase
+      .connectionRequests(receiverId)
+      .on("value", function (snapshot) {
+        requestObj = snapshot.val().requestSent;
+      });
+      console.log("request obj" + requestObj)
+
+      if (requestObj === true) {
+        this.setState({hideButton: true})
+      } */}
+
+  };
 
   componentWillUnmount() {
     this.props.firebase.user(this.props.match.params.id).off();
   }
 
   sendConnectionRequest = () => {
-      let senderUser = this.props.firebase.auth.currentUser;
-      const senderId = senderUser.uid;
+    const receiverId = this.props.match.params.id;
+    const sender = this.props.firebase.auth.currentUser;
+    const senderId = sender.uid;
+
+    console.log(" Sender Id " + senderId)
+    console.log("Receiver id: " + receiverId)
+
+    const connectionRequestSent = this.props.firebase.connectionRequests(
+      receiverId
+    );
+    connectionRequestSent.push({ requestSent: true, senderId: senderId});
+  };
+
+  removeConnectionRequest = () => {
     const receiverId = this.props.match.params.id;
 
-    const connectionSent = this.props.firebase
-      .connectionRequestsUsers(receiverId, senderId)
-      connectionSent.set({ requestSent: true});
-      
-  }
-  removeConnectionRequest = () => {
-    let senderUser = this.props.firebase.auth.currentUser;
-    const senderId = senderUser.uid;
-  const receiverId = this.props.match.params.id;
-
-  const connectionUnsent = this.props.firebase
-    .connectionRequestsUsers(receiverId, senderId)
+    const connectionUnsent = this.props.firebase.connectionRequests(
+      receiverId
+    );
     connectionUnsent.remove();
-}
+  };
 
   render() {
-    const { user, loading, isHidden, requestMessage} = this.state;
+    const { user, loading, isHidden} = this.state;
     const { authUser } = this.props;
 
     return (
@@ -175,13 +196,16 @@ class UserItem extends Component {
           </View>
         )}
 
-
-      { !isHidden ? (
+        {!isHidden ? (
           <span>
-            <button onClick={()=> {
-              this.removeConnectionRequest();
-              this.toggleHidden();
-            }}>Remove Connection Request</button>
+            <button
+              onClick={() => {
+                this.removeConnectionRequest();
+                this.toggleHidden();
+              }}
+            >
+              Remove Connection Request
+            </button>
           </span>
         ) : (
           <span>
@@ -195,14 +219,18 @@ class UserItem extends Component {
                 onChange={this.writeRequestMessage}
               />
                */}
-            
-            <button  type="submit" onClick={()=> {
-              this.sendConnectionRequest();
-              this.toggleHidden();
-            }}>Send Connection Request</button>
-             </form>
+              <button
+                type="submit"
+                onClick={() => {
+                  this.sendConnectionRequest();
+                  this.toggleHidden();
+                }}
+              >
+                Send Connection Request
+              </button>
+            </form>
           </span>
-        )}   
+        )}
       </div>
     );
   }

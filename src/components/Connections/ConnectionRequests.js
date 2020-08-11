@@ -18,7 +18,7 @@ class ConnectionRequests extends Component {
       this.setState({ loading: true });
 
     this.props.firebase
-      .pendingConnections()
+      .connectionRequests()
       .limitToLast(this.state.limit)
       .on("value", (snapshot) => {
         const requestObject = snapshot.val();
@@ -49,7 +49,7 @@ class ConnectionRequests extends Component {
 
   acceptConnectionRequest = (requestObject) => {
     const userId = this.props.firebase.auth.currentUser.uid;
-    const receiverId = requestObject.uid.toString();
+    const receiverId = requestObject.uid.requestSender();
 
     const friendshipCreated = this.props.firebase
       .userConnections(userId).push({
@@ -92,7 +92,7 @@ class ConnectionRequests extends Component {
                 authUser={authUser}
                 connectionRequests={connectionRequests}
                 acceptConnectionRequest={this.acceptConnectionRequest}
-                declineConnectionRequest={this.declineConnectionRequest}
+                //declineConnectionRequest={this.declineConnectionRequest}
               />
             )}
 
