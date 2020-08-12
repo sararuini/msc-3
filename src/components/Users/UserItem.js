@@ -16,6 +16,8 @@ class UserItem extends Component {
       isHidden: true,
       ...props.location.state,
     };
+
+    //this.checkPendingRequests = this.checkPendingRequests.bind(this);
   }
 
   toggleHidden = () => {
@@ -25,7 +27,7 @@ class UserItem extends Component {
   };
 
   componentDidMount() {
-    this.checkPendingRequests();
+    
     if (this.state.user) {
       return;
     }
@@ -39,7 +41,10 @@ class UserItem extends Component {
           user: snapshot.val(),
           loading: false,
         });
-      });
+      })
+      this.checkPendingRequests();
+
+      
   }
 
   componentWillUnmount() {
@@ -52,25 +57,34 @@ class UserItem extends Component {
         const sender = this.props.firebase.auth.currentUser;
         const receiverId = this.props.match.params.id;
         const currentSenderId = sender.uid;
-        let receiverIdChecker = null;
-
+        console.log("checkinnnn")
+        
         this.props.firebase
           .userPendingConnections(currentSenderId)
-          .on("value", function (snapshot) {
+          .once("value").then( (snapshot)=>{
             const requestObj = snapshot.val();
-            if (requestObj){
-              receiverIdChecker = requestObj.receiverId;
+            if (requestObj) {
+              for (const pendingConnectionId in requestObj) {
+                if (requestObj.hasOwnProperty(pendingConnectionId)) {
+                  const pendingConnection = requestObj[pendingConnectionId];
+                  const checkReceiverId = pendingConnection.receiverId;
+                  if (checkReceiverId === receiverId) {
+                    console.log(this);
+                    this.setState({ requestSent: true });
+                  } else {
+                    console.log(false);
+                    this.setState({ requestSent: false });
+                  }
+                }
+              }
             }
-          });
-
-        if (receiverIdChecker === receiverId) {
-          this.setState({ requestSent: true });
-        } else {
-          this.setState({requestSent: false})
-        }
+          })
       }
     });
   };
+
+
+  
 
   sendConnectionRequest = () => {
     const receiverId = this.props.match.params.id;
