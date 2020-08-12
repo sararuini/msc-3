@@ -25,6 +25,7 @@ class UserItem extends Component {
   };
 
   componentDidMount() {
+    this.checkPendingRequests();
     if (this.state.user) {
       return;
     }
@@ -39,37 +40,37 @@ class UserItem extends Component {
           loading: false,
         });
       });
-
-
   }
-
 
   componentWillUnmount() {
     this.props.firebase.user(this.props.match.params.id).off();
   }
 
-  /*
   checkPendingRequests = () => {
-    const sender = this.props.firebase.auth.currentUser;
-    const currentSenderId = sender.uid;
-    let senderIdChecker = null;
-    let receiverIdChecker = null;
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const sender = this.props.firebase.auth.currentUser;
+        const receiverId = this.props.match.params.id;
+        const currentSenderId = sender.uid;
+        let receiverIdChecker = null;
 
-    this.props.firebase.pendingConnections().on("value", function (snapshot) {
-      senderIdChecker = snapshot.val().senderId;
-      receiverIdChecker = snapshot.val().receiverId;
+        this.props.firebase
+          .userPendingConnections(currentSenderId)
+          .on("value", function (snapshot) {
+            const requestObj = snapshot.val();
+            if (requestObj){
+              receiverIdChecker = requestObj.receiverId;
+            }
+          });
+
+        if (receiverIdChecker === receiverId) {
+          this.setState({ requestSent: true });
+        } else {
+          this.setState({requestSent: false})
+        }
+      }
     });
-
-    if (
-      senderIdChecker === currentSenderId &&
-      receiverIdChecker === receiverIdChecker
-    ) {
-      return false;
-    } else {
-      return true;
-    }
   };
-  */
 
   sendConnectionRequest = () => {
     const receiverId = this.props.match.params.id;
@@ -77,7 +78,7 @@ class UserItem extends Component {
     const senderId = sender.uid;
     const newRef = this.props.firebase.pendingConnections().push();
     const newRefKey = newRef.key;
-    
+
     if (this.state.requestSent === false) {
       newRef.set({
         senderId: senderId,
@@ -85,38 +86,38 @@ class UserItem extends Component {
         receiverId: receiverId,
       });
 
-      this.setState({previousKey: newRefKey, requestSent: true})
+      this.setState({ previousKey: newRefKey, requestSent: true });
 
       this.props.firebase.userPendingConnections(receiverId).push({
-        uid: newRefKey
-      })
+        senderId: senderId,
+      });
 
       this.props.firebase.userPendingConnections(senderId).push({
-        uid: newRefKey
-      })
-      
+        receiverId: receiverId,
+      });
+
       console.log("request sent");
-      console.log(newRefKey)
+      console.log(newRefKey);
     }
   };
 
-  removeConnectionRequest(){
+  removeConnectionRequest() {
     const receiverId = this.props.match.params.id;
     const sender = this.props.firebase.auth.currentUser;
     const senderId = sender.uid;
 
-    const refKey = this.state.previousKey
-    console.log(refKey)
+    const refKey = this.state.previousKey;
+    console.log(refKey);
     this.props.firebase.pendingConnection(refKey).remove();
     this.props.firebase.userPendingConnections(receiverId).remove();
     this.props.firebase.userPendingConnections(senderId).remove();
-    this.setState({requestSent: false})
-      console.log("request removed")
+    this.setState({ requestSent: false });
+    console.log("request removed");
   }
 
   render() {
     const { user, loading, isHidden, requestSent, previousKey } = this.state;
-   
+
     return (
       <div>
         {loading && <div>Loading ...</div>}
@@ -223,15 +224,18 @@ class UserItem extends Component {
           </View>
         )}
 
-        {!isHidden && requestSent === true  && (
+        {!isHidden && requestSent === true && (
           <span>
             <button
               onClick={() => {
-                {/* if (this.checkPendingRequests() === true){ */}
-                  this.removeConnectionRequest();
+                {
+                  /* if (this.checkPendingRequests() === true){ */
+                }
+                this.removeConnectionRequest();
                 this.toggleHidden();
-                {/* } */}
-                
+                {
+                  /* } */
+                }
               }}
             >
               Remove Connection Request
@@ -239,7 +243,7 @@ class UserItem extends Component {
           </span>
         )}
 
-        { isHidden && requestSent == false && (
+        {isHidden && requestSent == false && (
           <span>
             <form>
               {/*
@@ -254,11 +258,14 @@ class UserItem extends Component {
               <button
                 type="submit"
                 onClick={() => {
-                  {/*if (this.checkPendingRequests() === false) { */}
-                    this.sendConnectionRequest();
+                  {
+                    /*if (this.checkPendingRequests() === false) { */
+                  }
+                  this.sendConnectionRequest();
                   this.toggleHidden();
-                 {/* }  */}
-                  
+                  {
+                    /* }  */
+                  }
                 }}
               >
                 Send Connection Request
@@ -266,12 +273,9 @@ class UserItem extends Component {
             </form>
           </span>
         )}
-          
       </div>
     );
   }
 }
 
-
 export default withFirebase(UserItem);
-
