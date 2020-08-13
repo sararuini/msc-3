@@ -31,7 +31,7 @@ const NavigationAuth = ({ authUser }) => (
       <Link to={ROUTES.SETTINGS}>Settings</Link>
     </Text>
     <Text >
-      <Link to={ROUTES.EDIT_PROFILE}>Modify Profile</Link>
+      <Link to={ROUTES.EDIT_PROFILE}>Edit Profile</Link>
     </Text>
     <Text >
       <Link to={ROUTES.OPPORTUNITIES}>Opportunities</Link>

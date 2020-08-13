@@ -11,7 +11,6 @@ const HomePage = () => (
   <div>
     <View style={page_styles_template.main_page}></View>
     <h1>Timeline</h1>
-
     <Posts />
   </div>
 );

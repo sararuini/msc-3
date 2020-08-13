@@ -1,11 +1,10 @@
-import React from 'react';
-
 import ConnectionRequestItem from './ConnectionRequestItem';
+import React from 'react';
 
 const ConnectionRequestList = ({
   authUser,
   connectionRequests,
-  acceptConnectionRequest,
+  //acceptConnectionRequest,
   //declineConnectionRequest,
 }) => (
   <ul>
@@ -14,7 +13,7 @@ const ConnectionRequestList = ({
         authUser={authUser}
         key={connectionRequest.uid}
         connectionRequest={connectionRequest}
-        acceptConnectionRequest={acceptConnectionRequest}
+        //acceptConnectionRequest={acceptConnectionRequest}
         //declineConnectionRequest={declineConnectionRequest}
       />
     ))}
