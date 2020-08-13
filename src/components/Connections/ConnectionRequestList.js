@@ -4,8 +4,8 @@ import React from 'react';
 const ConnectionRequestList = ({
   authUser,
   connectionRequests,
-  //acceptConnectionRequest,
-  //declineConnectionRequest,
+  acceptConnectionRequest,
+  declineConnectionRequest,
 }) => (
   <ul>
     {connectionRequests.map(connectionRequest => (
@@ -13,8 +13,8 @@ const ConnectionRequestList = ({
         authUser={authUser}
         key={connectionRequest.uid}
         connectionRequest={connectionRequest}
-        //acceptConnectionRequest={acceptConnectionRequest}
-        //declineConnectionRequest={declineConnectionRequest}
+        acceptConnectionRequest={acceptConnectionRequest}
+        declineConnectionRequest={declineConnectionRequest}
       />
     ))}
   </ul>

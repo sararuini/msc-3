@@ -89,7 +89,7 @@ class Firebase {
   userConnections = uid => this.db.ref(`users/${uid}/connections`)
   userCreatedOpps = (uid) => this.db.ref(`users/${uid}/opportunities`)
   userCreatedOpp = (uid, oid) => this.db.ref(`users/${uid}/opportunities/${oid}`)
-  userPendingConnections = uid => this.db.ref(`users/${uid}/pendingConnections/`)
+  //userPendingConnections = uid => this.db.ref(`users/${uid}/pendingConnections/`)
   
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
@@ -100,7 +100,8 @@ class Firebase {
   opportunities = () => this.db.ref('opportunities');
 
   // ** Connections API *** /
-  userConnections = uid =>  this.db.ref(`connections/${uid}`);
+  userConnection = uid =>  this.db.ref(`connections/${uid}`);
+  userConnections = () =>  this.db.ref(`connections/`);
   pendingConnections = () => this.db.ref(`pendingConnections`)
   pendingConnection = uid => this.db.ref(`pendingConnections/${uid}`)
  }

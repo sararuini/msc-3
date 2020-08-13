@@ -11,6 +11,7 @@ class UserItem extends Component {
       loading: false,
       user: null,
       requestSent: false,
+      timestamp: '',
       isHidden: true,
       ...props.location.state,
     };
@@ -59,21 +60,29 @@ class UserItem extends Component {
     const newRefKey = newRef.key;
 
     if (this.state.requestSent === false) {
+      
       newRef.set({
         senderId: senderId,
         createdAt: this.props.firebase.serverValue.TIMESTAMP,
         receiverId: receiverId,
       });
+      
 
       this.setState({ previousKey: newRefKey, requestSent: true });
 
+      /*
       this.props.firebase.userPendingConnections(receiverId).push({
         senderId: senderId,
+        createdAt: this.state.timestamp,
+        receiverId: receiverId,
       });
 
       this.props.firebase.userPendingConnections(senderId).push({
+        senderId: senderId,
+        createdAt: this.state.timestamp,
         receiverId: receiverId,
       });
+      */
 
       console.log("request sent");
       console.log(newRefKey);
@@ -88,21 +97,11 @@ class UserItem extends Component {
     const refKey = this.state.previousKey;
     console.log(refKey);
     this.props.firebase.pendingConnection(refKey).remove();
-    this.props.firebase.userPendingConnections(receiverId).remove();
-    this.props.firebase.userPendingConnections(senderId).remove();
+    
     this.setState({ requestSent: false });
     console.log("request removed");
   }
-  removeConnectionRequest = () => {
-    let senderUser = this.props.firebase.auth.currentUser;
-    const senderId = senderUser.uid;
-  const receiverId = this.props.match.params.id;
-
-  const connectionUnsent = this.props.firebase
-    .connectionRequestsUsers(receiverId, senderId)
-    connectionUnsent.set({ requestSent: false });
-}
-
+  
   render() {
     const { user, loading, isHidden, requestSent } = this.state;
 
