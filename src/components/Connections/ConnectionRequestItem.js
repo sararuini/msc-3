@@ -12,7 +12,7 @@ class ConnectionRequestItem extends Component {
      <li>
        <span>
          Sender
-          {connectionRequest.requestSender}
+          {connectionRequest.senderId}
        </span>
      </li>
     );

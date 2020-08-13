@@ -16,9 +16,11 @@ class ConnectionRequests extends Component {
 
   listenForConnectionRequests = () => {
       this.setState({ loading: true });
+      const sender = this.props.firebase.auth.currentUser;
+      const senderId = sender.uid;
 
     this.props.firebase
-      .connectionRequests()
+      .userPendingConnections(senderId)
       .limitToLast(this.state.limit)
       .on("value", (snapshot) => {
         const requestObject = snapshot.val();
@@ -42,14 +44,14 @@ class ConnectionRequests extends Component {
   componentDidMount = () => {
     this.listenForConnectionRequests();
   };
-
+  /*
   componentWillUnmount() {
     this.props.firebase.connectionRequests().off();
   }
 
-  acceptConnectionRequest = (requestObject) => {
-    const userId = this.props.firebase.auth.currentUser.uid;
-    const receiverId = requestObject.uid.requestSender();
+
+  acceptConnectionRequest = (authUser) => {
+    const userId = authUser.uid;
 
     const friendshipCreated = this.props.firebase
       .userConnections(userId).push({
@@ -57,15 +59,16 @@ class ConnectionRequests extends Component {
         createdAt: this.props.firebase.serverValue.TIMESTAMP,
       })
   }
-
-  //declineConnectionRequest = (event, authUser) => {
-  //  this.props.firebase.connectionRequestsUsers(uid).remove();
-//}
+  
+  declineConnectionRequest = () => {
+    this.props.firebase.connectionRequestsUsers(uid).remove();
+  }
+  */
 
   onNextPage = () => {
     this.setState(
       (state) => ({ limit: state.limit + 5 }),
-      this.listenForConnectionRequests
+      this.listenForConnectionRequests,
     );
   };
 
@@ -92,7 +95,7 @@ class ConnectionRequests extends Component {
                 authUser={authUser}
                 connectionRequests={connectionRequests}
                 acceptConnectionRequest={this.acceptConnectionRequest}
-                //declineConnectionRequest={this.declineConnectionRequest}
+                declineConnectionRequest={this.declineConnectionRequest}
               />
             )}
 

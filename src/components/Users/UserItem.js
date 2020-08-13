@@ -10,14 +10,10 @@ class UserItem extends Component {
     this.state = {
       loading: false,
       user: null,
-      connectionSentId: null,
       requestSent: false,
-      previousKey: null,
       isHidden: true,
       ...props.location.state,
     };
-
-    //this.checkPendingRequests = this.checkPendingRequests.bind(this);
   }
 
   toggleHidden = () => {
@@ -25,9 +21,8 @@ class UserItem extends Component {
       isHidden: !this.state.isHidden,
     });
   };
-
+  
   componentDidMount() {
-    
     if (this.state.user) {
       return;
     }
@@ -41,50 +36,20 @@ class UserItem extends Component {
           user: snapshot.val(),
           loading: false,
         });
-      })
-      this.checkPendingRequests();
-
-      
+      });
   }
+
+  /*
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.requestSent !== this.state.requestSent) {
+      this.fetchData(prevState.requestSent);
+    }
+  }
+  */
 
   componentWillUnmount() {
     this.props.firebase.user(this.props.match.params.id).off();
   }
-
-  checkPendingRequests = () => {
-    this.props.firebase.auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        const sender = this.props.firebase.auth.currentUser;
-        const receiverId = this.props.match.params.id;
-        const currentSenderId = sender.uid;
-        console.log("checkinnnn")
-        
-        this.props.firebase
-          .userPendingConnections(currentSenderId)
-          .once("value").then( (snapshot)=>{
-            const requestObj = snapshot.val();
-            if (requestObj) {
-              for (const pendingConnectionId in requestObj) {
-                if (requestObj.hasOwnProperty(pendingConnectionId)) {
-                  const pendingConnection = requestObj[pendingConnectionId];
-                  const checkReceiverId = pendingConnection.receiverId;
-                  if (checkReceiverId === receiverId) {
-                    console.log(this);
-                    this.setState({ requestSent: true });
-                  } else {
-                    console.log(false);
-                    this.setState({ requestSent: false });
-                  }
-                }
-              }
-            }
-          })
-      }
-    });
-  };
-
-
-  
 
   sendConnectionRequest = () => {
     const receiverId = this.props.match.params.id;
@@ -130,7 +95,7 @@ class UserItem extends Component {
   }
 
   render() {
-    const { user, loading, isHidden, requestSent, previousKey } = this.state;
+    const { user, loading, isHidden, requestSent } = this.state;
 
     return (
       <div>
@@ -242,14 +207,8 @@ class UserItem extends Component {
           <span>
             <button
               onClick={() => {
-                {
-                  /* if (this.checkPendingRequests() === true){ */
-                }
                 this.removeConnectionRequest();
                 this.toggleHidden();
-                {
-                  /* } */
-                }
               }}
             >
               Remove Connection Request
@@ -272,14 +231,8 @@ class UserItem extends Component {
               <button
                 type="submit"
                 onClick={() => {
-                  {
-                    /*if (this.checkPendingRequests() === false) { */
-                  }
                   this.sendConnectionRequest();
                   this.toggleHidden();
-                  {
-                    /* }  */
-                  }
                 }}
               >
                 Send Connection Request
@@ -293,3 +246,37 @@ class UserItem extends Component {
 }
 
 export default withFirebase(UserItem);
+
+/* 
+this.props.firebase.auth.onAuthStateChanged((authUser) => {
+    if(authUser) {
+      const sender = this.props.firebase.auth.currentUser;
+    const receiverId = this.props.match.params.id;
+    const currentSenderId = sender.uid;
+    console.log("checkin 1")
+
+this.props.firebase.userPendingConnections(currentSenderId)
+      .once("value").then((snapshot)=> {
+        const requestObj = snapshot.val();
+        if(requestObj) {
+          for (const pendingConnectionId in requestObj) {
+            if (requestObj.hasOwnProperty(pendingConnectionId)) {
+              const pendingConnection = requestObj[pendingConnectionId];
+              const checkReceiverId = pendingConnection.receiverId;
+              if (checkReceiverId=== receiverId) {
+                this.setState({requestSent:false});
+                console.log("checkin 2")
+              } else {
+                this.setState({requestSent:false})
+                console.log("checkin 3")
+              }
+            }
+          }
+        } else {
+          this.setState({requestSent:false})
+          console.log("checkin 4")
+        }
+      })
+      }
+    })
+    */
