@@ -38,7 +38,7 @@ const App = () => (
       <Route path={ROUTES.USERS} component={UsersDisplayPage} />
       <Route path = {ROUTES.EDIT_PROFILE} component={ModifyProfile}/>
       <Route path = {ROUTES.OPPORTUNITIES} component={OpportunityPage}/>
-      <Route path = {ROUTES.CONNECTION_REQUESTS} component={ConnectionPage}/>
+      <Route path = {ROUTES.CONNECTIONS} component={ConnectionPage}/>
       
     </div>
   

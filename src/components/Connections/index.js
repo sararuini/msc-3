@@ -1,18 +1,19 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import ConnectionRequests from './ConnectionRequests';
-
+//import UserConnections from './UserConnections'
 import { compose } from "recompose";
 import {
   withAuthorization,
   withEmailVerification,
 } from "../Session";
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../constants/routes';
 
 
 
 const ConnectionPage = () => (
     <div>
-      Your Connection Requests
+      Your connection requests
        <ConnectionRequests />
       
     </div>

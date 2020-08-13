@@ -32,7 +32,7 @@ class ConnectionRequestItem extends Component {
                   {connectionRequest.senderId}
                 </Link>
            <span> would like to connect with you </span>
-           <button onClick={acceptConnectionRequest}> Accept</button>
+           <button onClick={() => acceptConnectionRequest(connectionRequest.uid)}> Accept</button>
            <button onClick={() => declineConnectionRequest(connectionRequest.uid)}> Decline</button>
          </span>  
       )}

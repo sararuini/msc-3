@@ -22,6 +22,8 @@ export const SETTINGS = "/settings";
 //export const CHAT = "chats/:id";
 
 // connections
+export const CONNECTIONS = "/connections"
+export const USER_CONNECTIONS = "/connections/my_connections"
 export const CONNECTION_REQUESTS = "/connections/connection_requests"
 
 //opportunities

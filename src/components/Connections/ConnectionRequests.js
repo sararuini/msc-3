@@ -10,31 +10,12 @@ class ConnectionRequests extends Component {
 
     this.state = {
       connectionRequests: [],
+      connectionUser: "",
+      currentUser: "",
       limit: 5,
       loading: false,
     };
   }
-  /*
-  listenForConnectionRequests = () => {
-    this.props.firebase.auth.onAuthStateChanged((authUser) => {
-      if(authUser) {
-      this.setState({ loading: true });
-      const currentUser = this.props.firebase.auth.currentUser;
-      const currentUserId = currentUser.uid;
-        
-      this.props.firebase.
-      pendingConnections()
-      .limitToLast(this.state.limit)
-      .on("value", (snapshot) => {
-        const requestObject = snapshot.val();
-        if (requestObject) {
-          console.log(requestObject)
-        }
-      })
-      }  
-    })
-  }
-  */
 
   listenForConnectionRequests = () => {
     this.setState({ loading: true });
@@ -81,28 +62,68 @@ class ConnectionRequests extends Component {
   }
 */
     
-  acceptConnectionRequest = () => {
-    console.log("accept")
-    /*
-    const receiverId = ""
-    const senderId = ""
+  acceptConnectionRequest = uid => {
+    console.log("accept 1 ")
+    
+      this.props.firebase.pendingConnection(uid).on("value", snapshot => {
+         const receiver = snapshot.val().receiverId
+         const sender = snapshot.val().senderId
+         console.log("receiver " +receiver)
+         console.log("sender " + sender)
+         this.setState({connectionUser: sender, currentUser: receiver})
 
+         const reference = this.props.firebase.connections().push(
+          {
+            userA: this.state.connectionUser,
+            userB: this.state.currentUser,
+            createdAt: this.props.firebase.serverValue.TIMESTAMP,
+          }
+         )
+      const refKey = reference.key
+
+      console.log(refKey)
+      
+      console.log("finito")
+      })
+
+      
+ 
+
+    /*
     this.props.firebase.pendingConnection(uid).once("value").then((snapshot)=> {
       const obj = snapshot.val();
-
-      receiverId = obj.receiverId
-      senderId = obj.senderId
+      receiverId = obj.receiverId;
+      senderId = obj.senderId;
+      console.log("receiver " + receiverId)
+    console.log("sender " + senderId)
     })
 
-    console.log("accept 1")
-    const ref = this.props.firebase.userConnections().push()
-    const keyRef = ref.key
+    
+    console.log("accept 2")
+    const ref = this.props.firebase.connections().push()
+    const refKey = ref.key;
 
     ref.set({
-        user1: receiverId,
-        user2: senderId,
-        createdAt: this.props.firebase.serverValue.TIMESTAMP,
-      })
+      user1: receiverId,
+      user2: senderId,
+      createdAt: this.props.firebase.serverValue.TIMESTAMP,
+    })
+
+    console.log("accept 3")
+    this.props.firebase.userConnection(receiverId, refKey).set({
+      user: senderId,
+      friendship: true
+    })
+
+    console.log("accept 4")
+    this.props.firebase.userConnection(senderId, refKey).set({
+      user: receiverId,
+      friendship: true
+    })
+
+
+
+    console.log("accept finish")
     */
   }
  
