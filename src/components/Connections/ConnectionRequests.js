@@ -64,30 +64,40 @@ class ConnectionRequests extends Component {
     
   acceptConnectionRequest = uid => {
     console.log("accept 1 ")
-    
-      this.props.firebase.pendingConnection(uid).on("value", snapshot => {
-         const receiver = snapshot.val().receiverId
+
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if(authUser) {
+
+        const currentUser = this.props.firebase.auth.currentUser;
+        const currentUserId = currentUser.uid;
+
+      this.props.firebase.pendingConnection(uid).once("value", snapshot => {
          const sender = snapshot.val().senderId
-         console.log("receiver " +receiver)
          console.log("sender " + sender)
-         this.setState({connectionUser: sender, currentUser: receiver})
+         this.setState({connectionUser: sender})
 
          const reference = this.props.firebase.connections().push(
           {
             userA: this.state.connectionUser,
-            userB: this.state.currentUser,
+            userB: currentUserId,
             createdAt: this.props.firebase.serverValue.TIMESTAMP,
           }
+
+          
          )
+
       const refKey = reference.key
 
       console.log(refKey)
       
       console.log("finito")
+
       })
 
-      
- 
+      this.props.firebase.pendingConnection(uid).remove();
+      console.log("acrtually finito")
+    }
+    })
 
     /*
     this.props.firebase.pendingConnection(uid).once("value").then((snapshot)=> {
