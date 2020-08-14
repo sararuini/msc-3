@@ -39,9 +39,9 @@ class UserConnections extends Component {
             console.log("step 2")
             this.props.firebase.userConnection(friend, uid).remove()
             console.log("step 3")
-            this.props.firebase.connection(uid)
+            this.props.firebase.connection(uid).remove()
         })
-        this.setState({connectionToRemove: ""})
+        //this.setState({connectionToRemove: ""})
         console.log("deleted")
       }
 
