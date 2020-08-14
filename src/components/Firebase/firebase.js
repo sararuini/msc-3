@@ -86,8 +86,8 @@ class Firebase {
   // *** User API ***
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
-  userPendingConnection = (uid1, uid2)=> this.db.ref(`users/${uid1}/pendingConnections/${uid2}`)
-  userPendingConnections = uid => this.db.ref(`users/${uid}/pendingConnections`)
+  //userPendingConnection = (uid1, uid2)=> this.db.ref(`users/${uid1}/pendingConnections/${uid2}`)
+  //userPendingConnections = uid => this.db.ref(`users/${uid}/pendingConnections`)
   userConnection = (uid1, uid2)=> this.db.ref(`users/${uid1}/connections/${uid2}`)
   userConnections = uid => this.db.ref(`users/${uid}/connections`)
   userCreatedOpps = (uid) => this.db.ref(`users/${uid}/opportunities`)

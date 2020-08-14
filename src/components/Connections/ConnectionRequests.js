@@ -148,6 +148,7 @@ class ConnectionRequests extends Component {
   declineConnectionRequest = (uid) => {
     console.log("uid " + uid);
     this.props.firebase.pendingConnection(uid).remove();
+    
   };
 
   onNextPage = () => {
