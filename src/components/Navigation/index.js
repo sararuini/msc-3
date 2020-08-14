@@ -40,7 +40,7 @@ const NavigationAuth = ({ authUser }) => (
        <Link to={ROUTES.USERS}>Users</Link>
     </Text>
     <Text>
-       <Link to={ROUTES.CONNECTION_REQUESTS}>Connections</Link>
+       <Link to={ROUTES.CONNECTIONS}>Connections</Link>
     </Text>
   
       <SignOutButton />

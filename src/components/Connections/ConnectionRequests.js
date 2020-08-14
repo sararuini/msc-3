@@ -19,7 +19,7 @@ class ConnectionRequests extends Component {
 
   listenForConnectionRequests = () => {
     this.setState({ loading: true });
-
+    console.log("loading your connection rqst")
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
@@ -57,11 +57,10 @@ class ConnectionRequests extends Component {
     this.listenForConnectionRequests();
   };
 
-  /*
-  componentWillUnmount() {
-    this.props.firebase.connectionRequests().off();
+  
+  componentWillUnmount = () => {
+    this.props.firebase.pendingConnections().off();
   }
-*/
 
   acceptConnectionRequest = (uid) => {
     console.log("accept 1 ");
@@ -178,7 +177,7 @@ class ConnectionRequests extends Component {
 
             {!loading && connectionRequests && (
               <button type="button" onClick={this.onNextPage}>
-                More
+                View more connection requests
               </button>
             )}
 
