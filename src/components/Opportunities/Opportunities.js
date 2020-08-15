@@ -20,7 +20,7 @@ class Opportunities extends Component {
       savedOpportunity: false,
       loading: false,
       opportunities: [],
-      limit: 5,
+      limit: 3,
     };
   }
 
@@ -123,7 +123,7 @@ class Opportunities extends Component {
 
   onNextPage = () => {
     this.setState(
-      (state) => ({ limit: state.limit + 5 }),
+      (state) => ({ limit: state.limit + 3 }),
       this.onListenForOpportunities
     );
   };
@@ -148,11 +148,7 @@ class Opportunities extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-            {!loading && opportunities && (
-              <button type="button" onClick={this.onNextPage}>
-                More
-              </button>
-            )}
+            
 
             {loading && <div>Loading ...</div>}
 
@@ -164,6 +160,13 @@ class Opportunities extends Component {
                 onRemoveOpportunity={this.onRemoveOpportunity}
               />
             )}
+            
+              {!loading && opportunities && opportunities.length > 3 &&(
+              <button type="button" onClick={this.onNextPage}>
+                More
+              </button>
+            )}
+            
 
             {!opportunities && <div>There are no opportunities ...</div>}
 

@@ -18,6 +18,7 @@ class OpportunityItem extends Component {
       editStartingDate: this.props.opportunity.startingDate,
       editContact: this.props.opportunity.contact,
       savedOpportunity: false,
+      createdBy: "",
       isHidden: true,
       loading: false,
     };
@@ -62,6 +63,7 @@ class OpportunityItem extends Component {
         oppReference.set({savedOpportunity:false})
     
   }
+
   
   onSaveEdit = () => {
     this.props.onEditOpportunity(this.props.opportunity, this.state.editTitle);
@@ -100,6 +102,21 @@ class OpportunityItem extends Component {
     })
   }
 
+  retrieveUsername = () => {
+    const opp = this.props.opportunity.uid;
+    console.log("opp "+ opp)
+    this.props.firebase.connection(opp).once("value", (snapshot) => {
+      const oppObj = snapshot.val();
+      const createdBy = oppObj.createdBy;
+      console.log("creadteb by "+ createdBy)
+      this.props.firebase.user(createdBy).on("value", (snapshot) => {
+        const userUsername = snapshot.val().username;
+        console.log("userUserna " + userUsername)
+        this.setState({ createdBy: userUsername });
+      });
+    });
+  };
+
   render() {
     const { authUser, opportunity, onRemoveOpportunity } = this.props;
     const {
@@ -113,6 +130,7 @@ class OpportunityItem extends Component {
       editStartingDate,
       editContact,
       isHidden,
+      createdBy,
     } = this.state;
 
     const isInvalid = editTitle === '' || editLocation === "" || editContact === "" || editJobType === "";
@@ -185,7 +203,7 @@ class OpportunityItem extends Component {
           <span>
             <ul>
               <label>Created by: </label>
-              <strong>{opportunity.createdBy}</strong>
+              <strong>{createdBy}</strong>
             </ul>
 
             <ul>
@@ -228,19 +246,26 @@ class OpportunityItem extends Component {
           </span>
         )}
 
-      { (authUser.uid !== opportunity.createdBy) && !isHidden ? (
+      { authUser.uid !== opportunity.createdBy && !isHidden && (
           <span>
             <button onClick={()=> {
               this.onUnsaveOpportunity();
               this.toggleHidden();
             }}>Unsave Opportunity</button>
           </span>
-        ) : (
+        )}
+
+        {isHidden && (authUser.uid !== opportunity.createdBy) && (
           <span>
             <button onClick={()=> {
               this.onSaveOpportunity();
               this.toggleHidden();
             }}>Save Opportunity</button>
+
+<button onClick={()=> {
+              this.onApplyOpportunity();
+              this.toggleHidden();
+            }}>Apply to Opportunity</button>
           </span>
         )}
 
