@@ -104,7 +104,7 @@ class UserConnections extends Component {
               />
             )}
 
-            {!loading && connections && (
+            {!loading && connections && connections.length > 10 && (
               <button type="button" onClick={this.onNextPage}>
                 View more connections
               </button>

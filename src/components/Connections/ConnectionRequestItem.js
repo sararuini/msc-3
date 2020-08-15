@@ -11,7 +11,8 @@ class ConnectionRequestItem extends Component {
 
     this.state = {
       loading: false,
-      connectionRequestUsername: "",
+      senderUsername: "",
+      receiverUsername: "",
     }
   }
 
@@ -28,25 +29,24 @@ class ConnectionRequestItem extends Component {
       const connectionRqstObj = snapshot.val();
       const receiver = connectionRqstObj.receiverId;
       const sender = connectionRqstObj.senderId;
-      let selectedUser = "";
+      
+      this.props.firebase.user(receiver).on("value", (snapshot) => {
+        const receiverUsername = snapshot.val().username;
+        console.log("receiver usnm " + receiverUsername)
+        this.setState({ receiverUsername: receiverUsername });
+      });
 
-      if (this.props.firebase.auth.currentUser.uid === receiver) {
-        selectedUser = sender;
-      } else if (this.props.firebase.auth.currentUser.uid === sender) {
-        selectedUser = receiver;
-      }
-      console.log("selected" + selectedUser)
-      this.props.firebase.user(selectedUser).on("value", (snapshot) => {
-        const userUsername = snapshot.val().username;
-        console.log("userUserna " + userUsername)
-        this.setState({ connectionRequestUsername: userUsername });
+      this.props.firebase.user(sender).on("value", (snapshot) => {
+        const senderUsername = snapshot.val().username;
+        console.log("sender Usnm " + senderUsername)
+        this.setState({ senderUsername: senderUsername });
       });
     });
   };
 
   render() {
-    const { authUser, connectionRequest, acceptConnectionRequest, declineConnectionRequest} = this.props;
-    const {connectionRequestUsername} = this.state;
+    const { authUser, connectionRequest, acceptConnectionRequest, declineConnectionRequest, deleteConnectionRequest} = this.props;
+    const {senderUsername, receiverUsername} = this.state;
     return ( 
       <div>
          { authUser.uid === connectionRequest.receiverId && (
@@ -56,11 +56,25 @@ class ConnectionRequestItem extends Component {
                     pathname: `${ROUTES.USERS}/${connectionRequest.senderId}`,
                   }}
                 > 
-                  {connectionRequestUsername}
+                  {senderUsername}
                 </Link>
            <span> would like to connect with you </span>
-           <button onClick={() => acceptConnectionRequest(connectionRequest.uid)}> Accept</button>
-           <button onClick={() => declineConnectionRequest(connectionRequest.uid)}> Decline</button>
+           <button onClick={() => acceptConnectionRequest(connectionRequest.uid)}> Accept Connection Request</button>
+           <button onClick={() => declineConnectionRequest(connectionRequest.uid)}> Decline Connection Request</button>
+         </span>  
+      )}
+
+{ authUser.uid === connectionRequest.senderId && (
+         <span>
+           <span> You sent a connection request to: </span>
+           <Link
+                  to={{
+                    pathname: `${ROUTES.USERS}/${connectionRequest.receiverId}`,
+                  }}
+                > 
+                  {receiverUsername}
+                </Link>
+           <button onClick={() => deleteConnectionRequest(connectionRequest.uid)}> Delete Connection Request</button>
          </span>  
       )}
       </div>      

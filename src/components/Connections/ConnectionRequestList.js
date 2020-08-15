@@ -6,6 +6,7 @@ const ConnectionRequestList = ({
   connectionRequests,
   acceptConnectionRequest,
   declineConnectionRequest,
+  deleteConnectionRequest,
 }) => (
   <ul>
     {connectionRequests.map(connectionRequest => (
@@ -15,6 +16,7 @@ const ConnectionRequestList = ({
         connectionRequest={connectionRequest}
         acceptConnectionRequest={acceptConnectionRequest}
         declineConnectionRequest={declineConnectionRequest}
+        deleteConnectionRequest= {deleteConnectionRequest}
       />
     ))}
   </ul>

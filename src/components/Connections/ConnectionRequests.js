@@ -101,9 +101,6 @@ class ConnectionRequests extends Component {
 
         this.props.firebase.pendingConnection(uid).remove();
         console.log("acrtually finito");
-
-
-
       }
     });
   };
@@ -114,13 +111,17 @@ class ConnectionRequests extends Component {
     
   };
 
+  deleteConnectionRequest = (uid) => {
+    console.log("deleted connection requests")
+    console.log("uid " + uid);
+    this.props.firebase.pendingConnection(uid).remove();
+  }
+
   onNextPage = () => {
-    if (this.state.requestNumber > 5) {
       this.setState(
         (state) => ({ limit: state.limit + 5 }),
         this.listenForConnectionRequests
       );
-    }
   };
 
   render() {
@@ -138,10 +139,12 @@ class ConnectionRequests extends Component {
                 connectionRequests={connectionRequests}
                 acceptConnectionRequest={this.acceptConnectionRequest}
                 declineConnectionRequest={this.declineConnectionRequest}
+                deleteConnectionRequest={this.deleteConnectionRequest}
+
               />
             )}
 
-            {!loading && connectionRequests && (
+            {!loading && connectionRequests && connectionRequests.length > 5 && (
               <button type="button" onClick={this.onNextPage}>
                 View more connection requests
               </button>
