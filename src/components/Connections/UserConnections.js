@@ -41,7 +41,6 @@ class UserConnections extends Component {
             console.log("step 3")
             this.props.firebase.connection(uid).remove()
         })
-        //this.setState({connectionToRemove: ""})
         console.log("deleted")
       }
 
@@ -88,6 +87,7 @@ class UserConnections extends Component {
           this.loadUserConnections
         );
       };
+      
     render(){
         const { connections, loading } = this.state;
         return(

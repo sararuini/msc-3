@@ -14,7 +14,11 @@ class UserList extends Component {
     };
   }
 
-  componentDidMount() {
+  isFriend  = () => {
+
+  }
+
+  componentDidMount(){
     this.setState({ loading: true });
 
     this.props.firebase.users().on('value', snapshot => {

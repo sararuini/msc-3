@@ -10,75 +10,120 @@ class UserItem extends Component {
     this.state = {
       loading: false,
       user: null,
-      requestSent: false,
+      username: "",
+      pendingConnection: false,
       existingFriendship: false,
+      previousKey: "",
+      isUserPage: false,
       timestamp: "",
-      isHidden: true,
+      //isHidden: true,
       ...props.location.state,
     };
   }
 
+  /*
   toggleHidden = () => {
     this.setState({
       isHidden: !this.state.isHidden,
     });
   };
+  */
 
-  componentDidMount() {
-    if (this.state.user) {
-      return;
-    }
-
-    this.setState({ loading: true });
-
+  componentDidMount () {
+    // checks if the two users involved are connections already
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
-        const receiverId = this.props.match.params.id;
-        const currentSenderId = currentUser.uid;
+        const userProfileId = this.props.match.params.id;
+        const currentUserId = currentUser.uid;
 
-        this.props.firebase.userConnections(currentSenderId).once("value").then((snapshot)=> {
-          const connectionObj = snapshot.val();
-          console.log("connection obj" +connectionObj)
-          if (connectionObj) {
-            for (const connectionObjId in connectionObj) {
-              if (connectionObj.hasOwnProperty(connectionObjId)) {
-                console.log("connection id " +  connectionObjId)
-                const connection = connectionObj[connectionObjId]
-                const connectedUser = connection.user;
+        if (userProfileId === currentUserId) {
+          this.setState({
+            isUserPage: true,
+          });
+          console.log("isUserPage " + this.state.isUserPage);
+        }
 
-                console.log("connected user " +connectedUser)
-                if (receiverId === connectedUser) {
-                  this.setState({existingFriendship: true})
+        this.props.firebase
+          .userConnections(currentUserId)
+          .once("value")
+          .then((snapshot) => {
+            const connectionObj = snapshot.val();
+            console.log("connection obj" + connectionObj);
+            if (connectionObj) {
+              for (const connectionObjId in connectionObj) {
+                if (connectionObj.hasOwnProperty(connectionObjId)) {
+                  console.log("connection id " + connectionObjId);
+                  const connection = connectionObj[connectionObjId];
+                  const connectedUser = connection.user;
+
+                  console.log("connected user " + connectedUser);
+                  if (userProfileId === connectedUser) {
+                    this.setState({ existingFriendship: true });
+                  }
                 }
               }
             }
-          } else {
-            this.setState({requestSent:false})
+          });
+
+        // checks if either sender or receiver has sent a connection request
+        this.props.firebase
+          .pendingConnections()
+          .once("value")
+          .then((snapshot) => {
+            const pendingConnectionObj = snapshot.val();
+            console.log("pending obj " + pendingConnectionObj);
+            if (pendingConnectionObj) {
+              for (const pendingConnectionObjId in pendingConnectionObj) {
+                if (
+                  pendingConnectionObj.hasOwnProperty(pendingConnectionObjId)
+                ) {
+                  console.log("pending connection id" + pendingConnectionObjId);
+                  const pendingConnection =
+                    pendingConnectionObj[pendingConnectionObjId];
+                  const receiver = pendingConnection.receiverId;
+                  const sender = pendingConnection.senderId;
+                  console.log("pending receiver" + receiver);
+                  console.log("pending sender" + sender);
+
+                  if (currentUserId === sender || currentUserId === receiver) {
+                    this.setState({ pendingConnection: true });
+                  }
+                  // accept and decline buttons here
+
+                  /*
+                if (currentUserId === receiver || currentUserId === sender){
+                  this.setState({pendingConnection: true})
+                  if (currentUserId === sender) {
+                    this.setState({requestSent: true})
+                  } else if ( currentUserId === receiver) {
+                    console.log("accept/decline buttons here")
+                  }
+                } 
+                */
+                }
+              }
+            }
+          });
+
+          if (this.state.user) {
+            return;
           }
-        })
+          this.setState({ loading: true });
+        this.props.firebase
+          .user(this.props.match.params.id)
+          .on("value", (snapshot) => {
+            this.setState({
+              user: snapshot.val(),
+              loading: false,
+            });
+            console.log("this.state.user" + this.state.user);
+            console.log("this.state.user" + currentUser);
+            
+          });
       }
     });
-
-    this.loadUser();
   }
-  loadUser = () => {
-    this.props.firebase
-      .user(this.props.match.params.id)
-      .on("value", (snapshot) => {
-        this.setState({
-          user: snapshot.val(),
-          loading: false,
-        });
-      });
-  }
-  /*
-  componentDidUpdate(prevProps, prevState) {
-    if(prevState.requestSent !== this.state.requestSent) {
-      this.fetchData(prevState.requestSent);
-    }
-  }
-  */
 
   componentWillUnmount() {
     this.props.firebase.user(this.props.match.params.id).off();
@@ -91,50 +136,28 @@ class UserItem extends Component {
     const newRef = this.props.firebase.pendingConnections().push();
     const newRefKey = newRef.key;
 
-    if (this.state.requestSent === false) {
+    if (this.state.pendingConnection === false) {
       newRef.set({
         senderId: senderId,
         createdAt: this.props.firebase.serverValue.TIMESTAMP,
         receiverId: receiverId,
       });
 
-      this.setState({ previousKey: newRefKey, requestSent: true });
-
-      /*
-      this.props.firebase.userPendingConnections(receiverId, newRefKey).set({
-        senderId: senderId,
-        createdAt: this.state.timestamp,
-        receiverId: receiverId,
-      })
-
-      this.props.firebase.userPendingConnections(senderId, newRefKey).set({
-        senderId: senderId,
-        createdAt: this.state.timestamp,
-        receiverId: receiverId,
-      })
-      */
-
+      this.setState({ previousKey: newRefKey, pendingConnection: true });
       console.log("request sent");
       console.log(newRefKey);
     }
   };
 
-  removeConnectionRequest() {
-    const receiverId = this.props.match.params.id;
-    const sender = this.props.firebase.auth.currentUser;
-    const senderId = sender.uid;
-
-    const refKey = this.state.previousKey;
-    console.log(refKey);
-    this.props.firebase.pendingConnection(refKey).remove();
-    //this.props.firebase.userPendingConnection(receiverId, refKey);
-    //this.props.firebase.userPendingConnection(senderId, refKey);
-    this.setState({ requestSent: false });
-    console.log("request removed");
-  }
-
   render() {
-    const { user, loading, isHidden, requestSent, existingFriendship} = this.state;
+    const {
+      user,
+      loading,
+      //sHidden,
+      existingFriendship,
+      pendingConnection,
+      isUserPage,
+    } = this.state;
 
     return (
       <div>
@@ -242,23 +265,12 @@ class UserItem extends Component {
           </View>
         )}
 
-        {!isHidden && requestSent === true && existingFriendship === false && (
-          <span>
-            <button
-              onClick={() => {
-                this.removeConnectionRequest();
-                this.toggleHidden();
-              }}
-            >
-              Remove Connection Request
-            </button>
-          </span>
-        )}
-
-        {isHidden && requestSent == false && existingFriendship === false && (
-          <span>
-            <form>
-              {/*
+        {existingFriendship === false &&
+          pendingConnection === false &&
+          isUserPage === false && (
+            <span>
+              <form>
+                {/*
               <input
                 type="text"
                 value={requestMessage}
@@ -267,18 +279,18 @@ class UserItem extends Component {
                 onChange={this.writeRequestMessage}
               />
                */}
-              <button
-                type="submit"
-                onClick={() => {
-                  this.sendConnectionRequest();
-                  this.toggleHidden();
-                }}
-              >
-                Send Connection Request
-              </button>
-            </form>
-          </span>
-        )}
+                <button
+                  type="submit"
+                  onClick={() => {
+                    this.sendConnectionRequest();
+                    //this.toggleHidden();
+                  }}
+                >
+                  Send Connection Request
+                </button>
+              </form>
+            </span>
+          )}
       </div>
     );
   }

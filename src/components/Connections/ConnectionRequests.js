@@ -106,43 +106,6 @@ class ConnectionRequests extends Component {
 
       }
     });
-
-    /*
-    this.props.firebase.pendingConnection(uid).once("value").then((snapshot)=> {
-      const obj = snapshot.val();
-      receiverId = obj.receiverId;
-      senderId = obj.senderId;
-      console.log("receiver " + receiverId)
-    console.log("sender " + senderId)
-    })
-
-    
-    console.log("accept 2")
-    const ref = this.props.firebase.connections().push()
-    const refKey = ref.key;
-
-    ref.set({
-      user1: receiverId,
-      user2: senderId,
-      createdAt: this.props.firebase.serverValue.TIMESTAMP,
-    })
-
-    console.log("accept 3")
-    this.props.firebase.userConnection(receiverId, refKey).set({
-      user: senderId,
-      friendship: true
-    })
-
-    console.log("accept 4")
-    this.props.firebase.userConnection(senderId, refKey).set({
-      user: receiverId,
-      friendship: true
-    })
-
-
-
-    console.log("accept finish")
-    */
   };
 
   declineConnectionRequest = (uid) => {
@@ -152,10 +115,12 @@ class ConnectionRequests extends Component {
   };
 
   onNextPage = () => {
-    this.setState(
-      (state) => ({ limit: state.limit + 5 }),
-      this.listenForConnectionRequests
-    );
+    if (this.state.requestNumber > 5) {
+      this.setState(
+        (state) => ({ limit: state.limit + 5 }),
+        this.listenForConnectionRequests
+      );
+    }
   };
 
   render() {

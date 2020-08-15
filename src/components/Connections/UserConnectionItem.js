@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import { withFirebase } from '../Firebase';
-import * as ROUTES from '../../constants/routes';
+import { withFirebase } from "../Firebase";
+import * as ROUTES from "../../constants/routes";
 
 class UserConnectionItem extends Component {
   constructor(props) {
@@ -11,30 +11,66 @@ class UserConnectionItem extends Component {
 
     this.state = {
       loading: false,
-    }
+      connectionUsername: "",
+    };
   }
 
-  render() {
-    const { authUser, connection, deleteConnection} = this.props;
+  componentDidMount = () => {
+    this.setState({loading: true})
+    this.retrieveUsername()
+    this.setState({loading: false})
+  }
 
+  retrieveUsername = () => {
+    const thisConnection = this.props.connection.uid;
+    console.log("thisConnection " + thisConnection)
+    this.props.firebase.connection(thisConnection).once("value", (snapshot) => {
+      const connectionObj = snapshot.val();
+      const userA = connectionObj.userA;
+      const userB = connectionObj.userB;
+      let selectedUser = "";
+
+      if (this.props.firebase.auth.currentUser.uid === userA) {
+        selectedUser = userB;
+      } else if (this.props.firebase.auth.currentUser.uid === userB) {
+        selectedUser = userA;
+      }
+      console.log("selected" + selectedUser)
+      this.props.firebase.user(selectedUser).on("value", (snapshot) => {
+        const userUsername = snapshot.val().username;
+        console.log("userUserna " + userUsername)
+        this.setState({ connectionUsername: userUsername });
+      });
+    });
+  };
+  render() {
+    const {
+      authUser,
+      connection,
+      deleteConnection,
+    } = this.props;
+    
+    const 
+    {connectionUsername} = this.state;
     return (
       <div>
-         { authUser && (
-         <span>
-           <span>Connection id: {connection.uid}</span>
-           <span> Your connection is</span>
-           <Link
-                  to={{
-                    pathname: `${ROUTES.USERS}/${connection.user}`,
-                    //state: { user },
-                  }}
-                > 
-                  {connection.user}
-                </Link>
-           <button onClick={() => deleteConnection(connection.uid)}> Delete Connection</button>
-         </span>  
-      )}
-      </div>      
+        {authUser && (
+          <span>
+            <Link
+              to={{
+                pathname: `${ROUTES.USERS}/${connection.user}`,
+                //state: { user },
+              }}
+            >
+              {connectionUsername}
+            </Link>
+            <button onClick={() => deleteConnection(connection.uid)}>
+              {" "}
+              Delete Connection
+            </button>
+          </span>
+        )}
+      </div>
     );
   }
 }

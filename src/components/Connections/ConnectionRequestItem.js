@@ -11,25 +11,52 @@ class ConnectionRequestItem extends Component {
 
     this.state = {
       loading: false,
+      connectionRequestUsername: "",
     }
   }
 
+  componentDidMount = () => {
+    this.setState({loading: true})
+    this.retrieveUsername()
+    this.setState({loading: false})
+  }
+
+  retrieveUsername = () => {
+    const thisConnectionRequest = this.props.connectionRequest.uid;
+    console.log("thisConnection " + thisConnectionRequest)
+    this.props.firebase.pendingConnection(thisConnectionRequest).once("value", (snapshot) => {
+      const connectionRqstObj = snapshot.val();
+      const receiver = connectionRqstObj.receiverId;
+      const sender = connectionRqstObj.senderId;
+      let selectedUser = "";
+
+      if (this.props.firebase.auth.currentUser.uid === receiver) {
+        selectedUser = sender;
+      } else if (this.props.firebase.auth.currentUser.uid === sender) {
+        selectedUser = receiver;
+      }
+      console.log("selected" + selectedUser)
+      this.props.firebase.user(selectedUser).on("value", (snapshot) => {
+        const userUsername = snapshot.val().username;
+        console.log("userUserna " + userUsername)
+        this.setState({ connectionRequestUsername: userUsername });
+      });
+    });
+  };
+
   render() {
     const { authUser, connectionRequest, acceptConnectionRequest, declineConnectionRequest} = this.props;
-
-    return (
+    const {connectionRequestUsername} = this.state;
+    return ( 
       <div>
          { authUser.uid === connectionRequest.receiverId && (
          <span>
-           <span>Connection request: {connectionRequest.uid}</span>
-           <span> Sender</span>
            <Link
                   to={{
                     pathname: `${ROUTES.USERS}/${connectionRequest.senderId}`,
-                    //state: { user },
                   }}
                 > 
-                  {connectionRequest.senderId}
+                  {connectionRequestUsername}
                 </Link>
            <span> would like to connect with you </span>
            <button onClick={() => acceptConnectionRequest(connectionRequest.uid)}> Accept</button>
