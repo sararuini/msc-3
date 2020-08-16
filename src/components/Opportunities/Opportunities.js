@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { AuthUserContext } from "../Session";
 import { withFirebase } from "../Firebase";
 import OpportunityList from "./OpportunityList";
+import SavedOpportunities from "./SavedOpportunities";
 
 class Opportunities extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class Opportunities extends Component {
       startingDate: "",
       contact: "",
       savedOpportunity: false,
+      appliedOpportunity: false,
       loading: false,
       opportunities: [],
       limit: 3,
@@ -148,27 +150,7 @@ class Opportunities extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-            
-
             {loading && <div>Loading ...</div>}
-
-            {opportunities && (
-              <OpportunityList
-                authUser={authUser}
-                opportunities={opportunities}
-                onEditOpportunity={this.onEditOpportunity}
-                onRemoveOpportunity={this.onRemoveOpportunity}
-              />
-            )}
-            
-              {!loading && opportunities && opportunities.length > 3 &&(
-              <button type="button" onClick={this.onNextPage}>
-                More
-              </button>
-            )}
-            
-
-            {!opportunities && <div>There are no opportunities ...</div>}
 
             <form
               onSubmit={(event) => this.onCreateOpportunity(event, authUser)}
@@ -236,6 +218,29 @@ class Opportunities extends Component {
                 Publish
               </button>
             </form>
+
+            <span> Current Opportunities: </span>
+            {opportunities && (
+              <OpportunityList
+                authUser={authUser}
+                opportunities={opportunities}
+                onEditOpportunity={this.onEditOpportunity}
+                onRemoveOpportunity={this.onRemoveOpportunity}
+              />
+            )}
+
+            {!loading && opportunities && opportunities.length > 3 && (
+              <button type="button" onClick={this.onNextPage}>
+                More
+              </button>
+            )}
+
+            {!opportunities && <div>There are no opportunities ...</div>}
+
+            <span>
+              <h2> Your Saved Opportunities: </h2>
+              <SavedOpportunities />
+            </span>
           </div>
         )}
       </AuthUserContext.Consumer>

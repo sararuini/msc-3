@@ -86,11 +86,12 @@ class Firebase {
   // *** User API ***
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
-  //userPendingConnection = (uid1, uid2)=> this.db.ref(`users/${uid1}/pendingConnections/${uid2}`)
-  //userPendingConnections = uid => this.db.ref(`users/${uid}/pendingConnections`)
   userConnection = (uid1, uid2)=> this.db.ref(`users/${uid1}/connections/${uid2}`)
   userConnections = uid => this.db.ref(`users/${uid}/connections`)
-  userCreatedOpps = (uid) => this.db.ref(`users/${uid}/opportunities`)
+  userSavedOpportunities = (uid) => this.db.ref(`users/${uid}/savedOpportunities`)
+  userAppliedOpportunities = (uid) => this.db.ref(`users/${uid}/appliedOpportunities`)
+  userSavedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/savedOpportunities/${oid}`)
+  userAppliedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/appliedOpportunities/${oid}`)
   userCreatedOpp = (uid, oid) => this.db.ref(`users/${uid}/opportunities/${oid}`)
   
   // *** Timeline Posts API ***
@@ -100,6 +101,10 @@ class Firebase {
   //***  Opportunity API ***/
   opportunity = uid => this.db.ref(`opportunities/${uid}`);
   opportunities = () => this.db.ref('opportunities');
+  savedOpportunity = uid => this.db.ref(`savedOpportunities/${uid}`);
+  appliedOpportunity = uid => this.db.ref(`appliedOpportunities/${uid}`);
+  savedOpportunities = () => this.db.ref(`savedOpportunities/`);
+  appliedOpportunity = () => this.db.ref(`appliedOpportunities/`);
 
   // ** Connections API *** /
   connection = uid =>  this.db.ref(`connections/${uid}`);

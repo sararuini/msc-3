@@ -29,20 +29,16 @@ class SavedOpportunityItem extends Component {
       <div>
         {authUser && (
           <span>
-            <span>{connectionUsername}</span>
-            <Link
-              to={{
-                pathname: `${ROUTES.USERS}/${connection.user}`,
-                //state: { user },
-              }}
-            >
-             {connection.user}
-            </Link>
-            <button onClick={() => deleteConnection(connection.uid)}>
-              {" "}
-              Delete Connection
-            </button>
-          </span>
+            <ul> Opportunity code: {savedOpportunity.uid} </ul>
+            <ul> Title: {savedOpportunity.title}</ul>
+            <ul> Contact Details: {savedOpportunity.contact}</ul>
+            <ul> Description: {savedOpportunity.description}</ul>
+            <ul> Job Type: {savedOpportunity.jobType} </ul>
+            <ul> Job Tags: {savedOpportunity.jobTags}</ul>
+            <ul> Location: {savedOpportunity.location}</ul>
+            <ul> Salary: {savedOpportunity.salary} </ul>
+            <ul> Starting Date: {savedOpportunity.startingDate}</ul>
+         </span>
         )}
       </div>
     );

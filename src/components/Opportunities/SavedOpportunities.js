@@ -1,44 +1,94 @@
-import React from 'react';
+import React, { Component } from "react";
+import { withFirebase } from "../Firebase";
+import { AuthUserContext } from "../Session";
+import SavedOpportunityList from "./SavedOpportunityList";
 
-import OpportunityItem from './OpportunityItem';
-import { render } from 'node-sass';
+class SavedOpportunities extends Component {
+  constructor(props) {
+    super(props);
 
-const OpportunityPage = () => (
-    <div>
-      <Opportunities />
-      
-    </div>
-  );
+    this.state = {
+      loading: false,
+      savedOpportunities: [],
+      limit: 5,
+    };
+  }
 
+  componentDidMount() {
+    this.setState({ loading: true });
+    this.loadSavedOpportunities();
+    this.setState({ loading: false });
+  }
 
-class SavedOpportunityList extends Component {
-    constructor(props){
-        super(props);
+  loadSavedOpportunities = () => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const currentUserId = currentUser.uid;
 
-        this.state= {
-            loading: false,
-            savedOpportunities: [],
-        }
+        this.props.firebase
+          .userSavedOpportunities(currentUserId)
+          .orderByChild("savedAt")
+          .limitToLast(this.state.limit)
+          .on("value", (snapshot) => {
+            const savedOpportunityObj = snapshot.val();
 
-        componentDidMount(){
-            this.setState({loading: true});
+            if (savedOpportunityObj) {
+              const savedOpportunityList = Object.keys(savedOpportunityObj).map(
+                (key) => ({
+                  ...savedOpportunityObj[key],
+                  uid: key,
+                })
+              );
 
-            this.props.firebase.userCreatedOpps(this.props.authUser.uid).on('value', snapshot=> {
-                const savedOpportunity = snapshot.val().savedOpportunity;
-                const listSavedOpportunities = []
-                if (savedOpportunity){
-                    listSavedOpportunities.push(savedOpportunity);
-                }
-            })
-        }
-        render(){
-         return(
-            <div>
+              this.setState({
+                savedOpportunities: savedOpportunityList,
+              });
+            } else {
+              this.setState({ savedOpportunities: null });
+            }
+          });
+      }
+    });
+  };
 
-            </div>
-        )
-        }
-        
-    }
+  componentWillUnmount = () => {
+    this.props.firebase.userSavedOpportunities().off();
+  };
+
+  onNextPage = () => {
+    this.setState(
+      (state) => ({ limit: state.limit + 10 }),
+      this.loadUserConnections
+    );
+  };
+
+  render() {
+    const { savedOpportunities, loading } = this.state;
+    return (
+      <AuthUserContext.Consumer>
+        {(authUser) => (
+          <div>
+            {loading && <div>Loading ...</div>}
+
+            {savedOpportunities && (
+              <SavedOpportunityList
+                authUser={authUser}
+                savedOpportunities={savedOpportunities}
+              />
+            )}
+
+            {!loading && savedOpportunities && savedOpportunities.length > 5 && (
+              <button type="button" onClick={this.onNextPage}>
+                View more saved opportunities
+              </button>
+            )}
+
+            {!savedOpportunities && <div>You have no saved opportunities ...</div>}
+          </div>
+        )}
+      </AuthUserContext.Consumer>
+    );
+  }
 }
-export default SavedOpportunities;
+export default withFirebase(SavedOpportunities);

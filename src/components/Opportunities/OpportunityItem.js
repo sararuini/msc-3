@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 
 import { withFirebase } from "../Firebase";
+
+import { Link } from 'react-router-dom';
+
+import * as ROUTES from '../../constants/routes';
 import { View, Text, Button } from "react-native-web";
 
 class OpportunityItem extends Component {
@@ -18,12 +22,60 @@ class OpportunityItem extends Component {
       editStartingDate: this.props.opportunity.startingDate,
       editContact: this.props.opportunity.contact,
       savedOpportunity: false,
+      savedAt: "",
+      appliedAt: "",
+      appliedOpportunity: false,
       createdBy: "",
-      isHidden: true,
+      opportunityKey: "",
+      opportunityCreator: "",
+      //isHiddenSaved: true,
+      //isHiddenApplied: true,
+      hasApplied: false,
+      hasSaved: false,
       loading: false,
     };
   }
 
+  componentDidMount() {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const currentUserId = currentUser.uid;
+        // check for existing applied opportunities
+        this.props.firebase
+          .userSavedOpportunities(currentUserId)
+          .once("value")
+          .then((snapshot) => {
+            const savedOpportunityObj = snapshot.val();
+            if (savedOpportunityObj) {
+              for (const savedOpportunityId in savedOpportunityObj) {
+                if (savedOpportunityObj.hasOwnProperty(savedOpportunityId)) {
+                  this.setState({ hasSaved: true });
+                  console.log("has saved" + savedOpportunityId);
+                }
+              }
+            }
+          });
+
+          this.props.firebase
+          .userAppliedOpportunities(currentUserId)
+          .once("value")
+          .then((snapshot) => {
+            const appliedOpportunityObj = snapshot.val();
+            if (appliedOpportunityObj) {
+              for (const appliedOpportunityId in appliedOpportunityObj) {
+                if (appliedOpportunityObj.hasOwnProperty(appliedOpportunityId)) {
+                  this.setState({ hasApplied: true });
+                  console.log("has saved" + appliedOpportunityId);
+                }
+              }
+            }
+          });
+
+      }
+      this.retrieveUsername();
+    });
+  }
   onToggleEditMode = () => {
     this.setState((state) => ({
       editMode: !state.editMode,
@@ -37,34 +89,13 @@ class OpportunityItem extends Component {
       editContact: this.props.opportunity.contact,
     }));
   };
-  
+
   onChangeEdit = (event) => {
     if (event.target.name !== "editSavedOpportunity") {
       this.setState({ [event.target.name]: event.target.value });
     }
-    
   };
 
-  onSaveOpportunity = () => {
-    const userUid = this.props.authUser.uid;
-    const opportunityId = this.props.opportunity.uid;
-   
-    const oppReference = this.props.firebase
-      .userCreatedOpp(userUid, opportunityId)
-        oppReference.set({savedOpportunity:true})
-  }
-
-  onUnsaveOpportunity = () => {
-    const userUid = this.props.authUser.uid;
-    const opportunityId = this.props.opportunity.uid
-   
-    const oppReference = this.props.firebase
-      .userCreatedOpp(userUid, opportunityId)
-        oppReference.set({savedOpportunity:false})
-    
-  }
-
-  
   onSaveEdit = () => {
     this.props.onEditOpportunity(this.props.opportunity, this.state.editTitle);
     this.props.onEditOpportunity(
@@ -96,23 +127,106 @@ class OpportunityItem extends Component {
     this.setState({ editMode: false });
   };
 
-  toggleHidden = () => {
+  onSaveOpportunity = (uid) => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const userUid = currentUser.uid;
+        console.log("saved 1 " + uid);
+
+        const oppReference = this.props.firebase.userSavedOpportunity(
+          userUid,
+          uid
+        );
+        oppReference.set({
+          savedAt: this.props.firebase.serverValue.TIMESTAMP,
+          saved: true,
+        });
+
+        this.props.firebase.savedOpportunity(uid).set({
+          [userUid]: true,
+        });
+
+        console.log("saved 2");
+        this.setState({ hasSaved: true });
+      }
+    });
+  };
+
+  onUnsaveOpportunity = (uid) => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const userUid = currentUser.uid;
+        console.log("unsaved " + uid);
+        this.props.firebase.userSavedOpportunity(userUid, uid).remove();
+        this.props.firebase.savedOpportunity(uid).set({
+          [userUid]: false,
+        });
+      }
+      this.setState({ hasSaved: false });
+    });
+  };
+
+  onApplyToOpportunity = (uid) => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const userUid = currentUser.uid;
+        console.log("applied " + uid);
+        const ref = this.props.firebase
+          .userAppliedOpportunity(userUid, uid)
+          .set({
+            appliedAt: this.props.firebase.serverValue.TIMESTAMP,
+          });
+        this.props.firebase.appliedOpportunity(uid).set({
+          [userUid]: true,
+        });
+      }
+
+      this.setState({ hasApplied: true });
+    });
+  };
+
+  onRemoveApplicationToOpportunity = (uid) => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const userUid = currentUser.uid;
+        console.log("not applied " + uid);
+        this.props.firebase.userAppliedOpportunity(userUid, uid).remove();
+
+        this.props.firebase.appliedOpportunity(uid).set({
+          [userUid]: false,
+        });
+      }
+      this.setState({ hasApplied: false });
+    });
+  };
+  /*
+  toggleHiddenSaved = () => {
     this.setState({
-      isHidden: !this.state.isHidden,
-    })
-  }
+      isHiddenSaved: !this.state.isHiddenSaved,
+    });
+  };
+
+  toggleHiddenApplied = () => {
+    this.setState({
+      isHiddenApplied: !this.state.isHiddenApplied,
+    });
+  };
+  */
 
   retrieveUsername = () => {
     const opp = this.props.opportunity.uid;
-    console.log("opp "+ opp)
-    this.props.firebase.connection(opp).once("value", (snapshot) => {
+    console.log("opp " + opp);
+    this.props.firebase.opportunity(opp).once("value", (snapshot) => {
       const oppObj = snapshot.val();
       const createdBy = oppObj.createdBy;
-      console.log("creadteb by "+ createdBy)
+      console.log("creadteb by " + createdBy);
       this.props.firebase.user(createdBy).on("value", (snapshot) => {
-        const userUsername = snapshot.val().username;
-        console.log("userUserna " + userUsername)
-        this.setState({ createdBy: userUsername });
+        const userUsername = snapshot.val().createdBy;
+        this.setState({ opportunityCreator: userUsername });
       });
     });
   };
@@ -129,11 +243,19 @@ class OpportunityItem extends Component {
       editJobTags,
       editStartingDate,
       editContact,
-      isHidden,
+      //isHiddenSaved,
+      //isHiddenApplied,
       createdBy,
+      hasApplied,
+      hasSaved,
+      opportunityCreator,
     } = this.state;
 
-    const isInvalid = editTitle === '' || editLocation === "" || editContact === "" || editJobType === "";
+    const isInvalid =
+      editTitle === "" ||
+      editLocation === "" ||
+      editContact === "" ||
+      editJobType === "";
 
     return (
       <li>
@@ -201,6 +323,13 @@ class OpportunityItem extends Component {
           </div>
         ) : (
           <span>
+            <Link
+                  to={{
+                    pathname: `${ROUTES.USERS}/${opportunity.createdBy}`,
+                  }}
+                > 
+                  {opportunityCreator}
+                </Link>
             <ul>
               <label>Created by: </label>
               <strong>{createdBy}</strong>
@@ -246,26 +375,63 @@ class OpportunityItem extends Component {
           </span>
         )}
 
-      { authUser.uid !== opportunity.createdBy && !isHidden && (
+        {authUser.uid !== opportunity.createdBy && hasSaved === true && (
           <span>
-            <button onClick={()=> {
-              this.onUnsaveOpportunity();
-              this.toggleHidden();
-            }}>Unsave Opportunity</button>
+            <button
+              onClick={() => {
+                {
+                  this.onUnsaveOpportunity(opportunity.uid);
+                }
+                //this.toggleHiddenSaved();
+              }}
+            >
+              Unsave Opportunity
+            </button>
           </span>
         )}
 
-        {isHidden && (authUser.uid !== opportunity.createdBy) && (
+        {authUser.uid !== opportunity.createdBy && hasSaved === false && (
           <span>
-            <button onClick={()=> {
-              this.onSaveOpportunity();
-              this.toggleHidden();
-            }}>Save Opportunity</button>
+            <button
+              onClick={() => {
+                {
+                  this.onSaveOpportunity(opportunity.uid);
+                }
+                //this.toggleHiddenSaved();
+              }}
+            >
+              Save Opportunity
+            </button>
+          </span>
+        )}
 
-<button onClick={()=> {
-              this.onApplyOpportunity();
-              this.toggleHidden();
-            }}>Apply to Opportunity</button>
+        {authUser.uid !== opportunity.createdBy && hasApplied === true && (
+          <span>
+            <button
+              onClick={() => {
+                {
+                  this.onRemoveApplicationToOpportunity(opportunity.uid);
+                }
+                //this.toggleHiddenApplied();
+              }}
+            >
+              Remove Application to Opportunity
+            </button>
+          </span>
+        )}
+
+        {authUser.uid !== opportunity.createdBy && hasApplied === false && (
+          <span>
+            <button
+              onClick={() => {
+                {
+                  this.onApplyToOpportunity(opportunity.uid);
+                }
+                //this.toggleHiddenApplied();
+              }}
+            >
+              Apply to Opportunity
+            </button>
           </span>
         )}
 
@@ -273,7 +439,9 @@ class OpportunityItem extends Component {
           <span>
             {editMode ? (
               <span>
-                <button onClick={this.onSaveEdit} disabled={isInvalid}>Save</button>
+                <button onClick={this.onSaveEdit} disabled={isInvalid}>
+                  Save
+                </button>
                 <button onClick={this.onToggleEditMode}>Reset</button>
               </span>
             ) : (

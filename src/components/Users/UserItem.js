@@ -16,18 +16,10 @@ class UserItem extends Component {
       previousKey: "",
       isUserPage: false,
       timestamp: "",
-      //isHidden: true,
       ...props.location.state,
     };
   }
 
-  /*
-  toggleHidden = () => {
-    this.setState({
-      isHidden: !this.state.isHidden,
-    });
-  };
-  */
 
   componentDidMount () {
     // checks if the two users involved are connections already
@@ -90,17 +82,6 @@ class UserItem extends Component {
                     this.setState({ pendingConnection: true });
                   }
                   // accept and decline buttons here
-
-                  /*
-                if (currentUserId === receiver || currentUserId === sender){
-                  this.setState({pendingConnection: true})
-                  if (currentUserId === sender) {
-                    this.setState({requestSent: true})
-                  } else if ( currentUserId === receiver) {
-                    console.log("accept/decline buttons here")
-                  }
-                } 
-                */
                 }
               }
             }
@@ -153,7 +134,6 @@ class UserItem extends Component {
     const {
       user,
       loading,
-      //sHidden,
       existingFriendship,
       pendingConnection,
       isUserPage,
