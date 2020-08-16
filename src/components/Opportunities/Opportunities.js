@@ -66,7 +66,10 @@ class Opportunities extends Component {
   };
 
   onCreateOpportunity = (event, authUser) => {
-    this.props.firebase.opportunities().push({
+    const oppRef = this.props.firebase.opportunities().push()
+    const oppKey = oppRef.key
+
+    oppRef.set({
       createdBy: authUser.uid,
       createdAt: this.props.firebase.serverValue.TIMESTAMP,
       title: this.state.title,
@@ -79,11 +82,16 @@ class Opportunities extends Component {
       startingDate: this.state.startingDate,
     });
 
+    this.props.firebase.userCreatedOpportunity(authUser.uid, oppKey).set({
+      createdAt: this.props.firebase.serverValue.TIMESTAMP,
+    })
+
     this.setState({
       title: "",
       description: "",
       contact: "",
       location: "",
+      createdAt: "",
       jobType: "",
       jobTags: "",
       salary: "",
@@ -120,8 +128,9 @@ class Opportunities extends Component {
     });
   };
 
-  onRemoveOpportunity = (uid) => {
+  onRemoveOpportunity = (authUser,uid) => {
     this.props.firebase.opportunity(uid).remove();
+    this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove()
   };
 
   onNextPage = () => {

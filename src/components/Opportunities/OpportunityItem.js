@@ -5,7 +5,6 @@ import { withFirebase } from "../Firebase";
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
-import { View, Text, Button } from "react-native-web";
 
 class OpportunityItem extends Component {
   constructor(props) {
@@ -173,7 +172,7 @@ class OpportunityItem extends Component {
         const currentUser = this.props.firebase.auth.currentUser;
         const userUid = currentUser.uid;
         console.log("applied " + uid);
-        const ref = this.props.firebase
+        this.props.firebase
           .userAppliedOpportunity(userUid, uid)
           .set({
             appliedAt: this.props.firebase.serverValue.TIMESTAMP,
@@ -363,9 +362,9 @@ class OpportunityItem extends Component {
           <span>
             <button
               onClick={() => {
-                {
+                
                   this.onUnsaveOpportunity(opportunity.uid);
-                }
+                
               }}
             >
               Unsave Opportunity
@@ -377,10 +376,9 @@ class OpportunityItem extends Component {
           <span>
             <button
               onClick={() => {
-                {
                   this.onSaveOpportunity(opportunity.uid);
                 }
-              }}
+              }
             >
               Save Opportunity
             </button>
@@ -391,10 +389,10 @@ class OpportunityItem extends Component {
           <span>
             <button
               onClick={() => {
-                {
+              
                   this.onRemoveApplicationToOpportunity(opportunity.uid);
                 }
-              }}
+              }
             >
               Remove Application to Opportunity
             </button>
@@ -405,9 +403,9 @@ class OpportunityItem extends Component {
           <span>
             <button
               onClick={() => {
-                {
+                
                   this.onApplyToOpportunity(opportunity.uid);
-                }
+                
               }}
             >
               Apply to Opportunity
