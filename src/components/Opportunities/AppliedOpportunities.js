@@ -1,51 +1,51 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { AuthUserContext } from "../Session";
-import SavedOpportunityList from "./SavedOpportunityList";
+import AppliedOpportunityList from "./AppliedOpportunityList";
 
-class SavedOpportunities extends Component {
+class AppliedOpportunities extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
-      savedOpportunities: [],
+      appliedOpportunities: [],
       limit: 5,
     };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
-    this.loadSavedOpportunities();
+    this.loadAppliedOpportunities();
     this.setState({ loading: false });
   }
 
-  loadSavedOpportunities = () => {
+  loadAppliedOpportunities = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
         const currentUserId = currentUser.uid;
 
         this.props.firebase
-          .userSavedOpportunities(currentUserId)
-          .orderByChild("savedAt")
+          .userAppliedOpportunities(currentUserId)
+          .orderByChild("appliedAt")
           .limitToLast(this.state.limit)
           .on("value", (snapshot) => {
-            const savedOpportunityObj = snapshot.val();
+            const appliedOpportunityObj = snapshot.val();
 
-            if (savedOpportunityObj) {
-              const savedOpportunityList = Object.keys(savedOpportunityObj).map(
+            if (appliedOpportunityObj) {
+              const appliedOpportunityList = Object.keys(appliedOpportunityObj).map(
                 (key) => ({
-                  ...savedOpportunityObj[key],
+                  ...appliedOpportunityObj[key],
                   uid: key,
                 })
               );
 
               this.setState({
-                savedOpportunities: savedOpportunityList,
+                appliedOpportunities: appliedOpportunityList,
               });
             } else {
-              this.setState({ savedOpportunities: null });
+              this.setState({ appliedOpportunities: null });
             }
           });
       }
@@ -53,42 +53,42 @@ class SavedOpportunities extends Component {
   };
 
   componentWillUnmount = () => {
-    this.props.firebase.userSavedOpportunities().off();
+    this.props.firebase.userAppliedOpportunities().off();
   };
 
   onNextPage = () => {
     this.setState(
       (state) => ({ limit: state.limit + 5 }),
-      this.loadSavedOpportunities
+      this.loadAppliedOpportunities
     );
   };
 
   render() {
-    const { savedOpportunities, loading } = this.state;
+    const { appliedOpportunities, loading } = this.state;
     return (
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
             {loading && <div>Loading ...</div>}
 
-            {savedOpportunities && (
-              <SavedOpportunityList
+            {appliedOpportunities && (
+              <AppliedOpportunityList
                 authUser={authUser}
-                savedOpportunities={savedOpportunities}
+                appliedOpportunities={appliedOpportunities}
               />
             )}
 
-            {!loading && savedOpportunities && savedOpportunities.length > 5 && (
+            {!loading && appliedOpportunities && appliedOpportunities.length > 5 && (
               <button type="button" onClick={this.onNextPage}>
-                View more saved opportunities
+                View more applied opportunities
               </button>
             )}
 
-            {!savedOpportunities && <div>You have no saved opportunities ...</div>}
+            {!appliedOpportunities && <div>You have no saved opportunities ...</div>}
           </div>
         )}
       </AuthUserContext.Consumer>
     );
   }
 }
-export default withFirebase(SavedOpportunities);
+export default withFirebase(AppliedOpportunities);

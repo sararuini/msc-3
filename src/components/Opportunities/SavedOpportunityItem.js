@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
+import OpportunityItem from "./OpportunityItem";
 
 class SavedOpportunityItem extends Component {
   constructor(props) {

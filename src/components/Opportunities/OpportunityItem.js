@@ -28,8 +28,6 @@ class OpportunityItem extends Component {
       createdBy: "",
       opportunityKey: "",
       opportunityCreator: "",
-      //isHiddenSaved: true,
-      //isHiddenApplied: true,
       hasApplied: false,
       hasSaved: false,
       loading: false,
@@ -76,6 +74,7 @@ class OpportunityItem extends Component {
       this.retrieveUsername();
     });
   }
+
   onToggleEditMode = () => {
     this.setState((state) => ({
       editMode: !state.editMode,
@@ -203,19 +202,6 @@ class OpportunityItem extends Component {
       this.setState({ hasApplied: false });
     });
   };
-  /*
-  toggleHiddenSaved = () => {
-    this.setState({
-      isHiddenSaved: !this.state.isHiddenSaved,
-    });
-  };
-
-  toggleHiddenApplied = () => {
-    this.setState({
-      isHiddenApplied: !this.state.isHiddenApplied,
-    });
-  };
-  */
 
   retrieveUsername = () => {
     const opp = this.props.opportunity.uid;
@@ -243,8 +229,6 @@ class OpportunityItem extends Component {
       editJobTags,
       editStartingDate,
       editContact,
-      //isHiddenSaved,
-      //isHiddenApplied,
       createdBy,
       hasApplied,
       hasSaved,
@@ -382,7 +366,6 @@ class OpportunityItem extends Component {
                 {
                   this.onUnsaveOpportunity(opportunity.uid);
                 }
-                //this.toggleHiddenSaved();
               }}
             >
               Unsave Opportunity
@@ -397,7 +380,6 @@ class OpportunityItem extends Component {
                 {
                   this.onSaveOpportunity(opportunity.uid);
                 }
-                //this.toggleHiddenSaved();
               }}
             >
               Save Opportunity
@@ -412,7 +394,6 @@ class OpportunityItem extends Component {
                 {
                   this.onRemoveApplicationToOpportunity(opportunity.uid);
                 }
-                //this.toggleHiddenApplied();
               }}
             >
               Remove Application to Opportunity
@@ -427,7 +408,6 @@ class OpportunityItem extends Component {
                 {
                   this.onApplyToOpportunity(opportunity.uid);
                 }
-                //this.toggleHiddenApplied();
               }}
             >
               Apply to Opportunity

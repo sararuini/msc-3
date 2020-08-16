@@ -4,6 +4,7 @@ import { AuthUserContext } from "../Session";
 import { withFirebase } from "../Firebase";
 import OpportunityList from "./OpportunityList";
 import SavedOpportunities from "./SavedOpportunities";
+import AppliedOpportunities from "./AppliedOpportunities";
 
 class Opportunities extends Component {
   constructor(props) {
@@ -144,7 +145,7 @@ class Opportunities extends Component {
       loading,
     } = this.state;
     const isInvalid =
-      title === "" || location === "" || contact === "" || jobType === "";
+      title === "" || location === "" || contact === "";
 
     return (
       <AuthUserContext.Consumer>
@@ -240,6 +241,10 @@ class Opportunities extends Component {
             <span>
               <h2> Your Saved Opportunities: </h2>
               <SavedOpportunities />
+            </span>
+            <span>
+              <h2> Your Applied Opportunities: </h2>
+              <AppliedOpportunities />
             </span>
           </div>
         )}
