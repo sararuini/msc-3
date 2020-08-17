@@ -33,6 +33,7 @@ class AppliedOpportunities extends Component {
           .on("value", (snapshot) => {
             const appliedOpportunityObj = snapshot.val();
 
+            
             if (appliedOpportunityObj) {
               const appliedOpportunityList = Object.keys(appliedOpportunityObj).map(
                 (key) => ({
@@ -40,6 +41,8 @@ class AppliedOpportunities extends Component {
                   uid: key,
                 })
               );
+
+            
 
               this.setState({
                 appliedOpportunities: appliedOpportunityList,
@@ -88,7 +91,7 @@ class AppliedOpportunities extends Component {
           </div>
         )}
       </AuthUserContext.Consumer>
-    );
+    )
   }
 }
 export default withFirebase(AppliedOpportunities);

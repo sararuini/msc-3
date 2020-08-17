@@ -311,12 +311,9 @@ class OpportunityItem extends Component {
                     pathname: `${ROUTES.USERS}/${opportunity.createdBy}`,
                   }}
                 > 
-                  {opportunityCreator}
                 </Link>
-            <ul>
-              <label>Created by: </label>
-              <strong>{createdBy}</strong>
-            </ul>
+                <label>Created by: </label>
+              <strong>{opportunityCreator}</strong>
 
             <ul>
               <label>Title: </label>

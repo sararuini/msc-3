@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { AuthUserContext } from "../Session";
-import AppliedOpportunityList from "./ApplicantList";
+import ApplicantList from "./ApplicantList";
 
 class Applicants extends Component {
   constructor(props) {
@@ -10,48 +10,50 @@ class Applicants extends Component {
     this.state = {
       loading: false,
       applicants: [],
-      opportunitiesCreated: [],
       limit: 5,
     };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
-    this.loadApplicants();
+    //this.loadApplicants();
     this.setState({ loading: false });
   }
 
+  /*
   loadApplicants = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        const currentUser = this.props.firebase.auth.currentUser;
-        const currentUserId = currentUser.uid;
-
+        console.log("loading applicants")
         this.props.firebase
           .appliedOpportunities()
-          .orderByChild("appliedAt")
           .limitToLast(this.state.limit)
           .on("value", (snapshot) => {
             const appliedOpportunityObj = snapshot.val();
 
             if (appliedOpportunityObj) {
-              const appliedOpportunityList = Object.keys(appliedOpportunityObj).map(
-                (key) => ({
-                  ...appliedOpportunityObj[key],
-                  uid: key,
-                })
-              );
+                for (const appliedOpportunityId in appliedOpportunityObj) {
+                    if (appliedOpportunityObj.hasOwnProperty(appliedOpportunityId)) {
+                        const appliedOpportunity = appliedOpportunityObj[appliedOpportunityId]
+                        this.props.firebase.appliedOpportunity(appliedOpportunity).on("value",
+                        (snapshot) => {
+                            const applicant
+                        })
+                    }
+                }
+              
 
               this.setState({
-                appliedOpportunities: appliedOpportunityList,
+                applicants: "",
               });
             } else {
-              this.setState({ appliedOpportunities: null });
+              this.setState({ applicants: null });
             }
           });
       }
     });
   };
+  */
 
   componentWillUnmount = () => {
     this.props.firebase.userAppliedOpportunities().off();
@@ -60,36 +62,36 @@ class Applicants extends Component {
   onNextPage = () => {
     this.setState(
       (state) => ({ limit: state.limit + 5 }),
-      this.loadAppliedOpportunities
+      this.loadApplicants
     );
   };
 
   render() {
-    const { appliedOpportunities, loading } = this.state;
+    const { applicants, loading } = this.state;
     return (
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
             {loading && <div>Loading ...</div>}
 
-            {appliedOpportunities && (
-              <AppliedOpportunityList
+            {applicants && (
+              <ApplicantList
                 authUser={authUser}
-                appliedOpportunities={appliedOpportunities}
+                applicants={applicants}
               />
             )}
 
-            {!loading && appliedOpportunities && appliedOpportunities.length > 5 && (
+            {!loading && applicants && applicants.length > 10 && (
               <button type="button" onClick={this.onNextPage}>
-                View more applied opportunities
+                View more applicants
               </button>
             )}
 
-            {!appliedOpportunities && <div>You have no saved opportunities ...</div>}
+            {!applicants && <div>You have no applicants ...</div>}
           </div>
         )}
       </AuthUserContext.Consumer>
-    );
+    )
   }
 }
 export default withFirebase(Applicants);

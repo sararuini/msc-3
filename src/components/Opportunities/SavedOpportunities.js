@@ -88,7 +88,7 @@ class SavedOpportunities extends Component {
           </div>
         )}
       </AuthUserContext.Consumer>
-    );
+    )
   }
 }
 export default withFirebase(SavedOpportunities);

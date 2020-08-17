@@ -106,7 +106,7 @@ class Firebase {
   savedOpportunity = uid => this.db.ref(`savedOpportunities/${uid}`);
   appliedOpportunity = uid => this.db.ref(`appliedOpportunities/${uid}`);
   savedOpportunities = () => this.db.ref(`savedOpportunities/`);
-  appliedOpportunity = () => this.db.ref(`appliedOpportunities/`);
+  appliedOpportunities = () => this.db.ref(`appliedOpportunities/`);
 
   // ** Connections API *** /
   connection = uid =>  this.db.ref(`connections/${uid}`);

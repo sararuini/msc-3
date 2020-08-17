@@ -5,6 +5,7 @@ import { withFirebase } from "../Firebase";
 import OpportunityList from "./OpportunityList";
 import SavedOpportunities from "./SavedOpportunities";
 import AppliedOpportunities from "./AppliedOpportunities";
+import CreatedOpportunities from "./CreatedOpportunities";
 
 class Opportunities extends Component {
   constructor(props) {
@@ -250,15 +251,17 @@ class Opportunities extends Component {
             <span>
               <h2> Your Saved Opportunities: </h2>
               <SavedOpportunities />
-            </span>
-            <span>
+            
               <h2> Your Applied Opportunities: </h2>
               <AppliedOpportunities />
+
+              <h2> Your created opportunities: </h2>
+              <CreatedOpportunities />
             </span>
           </div>
         )}
       </AuthUserContext.Consumer>
-    );
+    )
   }
 }
 
