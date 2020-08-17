@@ -39,7 +39,7 @@ class Opportunities extends Component {
       .opportunities()
       .orderByChild("createdAt")
       .limitToLast(this.state.limit)
-      .on("value", (snapshot) => {
+      .once("value", (snapshot) => {
         const opportunityObject = snapshot.val();
 
         if (opportunityObject) {
@@ -98,8 +98,6 @@ class Opportunities extends Component {
       salary: "",
       startingDate: "",
     });
-
-    event.preventDefault();
   };
 
   onEditOpportunity = (

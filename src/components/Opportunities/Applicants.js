@@ -13,14 +13,14 @@ class Applicants extends Component {
       limit: 5,
     };
   }
-
+/*
   componentDidMount() {
     this.setState({ loading: true });
     //this.loadApplicants();
     this.setState({ loading: false });
   }
 
-  /*
+  
   loadApplicants = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {

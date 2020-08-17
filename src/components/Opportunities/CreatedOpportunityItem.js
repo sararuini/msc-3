@@ -41,14 +41,15 @@ class CreatedOpportunityItem extends Component {
       .limitToLast(this.state.limit)
       .once("value", (snapshot) => {
         const appliedOpportunityObj = snapshot.val();
+        
         if (appliedOpportunityObj) {
           for (const appliedOpportunityId in appliedOpportunityObj) {
             if (appliedOpportunityObj.hasOwnProperty(appliedOpportunityId)) {
               const appliedOpportunity =
                 appliedOpportunityObj[appliedOpportunityId];
                 console.log("appliedOpportunityId    " + appliedOpportunityId)
-
-                
+                  const applicantKey = Object.keys(appliedOpportunity)[0]
+                  console.log("applicants" + applicantKey)
             }
           }
         }
