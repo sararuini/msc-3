@@ -20,7 +20,6 @@ class OpportunityItem extends Component {
       editJobTags: this.props.opportunity.jobTags,
       editStartingDate: this.props.opportunity.startingDate,
       editContact: this.props.opportunity.contact,
-      savedOpportunity: false,
       savedAt: "",
       appliedAt: "",
       appliedOpportunity: false,
@@ -125,6 +124,8 @@ class OpportunityItem extends Component {
     this.setState({ editMode: false });
   };
 
+  /*
+
   onSaveOpportunity = (uid) => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -180,12 +181,14 @@ class OpportunityItem extends Component {
         this.props.firebase.appliedOpportunity(uid).set({
           [userUid]: true,
         });
-      }
+     }
 
       this.setState({ hasApplied: true });
     });
   };
+  */
 
+  /*
   onRemoveApplicationToOpportunity = (uid) => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -201,6 +204,7 @@ class OpportunityItem extends Component {
       this.setState({ hasApplied: false });
     });
   };
+  */
 
   retrieveUsername = () => {
     const opp = this.props.opportunity.uid;
@@ -209,7 +213,7 @@ class OpportunityItem extends Component {
       const oppObj = snapshot.val();
       const createdBy = oppObj.createdBy;
       console.log("creadteb by " + createdBy);
-      this.props.firebase.user(createdBy).on("value", (snapshot) => {
+      this.props.firebase.user(createdBy).once("value", (snapshot) => {
         const userUsername = snapshot.val().createdBy;
         this.setState({ opportunityCreator: userUsername });
       });
@@ -217,7 +221,7 @@ class OpportunityItem extends Component {
   };
 
   render() {
-    const { authUser, opportunity, onRemoveOpportunity } = this.props;
+    const { authUser, opportunity, onRemoveOpportunity, onSaveOpportunity, onUnsaveOpportunity, onApplyToOpportunity } = this.props;
     const {
       editMode,
       editTitle,
@@ -228,7 +232,6 @@ class OpportunityItem extends Component {
       editJobTags,
       editStartingDate,
       editContact,
-      createdBy,
       hasApplied,
       hasSaved,
       opportunityCreator,
@@ -242,7 +245,7 @@ class OpportunityItem extends Component {
 
     return (
       <li>
-        {editMode ? (
+        {editMode && (
           <div>
             <form>
               <input
@@ -304,8 +307,22 @@ class OpportunityItem extends Component {
               />
             </form>
           </div>
-        ) : (
+        )}
+        
+        {!editMode && (
           <span>
+          <Link
+            to={{
+              pathname: `${ROUTES.OPPORTUNITY}/${opportunity.uid}`,
+            }}
+          >
+            Opportunity
+          </Link>
+        </span>
+        )}
+
+
+        {!editMode &&(<span>
             <Link
                   to={{
                     pathname: `${ROUTES.USERS}/${opportunity.createdBy}`,
@@ -354,13 +371,15 @@ class OpportunityItem extends Component {
             {opportunity.editedAt && <span>(Edited)</span>}
           </span>
         )}
+         */}
+              
 
         {authUser.uid !== opportunity.createdBy && hasSaved === true && (
           <span>
             <button
               onClick={() => {
                 
-                  this.onUnsaveOpportunity(opportunity.uid);
+                  onUnsaveOpportunity(opportunity.uid);
                 
               }}
             >
@@ -373,7 +392,7 @@ class OpportunityItem extends Component {
           <span>
             <button
               onClick={() => {
-                  this.onSaveOpportunity(opportunity.uid);
+                  onSaveOpportunity(opportunity.uid);
                 }
               }
             >
@@ -381,8 +400,9 @@ class OpportunityItem extends Component {
             </button>
           </span>
         )}
-
-        {authUser.uid !== opportunity.createdBy && hasApplied === true && (
+      
+      {/*
+      {authUser.uid !== opportunity.createdBy && hasApplied === true && (
           <span>
             <button
               onClick={() => {
@@ -395,13 +415,15 @@ class OpportunityItem extends Component {
             </button>
           </span>
         )}
+      */}
+        
 
         {authUser.uid !== opportunity.createdBy && hasApplied === false && (
           <span>
             <button
               onClick={() => {
                 
-                  this.onApplyToOpportunity(opportunity.uid);
+                  onApplyToOpportunity(opportunity.uid);
                 
               }}
             >

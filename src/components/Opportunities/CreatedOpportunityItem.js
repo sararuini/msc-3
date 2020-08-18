@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-
+import * as ROUTES from "../../constants/routes";
 import { Link } from "react-router-dom";
 import { withFirebase } from "../Firebase";
 import Applicants from "./Applicants";
-import * as ROUTES from "../../constants/routes";
+
 
 class CreatedOpportunityItem extends Component {
   constructor(props) {
@@ -20,13 +20,13 @@ class CreatedOpportunityItem extends Component {
   componentDidMount() {
     this.setState({ loading: true });
     this.loadCreatedOpportunity();
-    // this.loadApplicants()
+    //this.loadApplicants()
     this.setState({ loading: false });
   }
 
   loadCreatedOpportunity = () => {
     const thisCreatedOpportunity = this.props.opportunityCreated.uid;
-    console.log("thisConnection " + thisCreatedOpportunity);
+    console.log("this opp " + thisCreatedOpportunity);
     this.props.firebase
       .opportunity(thisCreatedOpportunity)
       .once("value", (snapshot) => {
@@ -41,7 +41,11 @@ class CreatedOpportunityItem extends Component {
       .limitToLast(this.state.limit)
       .once("value", (snapshot) => {
         const appliedOpportunityObj = snapshot.val();
-        
+        const applicantKey = Object.keys(appliedOpportunityObj)[0]
+        console.log("applicant key" + applicantKey)
+
+        console.log("---------")
+        /*
         if (appliedOpportunityObj) {
           for (const appliedOpportunityId in appliedOpportunityObj) {
             if (appliedOpportunityObj.hasOwnProperty(appliedOpportunityId)) {
@@ -53,6 +57,7 @@ class CreatedOpportunityItem extends Component {
             }
           }
         }
+        */
       });
   };
 
@@ -108,6 +113,8 @@ class CreatedOpportunityItem extends Component {
 
     return (
       <div>
+        {loading && <div>Loading ...</div>}
+
         {authUser && (
           <span>
             <ul> Code: {opportunityCreated.uid} </ul>
@@ -115,12 +122,19 @@ class CreatedOpportunityItem extends Component {
 
             <h4>Applicants for {oppTitle}:</h4>
             {applicants}
+            {/*
 
+            {!loading && applicants && (
+              <Applicants />
+            )}
+
+            
             {!loading && applicants && applicants.length > 3 && (
               <button type="button" onClick={this.onNextPageApplicants}>
                 More applicants
               </button>
             )}
+            */} 
           </span>
         )}
       </div>

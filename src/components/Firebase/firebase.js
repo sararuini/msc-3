@@ -86,31 +86,51 @@ class Firebase {
   // *** User API ***
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
+  //Connections
   userConnection = (uid1, uid2)=> this.db.ref(`users/${uid1}/connections/${uid2}`)
   userConnections = uid => this.db.ref(`users/${uid}/connections`)
+  // User opportunities
+  //Saved
   userSavedOpportunities = (uid) => this.db.ref(`users/${uid}/savedOpportunities`)
-  userAppliedOpportunities = (uid) => this.db.ref(`users/${uid}/appliedOpportunities`)
-  userCreatedOpportunities = (uid) => this.db.ref(`users/${uid}/createdOpportunities`)
   userSavedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/savedOpportunities/${oid}`)
+  //Applied
+  userAppliedOpportunities = (uid) => this.db.ref(`users/${uid}/appliedOpportunities`)
   userAppliedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/appliedOpportunities/${oid}`)
+
+  //Created
+  userCreatedOpportunities = (uid) => this.db.ref(`users/${uid}/createdOpportunities`)
   userCreatedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/createdOpportunities/${oid}`)
-  userCreatedOpp = (uid, oid) => this.db.ref(`users/${uid}/opportunities/${oid}`)
   
+
+
+
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
   posts = () => this.db.ref('posts');
   
+
+
   //***  Opportunity API ***/
   opportunity = uid => this.db.ref(`opportunities/${uid}`);
   opportunities = () => this.db.ref('opportunities');
+  // Saved //
   savedOpportunity = uid => this.db.ref(`savedOpportunities/${uid}`);
-  appliedOpportunity = uid => this.db.ref(`appliedOpportunities/${uid}`);
   savedOpportunities = () => this.db.ref(`savedOpportunities/`);
+  // Applied //
+  appliedOpportunity = uid => this.db.ref(`appliedOpportunities/${uid}`);
   appliedOpportunities = () => this.db.ref(`appliedOpportunities/`);
+  /*
+  // Applicants //
+  applicants = uid => this.db.ref(`opportunities/${uid}/applicants`);
+  applicant = (uid, aid)=> this.db.ref(`opportunities/${uid}/applicants/${aid}`);
+ */
+
 
   // ** Connections API *** /
+  //Connections
   connection = uid =>  this.db.ref(`connections/${uid}`);
   connections = () =>  this.db.ref(`connections/`);
+  // Pending connections
   pendingConnections = () => this.db.ref(`pendingConnections`)
   pendingConnection = uid => this.db.ref(`pendingConnections/${uid}`)
  }

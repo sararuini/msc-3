@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { AuthUserContext } from "../Session";
 import SavedOpportunityList from "./SavedOpportunityList";
+import { Link } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
 
 class SavedOpportunities extends Component {
   constructor(props) {
@@ -70,7 +72,8 @@ class SavedOpportunities extends Component {
         {(authUser) => (
           <div>
             {loading && <div>Loading ...</div>}
-
+            <span>Saved Opportunities</span>
+            
             {savedOpportunities && (
               <SavedOpportunityList
                 authUser={authUser}
@@ -84,11 +87,21 @@ class SavedOpportunities extends Component {
               </button>
             )}
 
-            {!savedOpportunities && <div>You have no saved opportunities ...</div>}
+            {!savedOpportunities && (
+              <div>You have no saved opportunities ...</div>
+            )}
+            <Link
+              to={{
+                pathname: `${ROUTES.OPPORTUNITIES}`,
+              }}
+            >
+              {" "}
+              Opportunities
+            </Link>
           </div>
         )}
       </AuthUserContext.Consumer>
-    )
+    );
   }
 }
 export default withFirebase(SavedOpportunities);

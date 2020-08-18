@@ -18,7 +18,7 @@ class ApplicantItem extends Component {
   retrieveUsername = () => {
     const thisUser = this.props.applicant.uid;
     console.log("thisUser " + thisUser);
-    this.props.firebase.user(thisUser).once("value", (snapshot) => {
+    this.props.firebase.user(thisUser).on("value", (snapshot) => {
       const userObj = snapshot.val();
       const username = userObj.username;
 

@@ -3,9 +3,8 @@ import React, { Component } from "react";
 import { AuthUserContext } from "../Session";
 import { withFirebase } from "../Firebase";
 import OpportunityList from "./OpportunityList";
-import SavedOpportunities from "./SavedOpportunities";
-import AppliedOpportunities from "./AppliedOpportunities";
-import CreatedOpportunities from "./CreatedOpportunities";
+import * as ROUTES from "../../constants/routes";
+import { Link } from "react-router-dom";
 
 class Opportunities extends Component {
   constructor(props) {
@@ -20,8 +19,6 @@ class Opportunities extends Component {
       jobTags: "",
       startingDate: "",
       contact: "",
-      savedOpportunity: false,
-      appliedOpportunity: false,
       loading: false,
       opportunities: [],
       limit: 3,
@@ -39,7 +36,7 @@ class Opportunities extends Component {
       .opportunities()
       .orderByChild("createdAt")
       .limitToLast(this.state.limit)
-      .once("value", (snapshot) => {
+      .on("value", (snapshot) => {
         const opportunityObject = snapshot.val();
 
         if (opportunityObject) {
@@ -67,8 +64,8 @@ class Opportunities extends Component {
   };
 
   onCreateOpportunity = (event, authUser) => {
-    const oppRef = this.props.firebase.opportunities().push()
-    const oppKey = oppRef.key
+    const oppRef = this.props.firebase.opportunities().push();
+    const oppKey = oppRef.key;
 
     oppRef.set({
       createdBy: authUser.uid,
@@ -85,7 +82,7 @@ class Opportunities extends Component {
 
     this.props.firebase.userCreatedOpportunity(authUser.uid, oppKey).set({
       createdAt: this.props.firebase.serverValue.TIMESTAMP,
-    })
+    });
 
     this.setState({
       title: "",
@@ -127,11 +124,87 @@ class Opportunities extends Component {
     });
   };
 
-  onRemoveOpportunity = (authUser,uid) => {
+  onRemoveOpportunity = (authUser, uid) => {
     this.props.firebase.opportunity(uid).remove();
-    this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove()
+    this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
   };
 
+  onSaveOpportunity = (uid) => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const userUid = currentUser.uid;
+        console.log("saved 1 " + uid);
+
+        const oppReference = this.props.firebase.userSavedOpportunity(
+          userUid,
+          uid
+        );
+        oppReference.set({
+          savedAt: this.props.firebase.serverValue.TIMESTAMP,
+          saved: true,
+        });
+
+        this.props.firebase.savedOpportunity(uid).set({
+          [userUid]: true,
+        });
+
+        console.log("saved 2");
+        this.setState({ hasSaved: true });
+      }
+    });
+  };
+
+  onUnsaveOpportunity = (uid) => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const userUid = currentUser.uid;
+        console.log("unsaved " + uid);
+        this.props.firebase.userSavedOpportunity(userUid, uid).remove();
+        this.props.firebase.savedOpportunity(uid).set({
+          [userUid]: false,
+        });
+      }
+      this.setState({ hasSaved: false });
+    });
+  };
+
+  onApplyToOpportunity = (uid) => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const userUid = currentUser.uid;
+        console.log("applied " + uid);
+        this.props.firebase.userAppliedOpportunity(userUid, uid).set({
+          appliedAt: this.props.firebase.serverValue.TIMESTAMP,
+        });
+        this.props.firebase.appliedOpportunity(uid).set({
+          [userUid]: true,
+        });
+      }
+
+      this.setState({ hasApplied: true });
+    });
+  };
+
+  /*
+  onRemoveApplicationToOpportunity = (uid) => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const userUid = currentUser.uid;
+        console.log("not applied " + uid);
+        this.props.firebase.userAppliedOpportunity(userUid, uid).remove();
+
+        this.props.firebase.appliedOpportunity(uid).set({
+          [userUid]: false,
+        });
+      }
+      this.setState({ hasApplied: false });
+    });
+  };
+   */
   onNextPage = () => {
     this.setState(
       (state) => ({ limit: state.limit + 3 }),
@@ -152,14 +225,47 @@ class Opportunities extends Component {
       opportunities,
       loading,
     } = this.state;
-    const isInvalid =
-      title === "" || location === "" || contact === "";
+    const isInvalid = title === "" || location === "" || contact === "";
 
     return (
       <AuthUserContext.Consumer>
         {(authUser) => (
+
           <div>
             {loading && <div>Loading ...</div>}
+            <ul>
+              <Link
+                to={{
+                  pathname: `${ROUTES.OPPORTUNITIES_SAVED}`,
+                }}
+              >
+                Saved Opportunities
+              </Link>
+            </ul>
+
+            <ul>
+              <Link
+                to={{
+                  pathname: `${ROUTES.OPPORTUNITIES_CREATED}`,
+                }}
+              >
+                Created Opportunities
+              </Link>
+            </ul>
+
+            <ul>
+              <Link
+                to={{
+                  pathname: `${ROUTES.OPPORTUNITIES_APPLIED}`,
+                }}
+              >
+                Applied Opportunities
+              </Link>
+            </ul>
+            <div>
+            
+            
+            </div>
 
             <form
               onSubmit={(event) => this.onCreateOpportunity(event, authUser)}
@@ -235,6 +341,9 @@ class Opportunities extends Component {
                 opportunities={opportunities}
                 onEditOpportunity={this.onEditOpportunity}
                 onRemoveOpportunity={this.onRemoveOpportunity}
+                onSaveOpportunity={this.onSaveOpportunity}
+                onUnsaveOpportunity={this.onUnsaveOpportunity}
+                onApplyToOpportunity={this.onApplyToOpportunity}
               />
             )}
 
@@ -246,20 +355,11 @@ class Opportunities extends Component {
 
             {!opportunities && <div>There are no opportunities ...</div>}
 
-            <span>
-              <h2> Your Saved Opportunities: </h2>
-              <SavedOpportunities />
             
-              <h2> Your Applied Opportunities: </h2>
-              <AppliedOpportunities />
-
-              <h2> Your created opportunities: </h2>
-              <CreatedOpportunities />
-            </span>
           </div>
         )}
       </AuthUserContext.Consumer>
-    )
+    );
   }
 }
 

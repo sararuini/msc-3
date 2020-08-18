@@ -40,6 +40,7 @@ const App = () => (
       <Route path = {ROUTES.OPPORTUNITIES} component={OpportunityPage}/>
       <Route path = {ROUTES.CONNECTIONS} component={ConnectionPage}/>
       
+      
     </div>
   
 

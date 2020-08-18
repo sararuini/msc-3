@@ -27,12 +27,12 @@ class AppliedOpportunityItem extends Component {
     this.loadAppliedOpportunity();
     this.setState({ loading: false });
   }
-  /*
+  
   componentWillUnmount () {
-    const thisOpp = this.props.opportunity.uid;
+    const thisOpp = this.props.appliedOpportunity.uid;
     this.props.firebase.opportunity(thisOpp).off();
   }
-  */
+  
 
   loadAppliedOpportunity = () => {
     const opp = this.props.appliedOpportunity.uid;

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
-import OpportunityItem from "./OpportunityItem";
 
 class SavedOpportunityItem extends Component {
   constructor(props) {
@@ -12,12 +11,57 @@ class SavedOpportunityItem extends Component {
 
     this.state = {
       loading: false,
+      title: "",
+      contact: "",
+      description: "",
+      jobType: "",
+      jobTags: "",
+      location: "",
+      salary: "",
+      startingDate: "",
     };
   }
 
   componentDidMount () {
     this.setState({loading: true})
+    this.loadSavedOpportunity()
     this.setState({loading: false})
+  }
+
+  componentWillUnmount () {
+    const thisOpp = this.props.savedOpportunity.uid;
+    this.props.firebase.opportunity(thisOpp).off();
+  }
+
+  loadSavedOpportunity = () => {
+    const opp = this.props.savedOpportunity.uid;
+    
+        this.props.firebase
+          .opportunity(opp)
+          .on("value", (snapshot) => {
+
+            const oppObj = snapshot.val();
+            const title = oppObj.title;
+            const contact = oppObj.contact;
+            const description = oppObj.description;
+            const jobType = oppObj.jobType;
+            const jobTags = oppObj.jobTags;
+            const location = oppObj.location;
+            const salary = oppObj.salary;
+            const startingDate = oppObj.startingDate;
+            console.log()
+
+            this.setState({
+              title: title,
+              contact: contact,
+              description: description,
+              jobType: jobType,
+              jobTags: jobTags,
+              location: location,
+              salary: salary,
+              startingDate: startingDate,
+            });
+          });
   }
 
   render() {
@@ -26,19 +70,29 @@ class SavedOpportunityItem extends Component {
       savedOpportunity,
     } = this.props;
 
+    const {
+      title,
+      contact,
+      description,
+      jobType,
+      jobTags,
+      location,
+      salary,
+      startingDate,
+    } = this.state;
     return (
       <div>
         {authUser && (
           <span>
             <ul> Opportunity code: {savedOpportunity.uid} </ul>
-            <ul> Title: {savedOpportunity.title}</ul>
-            <ul> Contact Details: {savedOpportunity.contact}</ul>
-            <ul> Description: {savedOpportunity.description}</ul>
-            <ul> Job Type: {savedOpportunity.jobType} </ul>
-            <ul> Job Tags: {savedOpportunity.jobTags}</ul>
-            <ul> Location: {savedOpportunity.location}</ul>
-            <ul> Salary: {savedOpportunity.salary} </ul>
-            <ul> Starting Date: {savedOpportunity.startingDate}</ul>
+            <ul> Title: {title}</ul>
+            <ul> Contact Details: {contact}</ul>
+            <ul> Description: {description}</ul>
+            <ul> Job Type: {jobType} </ul>
+            <ul> Job Tags: {jobTags}</ul>
+            <ul> Location: {location}</ul>
+            <ul> Salary: {salary} </ul>
+            <ul> Starting Date: {startingDate}</ul>
          </span>
         )}
       </div>

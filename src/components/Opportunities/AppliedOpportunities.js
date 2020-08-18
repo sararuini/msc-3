@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { AuthUserContext } from "../Session";
 import AppliedOpportunityList from "./AppliedOpportunityList";
+import { Link } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
 
 class AppliedOpportunities extends Component {
   constructor(props) {
@@ -33,16 +35,13 @@ class AppliedOpportunities extends Component {
           .on("value", (snapshot) => {
             const appliedOpportunityObj = snapshot.val();
 
-            
             if (appliedOpportunityObj) {
-              const appliedOpportunityList = Object.keys(appliedOpportunityObj).map(
-                (key) => ({
-                  ...appliedOpportunityObj[key],
-                  uid: key,
-                })
-              );
-
-            
+              const appliedOpportunityList = Object.keys(
+                appliedOpportunityObj
+              ).map((key) => ({
+                ...appliedOpportunityObj[key],
+                uid: key,
+              }));
 
               this.setState({
                 appliedOpportunities: appliedOpportunityList,
@@ -81,17 +80,30 @@ class AppliedOpportunities extends Component {
               />
             )}
 
-            {!loading && appliedOpportunities && appliedOpportunities.length > 5 && (
-              <button type="button" onClick={this.onNextPage}>
-                View more applied opportunities
-              </button>
+            {!loading &&
+              appliedOpportunities &&
+              appliedOpportunities.length > 5 && (
+                <button type="button" onClick={this.onNextPage}>
+                  View more applied opportunities
+                </button>
+              )}
+
+            {!appliedOpportunities && (
+              <div>You have no applied opportunities ...</div>
             )}
 
-            {!appliedOpportunities && <div>You have no saved opportunities ...</div>}
+            <Link
+              to={{
+                pathname: `${ROUTES.OPPORTUNITIES}`,
+              }}
+            >
+              {" "}
+              Opportunities
+            </Link>
           </div>
         )}
       </AuthUserContext.Consumer>
-    )
+    );
   }
 }
 export default withFirebase(AppliedOpportunities);

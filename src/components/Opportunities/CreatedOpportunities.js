@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { AuthUserContext } from "../Session";
 import CreatedOpportunityList from "./CreatedOpportunityList";
+import { Link } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
 
 class CreatedOpportunities extends Component {
   constructor(props) {
@@ -34,12 +36,12 @@ class CreatedOpportunities extends Component {
             const appliedOpportunityObj = snapshot.val();
 
             if (appliedOpportunityObj) {
-              const appliedOpportunityList = Object.keys(appliedOpportunityObj).map(
-                (key) => ({
-                  ...appliedOpportunityObj[key],
-                  uid: key,
-                })
-              );
+              const appliedOpportunityList = Object.keys(
+                appliedOpportunityObj
+              ).map((key) => ({
+                ...appliedOpportunityObj[key],
+                uid: key,
+              }));
 
               this.setState({
                 opportunitiesCreated: appliedOpportunityList,
@@ -59,7 +61,7 @@ class CreatedOpportunities extends Component {
 
   onNextPage = () => {
     this.setState(
-      (state) => ({ limit: state.limit + 2}),
+      (state) => ({ limit: state.limit + 2 }),
       this.loadMyOpportunities
     );
   };
@@ -79,17 +81,31 @@ class CreatedOpportunities extends Component {
               />
             )}
 
-            {!loading && opportunitiesCreated && opportunitiesCreated.length > 2 && (
-              <button type="button" onClick={this.onNextPage}>
-                View more opportunities created by you
-              </button>
-            )}
+            {!loading &&
+              opportunitiesCreated &&
+              opportunitiesCreated.length > 2 && (
+                <button type="button" onClick={this.onNextPage}>
+                  View more opportunities created by you
+                </button>
+              )}
 
-            {!opportunitiesCreated && <div>You have no opportunities created by you opportunities ...</div>}
+            {!opportunitiesCreated && (
+              <div>
+                You have no opportunities created by you ...
+              </div>
+            )}
+            <Link
+              to={{
+                pathname: `${ROUTES.OPPORTUNITIES}`,
+              }}
+            >
+              {" "}
+              Opportunities
+            </Link>
           </div>
         )}
       </AuthUserContext.Consumer>
-    )
+    );
   }
 }
 export default withFirebase(CreatedOpportunities);

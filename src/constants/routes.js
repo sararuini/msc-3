@@ -12,7 +12,7 @@ export const EDIT_PROFILE = "/profile/edit";
 export const OWN_PROFILE = "/profile";
 export const USERS = "/users";
 export const USER_PROFILE = "/users/:id";
-//export const USER_CHATS = "/users/:id/chats";
+
 
 //settings
 export const SETTINGS = "/settings";
@@ -20,6 +20,7 @@ export const SETTINGS = "/settings";
 //messenger
 //export const CHATS = "/chats";
 //export const CHAT = "chats/:id";
+//export const USER_CHATS = "/users/:id/chats";
 
 // connections
 export const CONNECTIONS = "/connections"
@@ -28,6 +29,8 @@ export const CONNECTION_REQUESTS = "/connections/connection_requests"
 
 //opportunities
 export const OPPORTUNITIES= "/opportunities";
-//export const OPPORTUNITIES_SAVED = "/opportunities/saved";
-//export const OPPORTUNITIES_STATUS = "/opportunities/status";
-//export const OPPORTUNITIES_RECOMMENDED = "/opportunities/recommended";
+export const OPPORTUNITY = "/opportunities/:id/";
+export const OPPORTUNITIES_SAVED = "/opportunities/saved";
+export const OPPORTUNITIES_APPLIED = "/opportunities/applied";
+export const OPPORTUNITIES_CREATED = "/opportunities/created";
+export const OPPORTUNITY_APPLICANTS = "/opportunities/:id/applicants";

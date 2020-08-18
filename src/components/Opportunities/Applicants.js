@@ -13,10 +13,10 @@ class Applicants extends Component {
       limit: 5,
     };
   }
-/*
+
   componentDidMount() {
     this.setState({ loading: true });
-    //this.loadApplicants();
+    this.loadApplicants();
     this.setState({ loading: false });
   }
 
@@ -28,7 +28,7 @@ class Applicants extends Component {
         this.props.firebase
           .appliedOpportunities()
           .limitToLast(this.state.limit)
-          .on("value", (snapshot) => {
+          .once("value", (snapshot) => {
             const appliedOpportunityObj = snapshot.val();
 
             if (appliedOpportunityObj) {
@@ -37,7 +37,8 @@ class Applicants extends Component {
                         const appliedOpportunity = appliedOpportunityObj[appliedOpportunityId]
                         this.props.firebase.appliedOpportunity(appliedOpportunity).on("value",
                         (snapshot) => {
-                            const applicant
+                            const applicant = snapshot.val()
+                            console.log("applicant" + applicant)
                         })
                     }
                 }
@@ -53,7 +54,6 @@ class Applicants extends Component {
       }
     });
   };
-  */
 
   componentWillUnmount = () => {
     this.props.firebase.userAppliedOpportunities().off();
