@@ -6,7 +6,7 @@ import OpportunityList from "./OpportunityList";
 import * as ROUTES from "../../constants/routes";
 import { Link } from "react-router-dom";
 
-class Opportunities extends Component {
+class OpportunitiesAvailable extends Component {
   constructor(props) {
     super(props);
 
@@ -160,112 +160,13 @@ class Opportunities extends Component {
             <ul>
               <Link
                 to={{
-                  pathname: `${ROUTES.OPPORTUNITIES_SAVED}`,
+                  pathname: `${ROUTES.OPPORTUNITIES}`,
                 }}
               >
-                Saved opportunities
+               Opportunities
               </Link>
             </ul>
-
-            <ul>
-              <Link
-                to={{
-                  pathname: `${ROUTES.OPPORTUNITIES_PUBLISHED}`,
-                }}
-              >
-                Published opportunities
-              </Link>
-            </ul>
-
-            <ul>
-              <Link
-                to={{
-                  pathname: `${ROUTES.OPPORTUNITIES_APPLIED}`,
-                }}
-              >
-                Applied opportunities
-              </Link>
-            </ul>
-
-            <ul>
-              <Link
-                to={{
-                  pathname: `${ROUTES.OPPORTUNITIES_AVAILABLE}`,
-                }}
-              >
-                Available opportunities
-              </Link>
-            </ul>
-            <form
-              onSubmit={(event) => this.onCreateOpportunity(event, authUser)}
-            >
-
-
-              <label>
-                <strong>Create a new opportunity</strong>
-              </label>
-              <input
-                type="text"
-                value={title}
-                name="title"
-                placeholder="Opportunity title"
-                onChange={(event) => this.onChangeText(event, "firstName")}
-              />
-              <input
-                type="text"
-                placeholder="Opportunity description"
-                value={description}
-                name="description"
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="location"
-                value={location}
-                placeholder="Location"
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="jobType"
-                placeholder="Job Type e.g.(Full-time, Part-time, Commission, Freelancer, One-Off...)"
-                value={jobType}
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="jobTags"
-                placeholder="Job Tags e.g.(Music Publishing, London, etc.)"
-                value={jobTags}
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="startingDate"
-                value={startingDate}
-                placeholder="Starting Date"
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="contact"
-                value={contact}
-                placeholder="Contact Details to Apply to opportunity"
-                onChange={this.onChangeText}
-              />
-              <input
-                type="text"
-                name="salary"
-                value={salary}
-                placeholder="Salary"
-                onChange={this.onChangeText}
-              />
-              <button disabled={isInvalid} type="submit">
-                Publish
-              </button>
-            </form>
-              
-            {/*
+            
             <span> Current Opportunities: </span>
             {opportunities && (
               <OpportunityList
@@ -287,10 +188,6 @@ class Opportunities extends Component {
 
             {!opportunities && <div>There are no opportunities ...</div>}
             
-            */}
-            
-
-            
           </div>
         )}
       </AuthUserContext.Consumer>
@@ -298,4 +195,4 @@ class Opportunities extends Component {
   }
 }
 
-export default withFirebase(Opportunities);
+export default withFirebase(OpportunitiesAvailable);

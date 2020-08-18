@@ -19,6 +19,7 @@ class SavedOpportunityItem extends Component {
       location: "",
       salary: "",
       startingDate: "",
+      createdBy: "",
       opportunityCreator:"",
     };
   }

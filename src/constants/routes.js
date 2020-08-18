@@ -29,8 +29,10 @@ export const CONNECTION_REQUESTS = "/connections/connection_requests"
 
 //opportunities
 export const OPPORTUNITIES= "/opportunities";
+export const OPPORTUNITIES_AVAILABLE= "/opportunities/available";
 export const OPPORTUNITY = "/opportunities/:id/";
 export const OPPORTUNITIES_SAVED = "/opportunities/saved";
 export const OPPORTUNITIES_APPLIED = "/opportunities/applied";
-export const OPPORTUNITIES_CREATED = "/opportunities/created";
+export const OPPORTUNITIES_PUBLISHED= "/opportunities/published";
+//export const OPPORTUNITY_CREATE = "/opportunities/create";
 export const OPPORTUNITY_APPLICANTS = "/opportunities/:id/applicants";

@@ -10,6 +10,8 @@ import Opportunities from "./Opportunities";
 import SavedOpportunities from "./SavedOpportunities";
 import AppliedOpportunities from "./AppliedOpportunities";
 import CreatedOpportunities from "./CreatedOpportunities";
+import OpportunitiesAvailable from "./OpportunitiesAvailable";
+
 import OpportunityItem from "./OpportunityItem";
 
 
@@ -19,7 +21,8 @@ const OpportunityPage = () => (
     <Route exact path={ROUTES.OPPORTUNITIES} component={Opportunities} />
       <Route exact path={ROUTES.OPPORTUNITIES_SAVED} component={SavedOpportunities} />
       <Route exact path={ROUTES.OPPORTUNITIES_APPLIED} component={AppliedOpportunities} />
-      <Route exact path={ROUTES.OPPORTUNITIES_CREATED} component={CreatedOpportunities} />
+      <Route exact path={ROUTES.OPPORTUNITIES_PUBLISHED} component={CreatedOpportunities} />
+      <Route exact path={ROUTES.OPPORTUNITIES_AVAILABLE} component={OpportunitiesAvailable} />
       <Route exact path={ROUTES.OPPORTUNITY} component={OpportunityItem} />
     </Switch>
     
@@ -31,26 +34,3 @@ export default compose(
   withEmailVerification,
   withAuthorization(condition)
 )(OpportunityPage);
-
-/*
-<Link
-      to={{
-        pathname: `${ROUTES.OPPORTUNITIES_SAVED}`,
-      }}
-    > Saved Opportunities
-    </Link>
-    <Link
-      to={{
-        pathname: `${ROUTES.OPPORTUNITIES_APPLIED}`,
-      }}
-    > Applied Opportunities
-    </Link>
-    <Link
-      to={{
-        pathname: `${ROUTES.OPPORTUNITIES_CREATED}`,
-      }}
-    > Created Opportunities
-    </Link>
-    
-     
-*/

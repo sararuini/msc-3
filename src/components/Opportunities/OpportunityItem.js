@@ -324,7 +324,7 @@ class OpportunityItem extends Component {
                   }}
                 > 
               <strong>{opportunityCreator}</strong>
-                </Link>
+          </Link>
                 
              
 
@@ -367,7 +367,6 @@ class OpportunityItem extends Component {
             {opportunity.editedAt && <span>(Edited)</span>}
           </span>
         )}
-         
               
 
         {authUser.uid !== opportunity.createdBy && hasSaved === true && (
