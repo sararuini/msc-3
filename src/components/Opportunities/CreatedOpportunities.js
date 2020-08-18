@@ -55,6 +55,45 @@ class CreatedOpportunities extends Component {
     });
   };
 
+  onEditOpportunity = (
+    opportunity,
+    title,
+    description,
+    contact,
+    location,
+    jobType,
+    jobTags,
+    salary,
+    startingDate
+  ) => {
+    const { uid, ...opportunitySnapshot } = opportunity;
+
+    this.props.firebase.opportunity(opportunity.uid).set({
+      ...opportunitySnapshot,
+      title,
+      description,
+      location,
+      contact,
+      jobType,
+      jobTags,
+      salary,
+      startingDate,
+      editedAt: this.props.firebase.serverValue.TIMESTAMP,
+    });
+  };
+
+  onRemoveOpportunity = (authUser, uid) => {
+    this.props.firebase.opportunity(uid).remove();
+    this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
+  };
+
+  onNextPage = () => {
+    this.setState(
+      (state) => ({ limit: state.limit + 3 }),
+      this.onListenForOpportunities
+    );
+  };
+
   componentWillUnmount = () => {
     this.props.firebase.userCreatedOpportunities().off();
   };
@@ -78,6 +117,9 @@ class CreatedOpportunities extends Component {
               <CreatedOpportunityList
                 authUser={authUser}
                 opportunitiesCreated={opportunitiesCreated}
+                onEditOpportunity={this.onEditOpportunity}
+                onRemoveOpportunity={this.onRemoveOpportunity}
+
               />
             )}
 

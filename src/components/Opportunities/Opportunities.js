@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import { AuthUserContext } from "../Session";
 import { withFirebase } from "../Firebase";
-import OpportunityList from "./OpportunityList";
 import * as ROUTES from "../../constants/routes";
 import { Link } from "react-router-dom";
 
@@ -95,45 +94,6 @@ class Opportunities extends Component {
       salary: "",
       startingDate: "",
     });
-  };
-
-  onEditOpportunity = (
-    opportunity,
-    title,
-    description,
-    contact,
-    location,
-    jobType,
-    jobTags,
-    salary,
-    startingDate
-  ) => {
-    const { uid, ...opportunitySnapshot } = opportunity;
-
-    this.props.firebase.opportunity(opportunity.uid).set({
-      ...opportunitySnapshot,
-      title,
-      description,
-      location,
-      contact,
-      jobType,
-      jobTags,
-      salary,
-      startingDate,
-      editedAt: this.props.firebase.serverValue.TIMESTAMP,
-    });
-  };
-
-  onRemoveOpportunity = (authUser, uid) => {
-    this.props.firebase.opportunity(uid).remove();
-    this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
-  };
-
-  onNextPage = () => {
-    this.setState(
-      (state) => ({ limit: state.limit + 3 }),
-      this.onListenForOpportunities
-    );
   };
 
   render() {

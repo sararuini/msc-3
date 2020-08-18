@@ -89,6 +89,8 @@ class Firebase {
   //Connections
   userConnection = (uid1, uid2)=> this.db.ref(`users/${uid1}/connections/${uid2}`)
   userConnections = uid => this.db.ref(`users/${uid}/connections`)
+
+
   // User opportunities
   //Saved
   userSavedOpportunities = (uid) => this.db.ref(`users/${uid}/savedOpportunities`)
@@ -101,7 +103,6 @@ class Firebase {
   userCreatedOpportunities = (uid) => this.db.ref(`users/${uid}/createdOpportunities`)
   userCreatedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/createdOpportunities/${oid}`)
   
-
 
 
   // *** Timeline Posts API ***

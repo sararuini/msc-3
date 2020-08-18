@@ -11,6 +11,7 @@ class OpportunityItem extends Component {
     super(props);
 
     this.state = {
+      /*
       editMode: false,
       editTitle: this.props.opportunity.title,
       editDescription: this.props.opportunity.description,
@@ -20,6 +21,7 @@ class OpportunityItem extends Component {
       editJobTags: this.props.opportunity.jobTags,
       editStartingDate: this.props.opportunity.startingDate,
       editContact: this.props.opportunity.contact,
+      */
       savedAt: "",
       appliedAt: "",
       appliedOpportunity: false,
@@ -73,6 +75,7 @@ class OpportunityItem extends Component {
     });
   }
 
+  /*
   onToggleEditMode = () => {
     this.setState((state) => ({
       editMode: !state.editMode,
@@ -123,7 +126,7 @@ class OpportunityItem extends Component {
 
     this.setState({ editMode: false });
   };
-
+  */
   
 
   onSaveOpportunity = (uid) => {
@@ -248,6 +251,7 @@ class OpportunityItem extends Component {
 
     return (
       <li>
+        {/*
         {editMode && (
           <div>
             <form>
@@ -311,8 +315,9 @@ class OpportunityItem extends Component {
             </form>
           </div>
         )}
+        */}
       
-
+        {/*
         {!editMode &&(<span>
           <ul>
 
@@ -367,6 +372,7 @@ class OpportunityItem extends Component {
             {opportunity.editedAt && <span>(Edited)</span>}
           </span>
         )}
+        */}
               
 
         {authUser.uid !== opportunity.createdBy && hasSaved === true && (
@@ -395,7 +401,20 @@ class OpportunityItem extends Component {
             </button>
           </span>
         )}
-      
+        
+       {authUser.uid !== opportunity.createdBy && hasApplied === false && (
+          <span>
+            <button
+              onClick={() => {
+                
+                  this.onApplyToOpportunity(opportunity.uid);
+                
+              }}
+            >
+              Apply to Opportunity
+            </button>
+          </span>
+        )}
       {/*
       {authUser.uid !== opportunity.createdBy && hasApplied === true && (
           <span>
@@ -413,20 +432,9 @@ class OpportunityItem extends Component {
       */}
         
 
-        {authUser.uid !== opportunity.createdBy && hasApplied === false && (
-          <span>
-            <button
-              onClick={() => {
-                
-                  this.onApplyToOpportunity(opportunity.uid);
-                
-              }}
-            >
-              Apply to Opportunity
-            </button>
-          </span>
-        )}
+       
 
+        {/*
         {authUser.uid === opportunity.createdBy && (
           <span>
             {editMode ? (
@@ -450,6 +458,8 @@ class OpportunityItem extends Component {
             )}
           </span>
         )}
+
+            */}
       </li>
     );
   }

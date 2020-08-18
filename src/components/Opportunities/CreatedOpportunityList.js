@@ -5,6 +5,8 @@ import CreatedOpportunityItem from './CreatedOpportunityItem';
 const CreatedOpportunityList = ({
   authUser,
   opportunitiesCreated,
+  onEditOpportunity,
+  onRemoveOpportunity,
 }) => (
   <ul>
     {opportunitiesCreated.map(opportunityCreated => (
@@ -12,6 +14,8 @@ const CreatedOpportunityList = ({
         authUser={authUser}
         key={opportunityCreated.uid}
         opportunityCreated={opportunityCreated}
+        onEditOpportunity={onEditOpportunity}
+        onRemoveOpportunity={onRemoveOpportunity}
       />
     ))}
   </ul>

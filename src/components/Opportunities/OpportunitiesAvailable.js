@@ -20,6 +20,7 @@ class OpportunitiesAvailable extends Component {
       startingDate: "",
       contact: "",
       loading: false,
+      applicationText: "",
       opportunities: [],
       limit: 3,
     };
@@ -63,6 +64,7 @@ class OpportunitiesAvailable extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  /*
   onCreateOpportunity = (event, authUser) => {
     const oppRef = this.props.firebase.opportunities().push();
     const oppKey = oppRef.key;
@@ -95,8 +97,23 @@ class OpportunitiesAvailable extends Component {
       salary: "",
       startingDate: "",
     });
+    event.preventDefault();
   };
+  */
 
+  onCreateApplication = (event, authUser, uid) => {
+    this.props.firebase.posts().push({
+      applicationText: this.state.text,
+      userId: authUser.uid,
+      createdAt: this.props.firebase.serverValue.TIMESTAMP,
+    });
+
+    this.setState({ text: '' });
+
+    event.preventDefault();
+  }
+
+  /*
   onEditOpportunity = (
     opportunity,
     title,
@@ -128,6 +145,7 @@ class OpportunitiesAvailable extends Component {
     this.props.firebase.opportunity(uid).remove();
     this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
   };
+  */
 
   onNextPage = () => {
     this.setState(
