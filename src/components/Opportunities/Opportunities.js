@@ -129,65 +129,6 @@ class Opportunities extends Component {
     this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
   };
 
-  onSaveOpportunity = (uid) => {
-    this.props.firebase.auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        const currentUser = this.props.firebase.auth.currentUser;
-        const userUid = currentUser.uid;
-        console.log("saved 1 " + uid);
-
-        const oppReference = this.props.firebase.userSavedOpportunity(
-          userUid,
-          uid
-        );
-        oppReference.set({
-          savedAt: this.props.firebase.serverValue.TIMESTAMP,
-          saved: true,
-        });
-
-        this.props.firebase.savedOpportunity(uid).set({
-          [userUid]: true,
-        });
-
-        console.log("saved 2");
-        this.setState({ hasSaved: true });
-      }
-    });
-  };
-
-  onUnsaveOpportunity = (uid) => {
-    this.props.firebase.auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        const currentUser = this.props.firebase.auth.currentUser;
-        const userUid = currentUser.uid;
-        console.log("unsaved " + uid);
-        this.props.firebase.userSavedOpportunity(userUid, uid).remove();
-        this.props.firebase.savedOpportunity(uid).set({
-          [userUid]: false,
-        });
-      }
-      this.setState({ hasSaved: false });
-    });
-  };
-
-  onApplyToOpportunity = (uid) => {
-    this.props.firebase.auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        const currentUser = this.props.firebase.auth.currentUser;
-        const userUid = currentUser.uid;
-        console.log("applied " + uid);
-        this.props.firebase.userAppliedOpportunity(userUid, uid).set({
-          appliedAt: this.props.firebase.serverValue.TIMESTAMP,
-        });
-        this.props.firebase.appliedOpportunity(uid).set({
-          [userUid]: true,
-        });
-      }
-
-      this.setState({ hasApplied: true });
-    });
-  };
-
   /*
   onRemoveApplicationToOpportunity = (uid) => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {

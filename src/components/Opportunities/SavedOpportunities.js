@@ -27,12 +27,12 @@ class SavedOpportunities extends Component {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
         const currentUserId = currentUser.uid;
-
+        console.log("loading saved")
         this.props.firebase
           .userSavedOpportunities(currentUserId)
           .orderByChild("savedAt")
           .limitToLast(this.state.limit)
-          .on("value", (snapshot) => {
+          .once("value", (snapshot) => {
             const savedOpportunityObj = snapshot.val();
 
             if (savedOpportunityObj) {
@@ -73,7 +73,8 @@ class SavedOpportunities extends Component {
           <div>
             {loading && <div>Loading ...</div>}
             <span>Saved Opportunities</span>
-            
+
+
             {savedOpportunities && (
               <SavedOpportunityList
                 authUser={authUser}

@@ -14,10 +14,6 @@ class UserList extends Component {
     };
   }
 
-  isFriend  = () => {
-
-  }
-
   componentDidMount(){
     this.setState({ loading: true });
 

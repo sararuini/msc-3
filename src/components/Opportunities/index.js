@@ -10,6 +10,7 @@ import Opportunities from "./Opportunities";
 import SavedOpportunities from "./SavedOpportunities";
 import AppliedOpportunities from "./AppliedOpportunities";
 import CreatedOpportunities from "./CreatedOpportunities";
+import OpportunityItem from "./OpportunityItem";
 
 
 const OpportunityPage = () => (
@@ -19,7 +20,7 @@ const OpportunityPage = () => (
       <Route exact path={ROUTES.OPPORTUNITIES_SAVED} component={SavedOpportunities} />
       <Route exact path={ROUTES.OPPORTUNITIES_APPLIED} component={AppliedOpportunities} />
       <Route exact path={ROUTES.OPPORTUNITIES_CREATED} component={CreatedOpportunities} />
-
+      <Route exact path={ROUTES.OPPORTUNITY} component={OpportunityItem} />
     </Switch>
     
   </div>
