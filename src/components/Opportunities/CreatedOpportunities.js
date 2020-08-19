@@ -12,14 +12,6 @@ class CreatedOpportunities extends Component {
     this.state = {
       loading: false,
       opportunitiesCreated: [],
-      title: "",
-      description: "",
-      location: "",
-      jobType: "",
-      salary: "",
-      jobTags: "",
-      startingDate: "",
-      contact: "",
       limit: 2,
     };
   }
@@ -46,8 +38,6 @@ class CreatedOpportunities extends Component {
             if (createdOpportunityObject) {
               for (const createdOppId in createdOpportunityObject) {
                 if (createdOpportunityObject.hasOwnProperty(createdOppId)) {
-                  const createdOpp = createdOpportunityObject[createdOppId];
-
                   console.log("createdOppId" + createdOppId);
                   this.props.firebase
                     .opportunity(createdOppId)
@@ -79,6 +69,7 @@ class CreatedOpportunities extends Component {
     });
   };
 
+  /*
   onEditOpportunity = (
     opportunityCreated,
     title,
@@ -111,7 +102,7 @@ class CreatedOpportunities extends Component {
     this.props.firebase.opportunity(uid).remove();
     this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
   };
-
+*/
   onNextPage = () => {
     this.setState(
       (state) => ({ limit: state.limit + 3 }),
@@ -134,14 +125,6 @@ class CreatedOpportunities extends Component {
     const {
       opportunitiesCreated,
       loading,
-      title,
-      description,
-      location,
-      jobType,
-      salary,
-      jobTags,
-      startingDate,
-      contact,
     } = this.state;
 
     return (
