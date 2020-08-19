@@ -64,18 +64,6 @@ class OpportunitiesAvailable extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onCreateApplication = (event, authUser, uid) => {
-    this.props.firebase.posts().push({
-      applicationText: this.state.text,
-      userId: authUser.uid,
-      createdAt: this.props.firebase.serverValue.TIMESTAMP,
-    });
-
-    this.setState({ text: '' });
-
-    event.preventDefault();
-  }
-
   onNextPage = () => {
     this.setState(
       (state) => ({ limit: state.limit + 3 }),
@@ -96,6 +84,7 @@ class OpportunitiesAvailable extends Component {
       opportunities,
       loading,
     } = this.state;
+
     const isInvalid = title === "" || location === "" || contact === "";
 
     return (
@@ -119,8 +108,6 @@ class OpportunitiesAvailable extends Component {
               <OpportunityList
                 authUser={authUser}
                 opportunities={opportunities}
-                onEditOpportunity={this.onEditOpportunity}
-                onRemoveOpportunity={this.onRemoveOpportunity}
                 onSaveOpportunity={this.onSaveOpportunity}
                 onUnsaveOpportunity={this.onUnsaveOpportunity}
                 onApplyToOpportunity={this.onApplyToOpportunity}

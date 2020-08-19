@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as ROUTES from "../../constants/routes";
 import { Link } from "react-router-dom";
 import { withFirebase } from "../Firebase";
-import Applicants from "./Applicants";
+import ApplicantList from "./ApplicantList";
 
 class CreatedOpportunityItem extends Component {
   constructor(props) {
@@ -21,24 +21,33 @@ class CreatedOpportunityItem extends Component {
       editStartingDate: this.props.opportunityCreated.startingDate,
       editContact: this.props.opportunityCreated.contact,
       createdOpportunity: "",
+      applicants: "",
+      title: "",
+      description: "",
+      location: "",
+      jobType: "",
+      salary: "",
+      jobTags: "",
+      startingDate: "",
+      contact: "",
     };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
-    console.log("THIS IS LOADING CREATED OPP (CREATED OPP ITEM)")
-    console.log("uid of opp loading: " + this.props.opportunityCreated.uid)
+    console.log("THIS IS LOADING CREATED OPP (CREATED OPP ITEM)");
+    console.log("uid of opp loading: " + this.props.opportunityCreated.uid);
 
-    console.log("title of opp loading: " + this.props.opportunityCreated.title)
+    console.log("title of opp loading: " + this.props.opportunityCreated.title);
     this.loadCreatedOpportunity();
-    console.log("DONE LOADING CREATED OPP (CREATED OPP ITEM)")
+    console.log("DONE LOADING CREATED OPP (CREATED OPP ITEM)");
     this.retrieveUsername();
-    //this.loadApplicants()
+    this.loadApplicants()
     this.setState({ loading: false });
   }
 
   retrieveUsername = () => {
-    console.log("retrieving username")
+    console.log("retrieving username");
     const opp = this.props.opportunityCreated.uid;
     this.props.firebase.opportunity(opp).once("value", (snapshot) => {
       const oppObj = snapshot.val();
@@ -49,28 +58,33 @@ class CreatedOpportunityItem extends Component {
       });
     });
   };
- 
+
+  componentWillUnmount() {
+    const opp = this.props.opportunityCreated.uid;
+    this.props.firebase.opportunity(opp).off()
+  }
+
   loadCreatedOpportunity = () => {
     const thisCreatedOpportunity = this.props.opportunityCreated.uid;
-    console.log("loadCreatedOpportunity start")
+    console.log("loadCreatedOpportunity start");
     console.log("this opp " + thisCreatedOpportunity);
     this.props.firebase
       .opportunity(thisCreatedOpportunity)
       .on("value", (snapshot) => {
         const createdOpportunityObject = snapshot.val();
 
-        this.setState({ createdOpportunity: createdOpportunityObject
-
-        })
-        console.log("loadCreatedOpportunity title" + createdOpportunityObject.title)
-        console.log("loadCreatedOpportunity des" + createdOpportunityObject.description)
-
-        
+        this.setState({ createdOpportunity: createdOpportunityObject });
+        console.log(
+          "loadCreatedOpportunity title" + createdOpportunityObject.title
+        );
+        console.log(
+          "loadCreatedOpportunity des" + createdOpportunityObject.description
+        );
       });
-
   };
 
-  onEditOpportunity = (createdOpportunity,
+  onEditOpportunity = (
+    createdOpportunity,
     title,
     description,
     contact,
@@ -80,8 +94,10 @@ class CreatedOpportunityItem extends Component {
     salary,
     startingDate
   ) => {
+    const { uid, ...opportunitySnapshot } = createdOpportunity;
 
     this.props.firebase.opportunity(this.props.opportunityCreated.uid).set({
+      ...opportunitySnapshot,
       title,
       description,
       location,
@@ -93,36 +109,25 @@ class CreatedOpportunityItem extends Component {
     });
   };
 
-  onEditTitle = (createdOpportunity,
-    title
-  ) => {
-    const { uid, ...opportunitySnapshot} = createdOpportunity;
-
-    this.props.firebase.opportunity(this.props.opportunityCreated.uid).set({
-      ...opportunitySnapshot,
-      title
-    });
-  };
-
   onRemoveOpportunity = (authUser, uid) => {
     this.props.firebase.opportunity(uid).remove();
-    console.log("removing")
+    console.log("removing");
     this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
-    console.log("removed")
+    console.log("removed");
   };
 
-  /*
   loadApplicants = () => {
     const thisCreatedOpportunity = this.props.opportunityCreated.uid;
+    console.log("loading applicants " + thisCreatedOpportunity)
+
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        console.log("loading applicants");
         this.props.firebase
           .appliedOpportunity(thisCreatedOpportunity)
           .limitToLast(this.state.limit)
           .on("value", (snapshot) => {
             const appliedOpportunityObj = snapshot.val();
-            console.log(appliedOpportunityObj)
+            console.log(appliedOpportunityObj);
             if (appliedOpportunityObj) {
               for (const appliedOpportunityId in appliedOpportunityObj) {
                 if (
@@ -137,7 +142,7 @@ class CreatedOpportunityItem extends Component {
                       ...appliedOpportunityObj[key],
                       uid: key,
                     })
-                  )
+                  );
                   this.setState({
                     applicants: applicants,
                     loading: false,
@@ -147,11 +152,10 @@ class CreatedOpportunityItem extends Component {
             } else {
               this.setState({ applicants: null });
             }
-          })
+          });
       }
     });
   };
-  */
 
   onToggleEditMode = () => {
     this.setState((state) => ({
@@ -166,26 +170,21 @@ class CreatedOpportunityItem extends Component {
       editContact: this.state.createdOpportunity.contact,
     }));
 
-    console.log("edit mode start")
-    console.log(this.state.editMode)
-    console.log("title " +this.props.opportunityCreated.title)
-    console.log("edit mode finish")
+    console.log("edit mode start");
+    console.log(this.state.editMode);
+    console.log("title " + this.props.opportunityCreated.title);
+    console.log("edit mode finish");
   };
 
   onChangeEdit = (event) => {
-      this.setState({ [event.target.name]: event.target.value });
-      console.log("change edit event")
-      console.log("event")
+    this.setState({ [event.target.name]: event.target.value });
+    console.log("change edit event");
+    console.log("event");
   };
 
   onSaveEdit = () => {
-    this.onEditTitle(
-      this.state.createdOpportunity,
-      this.state.editTitle
-    );
+    this.onEditOpportunity(this.state.createdOpportunity, this.state.editTitle);
 
-    console.log("save edit -title")
-    /*
     this.onEditOpportunity(
       this.state.createdOpportunity,
       this.state.editDescription
@@ -214,12 +213,12 @@ class CreatedOpportunityItem extends Component {
       this.state.createdOpportunity,
       this.state.editSalary
     );
-      */
+
     this.setState({ editMode: false });
   };
 
   render() {
-    const { authUser, opportunityCreated} = this.props;
+    const { authUser, opportunityCreated } = this.props;
     const {
       editMode,
       editTitle,
@@ -233,6 +232,7 @@ class CreatedOpportunityItem extends Component {
       loading,
       createdOpportunity,
       opportunityCreator,
+      applicants,
       //createdOpportunityObject
     } = this.state;
 
@@ -257,7 +257,7 @@ class CreatedOpportunityItem extends Component {
                 onChange={this.onChangeEdit}
               />
 
-<label> Description </label>
+              <label> Description </label>
               <input
                 type="text"
                 name="editDescription"
@@ -265,7 +265,7 @@ class CreatedOpportunityItem extends Component {
                 onChange={this.onChangeEdit}
               />
 
-<label> Location </label>
+              <label> Location </label>
               <input
                 type="text"
                 name="editLocation"
@@ -273,7 +273,7 @@ class CreatedOpportunityItem extends Component {
                 onChange={this.onChangeEdit}
               />
 
-<label> Job Type </label>
+              <label> Job Type </label>
               <input
                 type="text"
                 name="editJobType"
@@ -281,14 +281,14 @@ class CreatedOpportunityItem extends Component {
                 onChange={this.onChangeEdit}
               />
 
-<label> Job Tags </label>
+              <label> Job Tags </label>
               <input
                 type="text"
                 name="editJobTags"
                 value={editJobTags}
                 onChange={this.onChangeEdit}
               />
-              
+
               <label> Starting Date </label>
               <input
                 type="text"
@@ -297,7 +297,7 @@ class CreatedOpportunityItem extends Component {
                 onChange={this.onChangeEdit}
               />
 
-<label> Contact </label>
+              <label> Contact </label>
               <input
                 type="text"
                 name="editContact"
@@ -305,7 +305,7 @@ class CreatedOpportunityItem extends Component {
                 onChange={this.onChangeEdit}
               />
 
-<label> Salary </label>
+              <label> Salary </label>
               <input
                 type="text"
                 name="editSalary"
@@ -316,7 +316,7 @@ class CreatedOpportunityItem extends Component {
           </div>
         )}
 
-        {!editMode &&(
+        {!editMode && (
           <span>
             <ul>
               <label>Title: </label>
@@ -379,30 +379,34 @@ class CreatedOpportunityItem extends Component {
             )}
           </span>
         )}
-        {/*
 
-        {authUser && (
+        {authUser && applicants && (
           <span>
-            <ul> Code: {opportunityCreated.uid} </ul>
-            <ul> {oppTitle}</ul>
+            <h4>Applicants for {createdOpportunity.title}:</h4>
 
-            <h4>Applicants for {title}:</h4>
-            {applicants}
-            
+            {applicants && (
+              <ApplicantList authUser={authUser} applicants={applicants} />
+            )}
+
+            {/*
             {!loading && applicants && (
               <Applicants />
             )}
-
-            
+           
             {!loading && applicants && applicants.length > 3 && (
               <button type="button" onClick={this.onNextPageApplicants}>
                 More applicants
               </button>
             )}
-           
+            */}
           </span>
         )}
-        */}
+
+        {authUser && !applicants && (
+          <span>
+            <ul>There are no applicants for {createdOpportunity.title}</ul>
+          </span>
+        )}
       </div>
     );
   }

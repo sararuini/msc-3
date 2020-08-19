@@ -13,9 +13,7 @@ class OpportunityItem extends Component {
     this.state = {
       savedAt: "",
       appliedAt: "",
-      appliedOpportunity: false,
       createdBy: "",
-      opportunityKey: "",
       opportunityCreator: "",
       hasApplied: false,
       hasSaved: false,
@@ -24,11 +22,12 @@ class OpportunityItem extends Component {
   }
 
   componentDidMount() {
+    this.setState({loading: true})
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
         const currentUserId = currentUser.uid;
-        // check for existing applied opportunities
+        // check for existing applied and saved opportunities
         this.props.firebase
           .userSavedOpportunities(currentUserId)
           .once("value")
@@ -61,9 +60,29 @@ class OpportunityItem extends Component {
             }
           });
       }
+      
       this.retrieveUsername();
+      this.setState({loading: false})
     });
   }
+
+  retrieveUsername = () => {
+    const opp = this.props.opportunity.uid;
+    console.log("usernameeee " + opp);
+    console.log("opp " + opp);
+    this.props.firebase.opportunity(opp).once("value", (snapshot) => {
+      const oppObj = snapshot.val();
+      const createdBy = oppObj.createdBy;
+      console.log("createdBy" + createdBy);
+      console.log("creadteb by " + createdBy);
+      this.props.firebase.user(createdBy).once("value", (snapshot) => {
+        const userUsername = snapshot.val().username;
+        console.log("username: " + userUsername);
+        this.setState({ opportunityCreator: userUsername });
+      });
+    });
+  };
+
 
   onSaveOpportunity = (uid) => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
@@ -124,43 +143,13 @@ class OpportunityItem extends Component {
     });
   };
 
-  retrieveUsername = () => {
-    const opp = this.props.opportunity.uid;
-    console.log("usernameeee " + opp);
-    console.log("opp " + opp);
-    this.props.firebase.opportunity(opp).once("value", (snapshot) => {
-      const oppObj = snapshot.val();
-      const createdBy = oppObj.createdBy;
-      console.log("createdBy" + createdBy);
-      console.log("creadteb by " + createdBy);
-      this.props.firebase.user(createdBy).once("value", (snapshot) => {
-        const userUsername = snapshot.val().username;
-        console.log("username: " + userUsername);
-        this.setState({ opportunityCreator: userUsername });
-      });
-    });
-  };
 
   render() {
-    const { authUser, opportunity } = this.props;
+    const { authUser, opportunity,  } = this.props;
     const { hasApplied, hasSaved, opportunityCreator } = this.state;
 
     return (
       <li>
-        {/*
-        {!editMode &&(<span>
-          <ul>
-
-          </ul>
-          <label>Created by: </label>
-            <Link
-                  to={{
-                    pathname: `${ROUTES.USERS}/${opportunity.createdBy}`,
-                  }}
-                > 
-              <strong>{opportunityCreator}</strong>
-          </Link>
-                */}
 
         <span>
           <ul>

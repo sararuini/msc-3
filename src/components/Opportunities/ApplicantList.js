@@ -10,7 +10,7 @@ const ApplicantList = ({
       <ApplicantItem
         authUser={authUser}
         key={applicants.uid}
-        applicants={applicants}
+        applicant={applicant}
       />
     ))}
   </ul>

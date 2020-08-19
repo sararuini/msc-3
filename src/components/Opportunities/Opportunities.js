@@ -106,7 +106,6 @@ class Opportunities extends Component {
       jobTags,
       salary,
       startingDate,
-      opportunities,
       loading,
     } = this.state;
     const isInvalid = title === "" || location === "" || contact === "";
@@ -224,33 +223,7 @@ class Opportunities extends Component {
                 Publish
               </button>
             </form>
-              
-            {/*
-            <span> Current Opportunities: </span>
-            {opportunities && (
-              <OpportunityList
-                authUser={authUser}
-                opportunities={opportunities}
-                onEditOpportunity={this.onEditOpportunity}
-                onRemoveOpportunity={this.onRemoveOpportunity}
-                onSaveOpportunity={this.onSaveOpportunity}
-                onUnsaveOpportunity={this.onUnsaveOpportunity}
-                onApplyToOpportunity={this.onApplyToOpportunity}
-              />
-            )}
-
-            {!loading && opportunities && opportunities.length > 3 && (
-              <button type="button" onClick={this.onNextPage}>
-                More
-              </button>
-            )}
-
-            {!opportunities && <div>There are no opportunities ...</div>}
-            
-            */}
-            
-
-            
+             
           </div>
         )}
       </AuthUserContext.Consumer>

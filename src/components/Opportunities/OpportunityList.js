@@ -10,8 +10,8 @@ const OpportunityList = ({
   onRemoveOpportunity,
   onSaveOpportunity,
   onUnsaveOpportunity,
-  onApplyToOpportunity,
-  */
+  onApplyToOpportunity,*/
+  
 }) => (
   <ul>
     {opportunities.map(opportunity => (
@@ -24,8 +24,8 @@ const OpportunityList = ({
         onRemoveOpportunity={onRemoveOpportunity}
         onSaveOpportunity={onSaveOpportunity}
         onUnsaveOpportunity={onUnsaveOpportunity}
-        onApplyToOpportunity={onApplyToOpportunity}
-        */
+        onApplyToOpportunity={onApplyToOpportunity}*/
+        
       />
     ))}
   </ul>

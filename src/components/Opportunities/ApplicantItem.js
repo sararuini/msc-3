@@ -22,25 +22,31 @@ class ApplicantItem extends Component {
       const userObj = snapshot.val();
       const username = userObj.username;
 
-        this.setState({ applicantUsername: username });
-      
+      this.setState({ applicantUsername: username });
     });
   };
 
   componentDidMount() {
     this.setState({ loading: true });
+    this.retrieveUsername()
+    console.log("aaaaaaapplicantttttt" + this.props.applicant.uid);
     this.setState({ loading: false });
   }
 
   render() {
     const { authUser, applicant } = this.props;
+    const { applicantUsername } = this.state;
 
     return (
       <div>
         {authUser && (
-          <span>
-            <ul> Applicant: {applicant.uid} </ul>
-          </span>
+          <Link
+            to={{
+              pathname: `${ROUTES.USER_PROFILE}/${applicant.uid}`,
+            }}
+          >
+            Applicant: {applicantUsername}
+          </Link>
         )}
       </div>
     );

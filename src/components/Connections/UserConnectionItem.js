@@ -21,6 +21,12 @@ class UserConnectionItem extends Component {
     this.setState({loading: false})
   }
 
+  componentWillUnmount() {
+    const conn = this.props.connection.uid;
+    this.props.firebase.connection(conn).off()
+  }
+
+
   retrieveUsername = () => {
     const thisConnection = this.props.connection.uid;
     console.log("thisConnection " + thisConnection)
