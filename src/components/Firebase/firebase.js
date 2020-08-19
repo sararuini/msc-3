@@ -108,7 +108,6 @@ class Firebase {
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
   posts = () => this.db.ref('posts');
-  
 
 
   //***  Opportunity API ***/

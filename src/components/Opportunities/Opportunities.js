@@ -53,11 +53,6 @@ class Opportunities extends Component {
         }
       });
   };
-
-  componentWillUnmount() {
-    this.props.firebase.opportunities().off();
-  }
-
   onChangeText = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -95,6 +90,11 @@ class Opportunities extends Component {
       startingDate: "",
     });
   };
+
+
+  componentWillUnmount() {
+    this.props.firebase.opportunities().off();
+  }
 
   render() {
     const {

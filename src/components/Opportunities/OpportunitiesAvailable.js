@@ -20,7 +20,6 @@ class OpportunitiesAvailable extends Component {
       startingDate: "",
       contact: "",
       loading: false,
-      applicationText: "",
       opportunities: [],
       limit: 3,
     };
@@ -108,9 +107,6 @@ class OpportunitiesAvailable extends Component {
               <OpportunityList
                 authUser={authUser}
                 opportunities={opportunities}
-                onSaveOpportunity={this.onSaveOpportunity}
-                onUnsaveOpportunity={this.onUnsaveOpportunity}
-                onApplyToOpportunity={this.onApplyToOpportunity}
               />
             )}
 

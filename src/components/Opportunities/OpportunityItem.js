@@ -18,11 +18,12 @@ class OpportunityItem extends Component {
       hasApplied: false,
       hasSaved: false,
       loading: false,
+      applicationText: "",
     };
   }
 
   componentDidMount() {
-    this.setState({loading: true})
+    this.setState({ loading: true });
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
@@ -60,9 +61,9 @@ class OpportunityItem extends Component {
             }
           });
       }
-      
+
       this.retrieveUsername();
-      this.setState({loading: false})
+      this.setState({ loading: false });
     });
   }
 
@@ -75,11 +76,13 @@ class OpportunityItem extends Component {
       const createdBy = oppObj.createdBy;
       this.props.firebase.user(createdBy).once("value", (snapshot) => {
         const userUsername = snapshot.val().username;
-        this.setState({ opportunityCreator: userUsername, createdBy: createdBy });
+        this.setState({
+          opportunityCreator: userUsername,
+          createdBy: createdBy,
+        });
       });
     });
   };
-
 
   onSaveOpportunity = (uid) => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
@@ -130,9 +133,10 @@ class OpportunityItem extends Component {
         console.log("applied " + uid);
         this.props.firebase.userAppliedOpportunity(userUid, uid).set({
           appliedAt: this.props.firebase.serverValue.TIMESTAMP,
+          applicationText: this.state.applicationText,
         });
         this.props.firebase.appliedOpportunity(uid).set({
-          [userUid]: true,
+          [userUid]: this.state.applicationText,
         });
       }
 
@@ -140,23 +144,26 @@ class OpportunityItem extends Component {
     });
   };
 
+  onChangeApplicationText = event => {
+    this.setState({ applicationText: event.target.value });
+  };
 
   render() {
-    const { authUser, opportunity,  } = this.props;
-    const { hasApplied, hasSaved, opportunityCreator, createdBy } = this.state;
+    const { authUser, opportunity } = this.props;
+    const { hasApplied, hasSaved, opportunityCreator, createdBy, applicationText } = this.state;
 
     return (
       <li>
-
         <span>
-        <ul>Created by: 
-          <Link
-            to={{
-              pathname: `${ROUTES.USERS}/${createdBy}`,
-            }}
-          >
-            {opportunityCreator}
-          </Link>
+          <ul>
+            Created by:
+            <Link
+              to={{
+                pathname: `${ROUTES.USERS}/${createdBy}`,
+              }}
+            >
+              {opportunityCreator}
+            </Link>
           </ul>
           <ul>
             <label>Title: </label>
@@ -223,15 +230,15 @@ class OpportunityItem extends Component {
 
         {authUser.uid !== opportunity.createdBy && hasApplied === false && (
           <span>
-            <button
-              onClick={() => {
-                this.onApplyToOpportunity(opportunity.uid);
-              }}
-            >
-              Apply to Opportunity
-            </button>
-          </span>
+            <form onSubmit={() => {
+            this.onApplyToOpportunity(opportunity.uid);
+          }}>
+            <input type="text" value={applicationText} onChange={this.onChangeApplicationText} />
+          <button type="submit">Send Application</button>
+          </form>
+          </span> 
         )}
+
 
       </li>
     );
