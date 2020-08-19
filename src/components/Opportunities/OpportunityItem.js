@@ -73,12 +73,9 @@ class OpportunityItem extends Component {
     this.props.firebase.opportunity(opp).once("value", (snapshot) => {
       const oppObj = snapshot.val();
       const createdBy = oppObj.createdBy;
-      console.log("createdBy" + createdBy);
-      console.log("creadteb by " + createdBy);
       this.props.firebase.user(createdBy).once("value", (snapshot) => {
         const userUsername = snapshot.val().username;
-        console.log("username: " + userUsername);
-        this.setState({ opportunityCreator: userUsername });
+        this.setState({ opportunityCreator: userUsername, createdBy: createdBy });
       });
     });
   };
@@ -146,12 +143,21 @@ class OpportunityItem extends Component {
 
   render() {
     const { authUser, opportunity,  } = this.props;
-    const { hasApplied, hasSaved, opportunityCreator } = this.state;
+    const { hasApplied, hasSaved, opportunityCreator, createdBy } = this.state;
 
     return (
       <li>
 
         <span>
+        <ul>Created by: 
+          <Link
+            to={{
+              pathname: `${ROUTES.USERS}/${createdBy}`,
+            }}
+          >
+            {opportunityCreator}
+          </Link>
+          </ul>
           <ul>
             <label>Title: </label>
             {opportunity.title}

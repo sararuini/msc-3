@@ -42,7 +42,7 @@ class ApplicantItem extends Component {
         {authUser && (
           <Link
             to={{
-              pathname: `${ROUTES.USER_PROFILE}/${applicant.uid}`,
+              pathname: `${ROUTES.USERS}/${applicant.uid}`,
             }}
           >
             Applicant: {applicantUsername}

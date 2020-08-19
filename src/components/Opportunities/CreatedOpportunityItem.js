@@ -316,7 +316,7 @@ class CreatedOpportunityItem extends Component {
           </div>
         )}
 
-        {!editMode && (
+        {!editMode && authUser && (
           <span>
             <ul>
               <label>Title: </label>
@@ -380,13 +380,14 @@ class CreatedOpportunityItem extends Component {
           </span>
         )}
 
-        {authUser && applicants && (
+        {applicants && (
           <span>
-            <h4>Applicants for {createdOpportunity.title}:</h4>
-
-            {applicants && (
+            <ul>
+              <h4>Applicants for {createdOpportunity.title}:</h4>
               <ApplicantList authUser={authUser} applicants={applicants} />
-            )}
+            </ul>
+            </span>
+        )}
 
             {/*
             {!loading && applicants && (
@@ -399,8 +400,7 @@ class CreatedOpportunityItem extends Component {
               </button>
             )}
             */}
-          </span>
-        )}
+          
 
         {authUser && !applicants && (
           <span>
