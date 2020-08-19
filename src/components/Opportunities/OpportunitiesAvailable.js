@@ -64,43 +64,6 @@ class OpportunitiesAvailable extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  /*
-  onCreateOpportunity = (event, authUser) => {
-    const oppRef = this.props.firebase.opportunities().push();
-    const oppKey = oppRef.key;
-
-    oppRef.set({
-      createdBy: authUser.uid,
-      createdAt: this.props.firebase.serverValue.TIMESTAMP,
-      title: this.state.title,
-      description: this.state.description,
-      location: this.state.location,
-      jobType: this.state.jobType,
-      contact: this.state.contact,
-      salary: this.state.salary,
-      jobTags: this.state.jobTags,
-      startingDate: this.state.startingDate,
-    });
-
-    this.props.firebase.userCreatedOpportunity(authUser.uid, oppKey).set({
-      createdAt: this.props.firebase.serverValue.TIMESTAMP,
-    });
-
-    this.setState({
-      title: "",
-      description: "",
-      contact: "",
-      location: "",
-      createdAt: "",
-      jobType: "",
-      jobTags: "",
-      salary: "",
-      startingDate: "",
-    });
-    event.preventDefault();
-  };
-  */
-
   onCreateApplication = (event, authUser, uid) => {
     this.props.firebase.posts().push({
       applicationText: this.state.text,
@@ -112,40 +75,6 @@ class OpportunitiesAvailable extends Component {
 
     event.preventDefault();
   }
-
-  /*
-  onEditOpportunity = (
-    opportunity,
-    title,
-    description,
-    contact,
-    location,
-    jobType,
-    jobTags,
-    salary,
-    startingDate
-  ) => {
-    const { uid, ...opportunitySnapshot } = opportunity;
-
-    this.props.firebase.opportunity(opportunity.uid).set({
-      ...opportunitySnapshot,
-      title,
-      description,
-      location,
-      contact,
-      jobType,
-      jobTags,
-      salary,
-      startingDate,
-      editedAt: this.props.firebase.serverValue.TIMESTAMP,
-    });
-  };
-
-  onRemoveOpportunity = (authUser, uid) => {
-    this.props.firebase.opportunity(uid).remove();
-    this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
-  };
-  */
 
   onNextPage = () => {
     this.setState(

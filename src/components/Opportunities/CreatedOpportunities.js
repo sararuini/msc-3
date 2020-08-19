@@ -12,6 +12,14 @@ class CreatedOpportunities extends Component {
     this.state = {
       loading: false,
       opportunitiesCreated: [],
+      title: "",
+      description: "",
+      location: "",
+      jobType: "",
+      salary: "",
+      jobTags: "",
+      startingDate: "",
+      contact: "",
       limit: 2,
     };
   }
@@ -33,22 +41,38 @@ class CreatedOpportunities extends Component {
           .orderByChild("appliedAt")
           .limitToLast(this.state.limit)
           .on("value", (snapshot) => {
-            const appliedOpportunityObj = snapshot.val();
+            const createdOpportunityObject = snapshot.val();
 
-            if (appliedOpportunityObj) {
-              const appliedOpportunityList = Object.keys(
-                appliedOpportunityObj
-              ).map((key) => ({
-                ...appliedOpportunityObj[key],
-                uid: key,
-              }));
+            if (createdOpportunityObject) {
+              for (const createdOppId in createdOpportunityObject) {
+                if (createdOpportunityObject.hasOwnProperty(createdOppId)) {
+                  const createdOpp = createdOpportunityObject[createdOppId];
 
-              this.setState({
-                opportunitiesCreated: appliedOpportunityList,
-                loading: false,
-              });
-            } else {
-              this.setState({ opportunitiesCreated: null });
+                  console.log("createdOppId" + createdOppId);
+                  this.props.firebase
+                    .opportunity(createdOppId)
+                    .on("value", (snapshot) => {
+                      const opportunityObject = snapshot.val();
+                      console.log("tiiiiitle: " +opportunityObject.title)
+                      console.log("deeees: " +opportunityObject.description)
+
+                      if (opportunityObject) {
+                        const opportunitiesCreated = Object.keys(
+                          createdOpportunityObject
+                        ).map((key) => ({
+                          ...createdOpportunityObject[key],
+                          uid: key,
+                        }));
+                        this.setState({
+                          opportunitiesCreated: opportunitiesCreated,
+                          loading: false,
+                        });
+                      } else {
+                        this.setState({ opportunitiesCreated: null });
+                      }
+                    });
+                }
+              }
             }
           });
       }
@@ -56,7 +80,7 @@ class CreatedOpportunities extends Component {
   };
 
   onEditOpportunity = (
-    opportunity,
+    opportunityCreated,
     title,
     description,
     contact,
@@ -66,10 +90,12 @@ class CreatedOpportunities extends Component {
     salary,
     startingDate
   ) => {
-    const { uid, ...opportunitySnapshot } = opportunity;
+    console.log(opportunityCreated);
+    const { uid, ...opportunityCreatedSnapshot } = opportunityCreated;
+    console.log("editOpportunity sectiooooon" + opportunityCreated.uid);
 
-    this.props.firebase.opportunity(opportunity.uid).set({
-      ...opportunitySnapshot,
+    this.props.firebase.opportunity(opportunityCreated.uid).set({
+      ...opportunityCreatedSnapshot,
       title,
       description,
       location,
@@ -78,7 +104,6 @@ class CreatedOpportunities extends Component {
       jobTags,
       salary,
       startingDate,
-      editedAt: this.props.firebase.serverValue.TIMESTAMP,
     });
   };
 
@@ -106,7 +131,19 @@ class CreatedOpportunities extends Component {
   };
 
   render() {
-    const { opportunitiesCreated, loading } = this.state;
+    const {
+      opportunitiesCreated,
+      loading,
+      title,
+      description,
+      location,
+      jobType,
+      salary,
+      jobTags,
+      startingDate,
+      contact,
+    } = this.state;
+
     return (
       <AuthUserContext.Consumer>
         {(authUser) => (
@@ -119,7 +156,6 @@ class CreatedOpportunities extends Component {
                 opportunitiesCreated={opportunitiesCreated}
                 onEditOpportunity={this.onEditOpportunity}
                 onRemoveOpportunity={this.onRemoveOpportunity}
-
               />
             )}
 
@@ -132,9 +168,7 @@ class CreatedOpportunities extends Component {
               )}
 
             {!opportunitiesCreated && (
-              <div>
-                You have no opportunities created by you ...
-              </div>
+              <div>You have no opportunities created by you ...</div>
             )}
             <Link
               to={{
