@@ -384,7 +384,7 @@ class CreatedOpportunityItem extends Component {
           <span>
             <ul>
               <h4>Applicants for {createdOpportunity.title}:</h4>
-              <ApplicantList authUser={authUser} applicants={applicants} />
+              <ApplicantList authUser={authUser} applicants={applicants} opportunity={opportunityCreated.uid} />
             </ul>
             </span>
         )}

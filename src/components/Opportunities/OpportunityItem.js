@@ -136,7 +136,7 @@ class OpportunityItem extends Component {
           applicationText: this.state.applicationText,
         });
         this.props.firebase.appliedOpportunity(uid).set({
-          [userUid]: this.state.applicationText,
+          [userUid]: true,
         });
       }
 

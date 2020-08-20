@@ -104,7 +104,6 @@ class Firebase {
   userCreatedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/createdOpportunities/${oid}`)
   
 
-
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
   posts = () => this.db.ref('posts');
@@ -119,12 +118,6 @@ class Firebase {
   // Applied //
   appliedOpportunity = uid => this.db.ref(`appliedOpportunities/${uid}`);
   appliedOpportunities = () => this.db.ref(`appliedOpportunities/`);
-  /*
-  // Applicants //
-  applicants = uid => this.db.ref(`opportunities/${uid}/applicants`);
-  applicant = (uid, aid)=> this.db.ref(`opportunities/${uid}/applicants/${aid}`);
- */
-
 
   // ** Connections API *** /
   //Connections

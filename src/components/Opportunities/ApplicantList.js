@@ -4,13 +4,15 @@ import React from 'react';
 const ApplicantList = ({
   authUser,
   applicants,
+  opportunity,
 }) => (
   <ul>
     {applicants.map(applicant => (
       <ApplicantItem
         authUser={authUser}
-        key={applicants.uid}
+        key={applicant.uid}
         applicant={applicant}
+        opportunity={opportunity}
       />
     ))}
   </ul>
