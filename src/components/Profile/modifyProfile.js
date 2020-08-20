@@ -72,6 +72,12 @@ class ModifyProfileBase extends Component {
     this.setState({ [event.target.name]: event.target.checked });
   };
 
+  /*
+  onChangeDropdown = (event) => {
+    this.setState({ typeOfUserSelection: });
+  }
+  */
+
   componentDidMount = () => {
     this.showUser();
   };
@@ -626,13 +632,12 @@ class ModifyProfileBase extends Component {
                 </View>
               </View>
             </View>
-
-            <View>
+      {/*<View>
               <label>
                 <Text>Are you a ...</Text>
                 <select
                   defaultValue={typeOfUserSelection}
-                  onChange={this.onChange}
+                  onChange={this.onChangeDropdown}
                 >
                   <option value="professional">
                     Music Industry Professional
@@ -642,7 +647,8 @@ class ModifyProfileBase extends Component {
                   <option value="other">Other</option>
                 </select>
               </label>
-            </View>
+            </View> */}
+            
 
             <View>
               <button type="submit">Save Profile</button>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
-
+import { View, Text } from "react-native-web";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
@@ -13,6 +13,8 @@ class ApplicantItem extends Component {
       loading: false,
       applicantUsername: "",
       applicationText: "",
+      applicationStatus: "",
+      statusMessage: "",
     };
   }
 
@@ -34,6 +36,11 @@ class ApplicantItem extends Component {
     })
   };
 
+  onChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+
   componentDidMount() {
     this.setState({ loading: true });
     this.retrieveInfo()
@@ -44,7 +51,7 @@ class ApplicantItem extends Component {
 
   render() {
     const { authUser, applicant } = this.props;
-    const { applicantUsername, applicationText} = this.state;
+    const { applicantUsername, applicationText, applicationStatus} = this.state;
 
     return (
       <div>
@@ -60,8 +67,35 @@ class ApplicantItem extends Component {
             
           </Link>
           <p>Application Text: {applicationText} </p>
-          </div>
+          </div> 
         )}
+  {/* 
+  <View>
+              <label>
+                <Text>Select application status:</Text>
+                <select
+                  defaultValue={applicationStatus}
+                  onChange={this.onChange}
+                >
+                  <option value="professional">
+                    Successful
+                  </option>
+                  <option value="unsuccessful">Unsuccessful</option>
+                  <option value="musician-professional">Pending</option>
+                  <option value="other">Interview Scheduled</option>
+                  <option value="other">Waiting for a response</option>
+                </select>
+
+
+                <form onSubmit={() => {
+            this.onApplyToOpportunity(opportunity.uid);
+          }}>
+            <input type="text" value={statusMessage} onChange={this.onChangeApplicationText} />
+          <button type="submit">Send Application</button>
+          </form>
+              </label>
+            </View>*/}
+          
       </div>
     );
   }
