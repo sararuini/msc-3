@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 import BandMemberList from "./BandMemberList";
+import BandRequestList from "./BandRequestList";
 
 class BandProfile extends Component {
   constructor(props) {
@@ -15,7 +16,9 @@ class BandProfile extends Component {
       loading: false,
       bandMember: false,
       bandPendingMembership: false,
+      userRole: "",
       bandMembers: [],
+      bandMembersRequests: [],
     };
   }
 
@@ -23,6 +26,10 @@ class BandProfile extends Component {
     this.setState({ loading: true });
     this.loadBandProfile();
     this.setState({ loading: false });
+  };
+
+  onSelectRole = (event) => {
+    this.setState({ userRole: event.target.value });
   };
 
   loadBandProfile = () => {
@@ -34,12 +41,12 @@ class BandProfile extends Component {
         const currentUser = this.props.firebase.auth.currentUser;
         const userProfileId = currentUser.uid;
 
-        this.setState({bandId: bandUid})
+        this.setState({ bandId: bandUid });
 
         this.props.firebase.band(bandUid).once("value", (snapshot) => {
           const bandObject = snapshot.val();
-          console.log("loading name" + bandObject.name)
-          console.log("loading uid" + bandObject)
+          console.log("loading name" + bandObject.name);
+          console.log("loading uid" + bandObject);
           if (bandObject) {
             console.log("loading");
             this.setState({ band: bandObject });
@@ -66,11 +73,31 @@ class BandProfile extends Component {
           });
 
         this.props.firebase
-          .userBand(userProfileId, bandUid)
+          .bandMemberRequests(bandUid)
+          .once("value", (snapshot) => {
+            const bandRequestObj = snapshot.val();
+            console.log("bandRequestObj" + bandRequestObj)
+            if (bandRequestObj) {
+              const bandRequestList = Object.keys(bandRequestObj).map(
+                (key) => ({
+                  ...bandRequestObj[key],
+                  uid: key,
+                })
+              );
+
+              this.setState({ bandMembersRequests: bandRequestList });
+            } else {
+              this.setState({ bandMembersRequests: null });
+            }
+          });
+
+        this.props.firebase
+          .bandMember(bandUid,userProfileId)
           .once("value", (snapshot) => {
             const bandExistsObj = snapshot.val();
             console.log("checking membership band");
             if (bandExistsObj) {
+              console.log("band memberhsip")
               console.log(true);
               this.setState({ bandMember: true });
             } else {
@@ -78,9 +105,9 @@ class BandProfile extends Component {
               this.setState({ bandMember: false });
             }
           });
-
+             
         this.props.firebase
-          .bandMemberRequestMember(bandUid, userProfileId)
+          .bandMemberRequest(bandUid, userProfileId)
           .once("value", (snapshot) => {
             const bandMembershipRqstObj = snapshot.val();
 
@@ -93,6 +120,7 @@ class BandProfile extends Component {
               this.setState({ bandPendingMembership: false });
             }
           });
+          
       }
     });
   };
@@ -102,8 +130,8 @@ class BandProfile extends Component {
     const currentUser = this.props.firebase.auth.currentUser;
     const userProfileId = currentUser.uid;
     console.log("sending membership rqst");
-    this.props.firebase.bandMemberRequestMember(band, userProfileId).set({
-      request: true,
+    this.props.firebase.bandMemberRequest(band, userProfileId).set({
+      userRole: this.state.userRole,
     });
     this.setState({ bandPendingMembership: true });
     console.log(" membership rqst sent");
@@ -123,6 +151,8 @@ class BandProfile extends Component {
       bandMember,
       bandPendingMembership,
       bandMembers,
+      userRole,
+      bandMembersRequests,
     } = this.state;
 
     return (
@@ -141,17 +171,41 @@ class BandProfile extends Component {
           </div>
         )}
 
-        {band && !bandMember && !bandPendingMembership && (
+        {!bandMember && !bandPendingMembership && (
           <div>
-            <button onClick={() => this.sendBandMembershipRequest()}>
-              {" "}
-              Send Membership Request
-            </button>
+            <form onSubmit={this.sendBandMembershipRequest}>
+              <label> Your role in the band: </label>
+              <input
+                type="text"
+                value={userRole}
+                onChange={this.onSelectRole}
+              />
+              <button type="submit">Send Membership Request</button>
+            </form>
           </div>
         )}
 
+        {bandMember && (
+          <div>Review band membership request received:</div>
+        )}
+        
+        {bandMember && !bandMembersRequests && (
+          <div> There are no band membership requests </div>
+        )}
+
+        {bandMember && bandMembersRequests && (
+          <BandRequestList
+            authUser={authUser}
+            bandMembersRequests={bandMembersRequests}
+            band={bandId}
+          />
+        )}
+
         {band && !bandMember && bandPendingMembership && (
-          <div>Band membership pending</div>
+          <div>
+            Band membership pending. Your request will be approved by one of the
+            band members
+          </div>
         )}
 
         {band && (
@@ -179,12 +233,10 @@ class BandProfile extends Component {
             <p> Concerts:{band.records}</p>
           </div>
         )}
-        
-        
+
         <div> Band Members:</div>
 
-        {band && bandMembers && (
-          
+        {bandMembers && (
           <BandMemberList
             authUser={authUser}
             bandMembers={bandMembers}
