@@ -11,104 +11,76 @@ class BandMemberItem extends Component {
 
     this.state = {
       loading: false,
-      senderUsername: "",
-      receiverUsername: "",
+      bandMemberUsername: "",
+      bandMemberRole: "",
     };
   }
 
   componentDidMount = () => {
     this.setState({ loading: true });
-    this.retrieveUsername();
+    this.retrieveMemberInfo();
     this.setState({ loading: false });
   };
 
-  retrieveUsername = () => {
-    const thisConnectionRequest = this.props.connectionRequest.uid;
-    console.log("thisConnection " + thisConnectionRequest);
+  retrieveMemberInfo = () => {
+    console.log("retrieveMemberInfo")
+    const band = this.props.band;
+    const bandMember = this.props.bandMember.uid;
+    console.log("band" + band)
+    console.log("bandMember " + bandMember)
     this.props.firebase
-      .pendingConnection(thisConnectionRequest)
+      .bandMember(band, bandMember)
       .once("value", (snapshot) => {
-        const connectionRqstObj = snapshot.val();
-        const receiver = connectionRqstObj.receiverId;
-        const sender = connectionRqstObj.senderId;
+        const bandMemberObj = snapshot.val();
+        console.log("bandMemberObj" + bandMemberObj)
+        /*
+        if (bandMemberObj){
+            this.setState({bandMemberRole: bandMemberObj.userRole })
+            console.log("state" + this.state.bandMemberRole)
+        }
 
-        this.props.firebase.user(receiver).on("value", (snapshot) => {
-          const receiverUsername = snapshot.val().username;
-          console.log("receiver usnm " + receiverUsername);
-          this.setState({ receiverUsername: receiverUsername });
-        });
+        this.props.firebase.user(bandMember).once("value", (snapshot) => {
+          const memberName = snapshot.val();
+          this.setState({ bandMemberUsername: memberName.username });
+          console.log("state" + this.state.bandMemberRole)
 
-        this.props.firebase.user(sender).on("value", (snapshot) => {
-          const senderUsername = snapshot.val().username;
-          console.log("sender Usnm " + senderUsername);
-          this.setState({ senderUsername: senderUsername });
         });
+        */
+
       });
   };
-
+  /*
   componentWillUnmount() {
-    const rqst = this.props.connectionRequest.uid;
-    this.props.firebase.pendingConnection(rqst).off()
+    this.props.firebase.bandMember(this.props.band.uid, this.props.bandMember.uid).off();
   }
-
+*/
 
   render() {
     const {
       authUser,
-      connectionRequest,
-      acceptConnectionRequest,
-      declineConnectionRequest,
-      deleteConnectionRequest,
+      bandMember,
+      band
     } = this.props;
-    const { senderUsername, receiverUsername } = this.state;
+    const { bandMemberUsername, bandMemberRole } = this.state;
     return (
       <div>
-        {authUser.uid === connectionRequest.receiverId && (
-          <span>
-            <Link
-              to={{
-                pathname: `${ROUTES.USERS}/${connectionRequest.senderId}`,
-              }}
-            >
-              {senderUsername}
-            </Link>
-            <span> would like to connect with you </span>
-            <button
-              onClick={() => acceptConnectionRequest(connectionRequest.uid)}
-            >
-              {" "}
-              Accept Connection Request
-            </button>
-            <button
-              onClick={() => declineConnectionRequest(connectionRequest.uid)}
-            >
-              {" "}
-              Decline Connection Request
-            </button>
-          </span>
-        )}
-
-        {authUser.uid === connectionRequest.senderId && (
-          <span>
-            <span> You sent a connection request to: </span>
-            <Link
-              to={{
-                pathname: `${ROUTES.USERS}/${connectionRequest.receiverId}`,
-              }}
-            >
-              {receiverUsername}
-            </Link>
-            <button
-              onClick={() => deleteConnectionRequest(connectionRequest.uid)}
-            >
-              {" "}
-              Delete Connection Request
-            </button>
-          </span>
+       {authUser && (
+          <div>
+          <p>Applicant: </p>
+          <Link
+            to={{
+              pathname: `${ROUTES.USERS}/${bandMember.uid}`,
+            }}
+          >
+            {bandMemberUsername}
+            
+          </Link>
+          <p>Role: {bandMemberRole} </p>
+          </div> 
         )}
       </div>
     );
   }
 }
 
-export default withFirebase(ConnectionRequestItem);
+export default withFirebase(BandMemberItem);
