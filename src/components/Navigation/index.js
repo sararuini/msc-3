@@ -42,6 +42,9 @@ const NavigationAuth = ({ authUser }) => (
     <Text>
        <Link to={ROUTES.CONNECTIONS}>Connections</Link>
     </Text>
+    <Text>
+       <Link to={ROUTES.BANDS}>Bands</Link>
+    </Text>
   
       <SignOutButton />
     </View>

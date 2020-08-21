@@ -11,7 +11,6 @@ import SavedOpportunities from "./SavedOpportunities";
 import AppliedOpportunities from "./AppliedOpportunities";
 import CreatedOpportunities from "./CreatedOpportunities";
 import OpportunitiesAvailable from "./OpportunitiesAvailable";
-
 import OpportunityItem from "./OpportunityItem";
 
 

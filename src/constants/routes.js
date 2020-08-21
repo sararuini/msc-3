@@ -34,3 +34,9 @@ export const OPPORTUNITY = "/opportunities/:id/";
 export const OPPORTUNITIES_SAVED = "/opportunities/saved";
 export const OPPORTUNITIES_APPLIED = "/opportunities/applied";
 export const OPPORTUNITIES_PUBLISHED= "/opportunities/published";
+
+//bands
+export const BANDS = "/bands";
+export const BAND = "/bands/:id";
+export const BAND_EDIT = "/bands/:id/edit";
+export const USER_BANDS = "/bands/user"

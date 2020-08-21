@@ -15,6 +15,7 @@ import { withAuthentication } from '../Session';
 import UsersDisplayPage from '../Users'
 import ConnectionPage from '../Connections';
 import OpportunityPage from '../Opportunities';
+import BandPage from '../Band';
 import { ScrollView, View} from "react-native-web";
 //import page_styles from './styles';
 import page_styles_template from '../StyleTemplate';
@@ -39,7 +40,7 @@ const App = () => (
       <Route path = {ROUTES.EDIT_PROFILE} component={ModifyProfile}/>
       <Route path = {ROUTES.OPPORTUNITIES} component={OpportunityPage}/>
       <Route path = {ROUTES.CONNECTIONS} component={ConnectionPage}/>
-      
+      <Route path = {ROUTES.BANDS} component={BandPage}/>
       
     </div>
   

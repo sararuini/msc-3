@@ -100,14 +100,22 @@ class Firebase {
   //Created
   userCreatedOpportunities = (uid) => this.db.ref(`users/${uid}/createdOpportunities`)
   userCreatedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/createdOpportunities/${oid}`)
-  
-  //bands
+
+  //User bands
   userBands = (uid) => this.db.ref(`users/${uid}/bands`)
   userBand = (uid,bid) => this.db.ref(`users/${uid}/bands/${bid}`)
 
  // *** Band Profile API ***
-  band = (uid) =>(`bands/${uid}/`)
-  bands = () =>(`bands/`)
+  band = (uid) => this.db.ref(`bands/${uid}/`)
+  bands = () =>this.db.ref(`bands/`)
+  // Members
+  bandMembers = (uid) => this.db.ref(`bandMembers/${uid}/`)
+  bandMember = (uid, bid) => this.db.ref(`bandMembers/${uid}/${bid}`)
+  // Member Requests
+  bandMemberRequest = (uid) => (this.db.ref`bandMemberRequests/${uid}/`)
+  bandMemberRequestMember = (bid, uid) => this.db.ref(`bandMemberRequests/${bid}/${uid}`)
+  bandMemberRequests = () => this.db.ref(`bandMemberRequests/`)
+
 
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);
