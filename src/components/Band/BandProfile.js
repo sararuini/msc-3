@@ -43,7 +43,7 @@ class BandProfile extends Component {
 
         this.setState({ bandId: bandUid });
 
-        this.props.firebase.band(bandUid).once("value", (snapshot) => {
+        this.props.firebase.band(bandUid).on("value", (snapshot) => {
           const bandObject = snapshot.val();
           console.log("loading name" + bandObject.name);
           console.log("loading uid" + bandObject);
@@ -58,7 +58,7 @@ class BandProfile extends Component {
         this.props.firebase
           .bandMembers(bandUid)
           .orderByChild("joinedAt")
-          .once("value", (snapshot) => {
+          .on("value", (snapshot) => {
             const bandMembersObj = snapshot.val();
             if (bandMembersObj) {
               const bandMemberList = Object.keys(bandMembersObj).map((key) => ({
@@ -74,7 +74,7 @@ class BandProfile extends Component {
 
         this.props.firebase
           .bandMemberRequests(bandUid)
-          .once("value", (snapshot) => {
+          .on("value", (snapshot) => {
             const bandRequestObj = snapshot.val();
             console.log("bandRequestObj" + bandRequestObj)
             if (bandRequestObj) {
@@ -93,7 +93,7 @@ class BandProfile extends Component {
 
         this.props.firebase
           .bandMember(bandUid,userProfileId)
-          .once("value", (snapshot) => {
+          .on("value", (snapshot) => {
             const bandExistsObj = snapshot.val();
             console.log("checking membership band");
             if (bandExistsObj) {
@@ -108,7 +108,7 @@ class BandProfile extends Component {
              
         this.props.firebase
           .bandMemberRequest(bandUid, userProfileId)
-          .once("value", (snapshot) => {
+          .on("value", (snapshot) => {
             const bandMembershipRqstObj = snapshot.val();
 
             console.log("checking pending membership band");

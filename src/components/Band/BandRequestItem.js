@@ -47,6 +47,26 @@ class BandRequestItem extends Component {
     
   }
 
+
+  approveMembership  = () => {
+    const user = this.props.user.uid
+    const band = this.props.band
+
+    this.props.firebase.bandMember(band, user).set({
+      joinedAt: this.props.firebase.serverValue.TIMESTAMP,
+      userRole: this.state.roleRequest,
+    })
+
+    this.props.firebase.bandMemberRequest(band, user).remove()
+  }
+
+  declineMembership = () => {
+    const user = this.props.user.uid
+    const band = this.props.band
+    this.props.firebase.bandMemberRequest(band, user).remove()
+
+  }
+
   componentWillUnmount() {
     const band = this.props.band.uid;
     this.props.firebase.bandMemberRequests(band).off();
@@ -68,7 +88,18 @@ class BandRequestItem extends Component {
             </Link>
             <div> Role requested: {roleRequest} </div>
           </ul>
-      
+          <button
+              onClick={() => this.approveMembership()}
+            >
+              {" "}
+              Accept Band Membership Request
+            </button>
+            <button
+              onClick={() => this.declineMembership()}
+            >
+              {" "}
+              Delete Band Membership Request
+            </button>
       </div>
     );
   }
