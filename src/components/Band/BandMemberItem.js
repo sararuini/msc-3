@@ -23,61 +23,51 @@ class BandMemberItem extends Component {
   };
 
   retrieveMemberInfo = () => {
-    console.log("retrieveMemberInfo")
+    console.log("retrieveMemberInfo");
     const band = this.props.band;
     const bandMember = this.props.bandMember.uid;
-    console.log("band" + band)
-    console.log("bandMember " + bandMember)
+    console.log("band" + band);
+    console.log("bandMember " + bandMember);
     this.props.firebase
       .bandMember(band, bandMember)
       .once("value", (snapshot) => {
         const bandMemberObj = snapshot.val();
-        console.log("bandMemberObj" + bandMemberObj)
-        /*
-        if (bandMemberObj){
-            this.setState({bandMemberRole: bandMemberObj.userRole })
-            console.log("state" + this.state.bandMemberRole)
+
+        if (bandMemberObj) {
+          this.setState({ bandMemberRole: bandMemberObj.userRole });
+          console.log("roooole" + this.state.bandMemberRole);
         }
 
         this.props.firebase.user(bandMember).once("value", (snapshot) => {
           const memberName = snapshot.val();
           this.setState({ bandMemberUsername: memberName.username });
-          console.log("state" + this.state.bandMemberRole)
-
+          console.log("usernaaaame" + this.state.bandMemberUsername);
         });
-        */
-
       });
   };
-  /*
+
   componentWillUnmount() {
-    this.props.firebase.bandMember(this.props.band.uid, this.props.bandMember.uid).off();
+    this.props.firebase
+      .bandMember(this.props.band.uid, this.props.bandMember.uid)
+      .off();
   }
-*/
 
   render() {
-    const {
-      authUser,
-      bandMember,
-      band
-    } = this.props;
+    const { authUser, bandMember, band } = this.props;
     const { bandMemberUsername, bandMemberRole } = this.state;
+
     return (
       <div>
-       {authUser && (
-          <div>
-          <p>Applicant: </p>
+        <ul>
           <Link
             to={{
               pathname: `${ROUTES.USERS}/${bandMember.uid}`,
             }}
           >
             {bandMemberUsername}
-            
           </Link>
           <p>Role: {bandMemberRole} </p>
-          </div> 
-        )}
+        </ul>
       </div>
     );
   }
