@@ -13,7 +13,6 @@ class ApplicantItem extends Component {
       loading: false,
       applicantUsername: "",
       applicationText: "",
-      applicationStatus: "",
       statusMessage: "",
     };
   }
@@ -29,73 +28,71 @@ class ApplicantItem extends Component {
       this.setState({ applicantUsername: username });
     });
 
-    this.props.firebase.userAppliedOpportunity(thisUser, thisOpp).on("value", snapshot => {
-      const applicationText = snapshot.val().applicationText
+    this.props.firebase
+      .userAppliedOpportunity(thisUser, thisOpp)
+      .on("value", (snapshot) => {
+        const applicationText = snapshot.val().applicationText;
 
-      this.setState({applicationText: applicationText})
-    })
+        this.setState({ applicationText: applicationText });
+      });
   };
 
   onChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  }
+    this.setState({ statusMessage: event.target.value });
+  };
 
+  onSendApplicationStatus = (uid) => {
+    const applicant = this.props.applicant.uid;
+    this.props.firebase.userAppliedOpportunity(applicant, uid).set({
+      statusMessage: this.state.statusMessage,
+    });
+  };
 
   componentDidMount() {
     this.setState({ loading: true });
-    this.retrieveInfo()
-    console.log("aaaaaaapplicantttttt" + this.props.applicant.uid);
-    console.log("aaaaaaapplicantttttt" + this.props.opportunity);
+    this.retrieveInfo();
+    console.log("applicant" + this.props.applicant.uid);
+    console.log("opportunity " + this.props.opportunity);
     this.setState({ loading: false });
   }
 
   render() {
-    const { authUser, applicant } = this.props;
-    const { applicantUsername, applicationText, applicationStatus} = this.state;
+    const { authUser, applicant, opportunity } = this.props;
+    const { applicantUsername, applicationText, statusMessage } = this.state;
 
     return (
       <div>
         {authUser && (
           <div>
-          <p>Applicant: </p>
-          <Link
-            to={{
-              pathname: `${ROUTES.USERS}/${applicant.uid}`,
-            }}
-          >
-            {applicantUsername}
-            
-          </Link>
-          <p>Application Text: {applicationText} </p>
-          </div> 
+            <p>Applicant: </p>
+            <Link
+              to={{
+                pathname: `${ROUTES.USERS}/${applicant.uid}`,
+              }}
+            >
+              {applicantUsername}
+            </Link>
+            <p>Application Text: {applicationText} </p>
+          </div>
         )}
-  {/* 
-  <View>
-              <label>
-                <Text>Select application status:</Text>
-                <select
-                  defaultValue={applicationStatus}
-                  onChange={this.onChange}
-                >
-                  <option value="professional">
-                    Successful
-                  </option>
-                  <option value="unsuccessful">Unsuccessful</option>
-                  <option value="musician-professional">Pending</option>
-                  <option value="other">Interview Scheduled</option>
-                  <option value="other">Waiting for a response</option>
-                </select>
 
+        
+          <div>
+            <form
+              onSubmit={() => {
+                this.onSendApplicationStatus(opportunity);
+              }}
+            >
+              <input
+                type="text"
+                value={statusMessage}
+                placeholder="Application Status"
+                onChange={this.onChange}
+              />
+              <button type="submit">Send Application Status</button>
+            </form>
+          </div>
 
-                <form onSubmit={() => {
-            this.onApplyToOpportunity(opportunity.uid);
-          }}>
-            <input type="text" value={statusMessage} onChange={this.onChangeApplicationText} />
-          <button type="submit">Send Application</button>
-          </form>
-              </label>
-            </View>*/}
-          
       </div>
     );
   }
