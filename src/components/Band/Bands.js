@@ -99,6 +99,7 @@ class Bands extends Component {
   render() {
     const { bands, loading, bandName, userRole} = this.state;
     const { authUser } = this.props;
+    const isInvalid = userRole === "" || bandName === "";
     return (
       <AuthUserContext.Consumer>
         {(authUser) => (
@@ -116,7 +117,7 @@ class Bands extends Component {
                 value={userRole}
                 onChange={this.onSelectRole}
               />
-              <button type="submit">Create Band</button>
+              <button disabled={isInvalid}type="submit">Create Band</button>
             </form>
 
             {loading && <div>Loading ...</div>}

@@ -140,7 +140,6 @@ class ConnectionRequests extends Component {
                 acceptConnectionRequest={this.acceptConnectionRequest}
                 declineConnectionRequest={this.declineConnectionRequest}
                 deleteConnectionRequest={this.deleteConnectionRequest}
-
               />
             )}
 

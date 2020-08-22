@@ -94,9 +94,14 @@ class Firebase {
   //Saved
   userSavedOpportunities = (uid) => this.db.ref(`users/${uid}/savedOpportunities`)
   userSavedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/savedOpportunities/${oid}`)
-  //Applied
+  //User Applied
   userAppliedOpportunities = (uid) => this.db.ref(`users/${uid}/appliedOpportunities`)
   userAppliedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/appliedOpportunities/${oid}`)
+   
+  //Band Applied
+   bandAppliedOpportunities = (uid) => this.db.ref(`bandAppliedOpportunities/${uid}`)
+   bandAppliedOpportunity = (uid, oid) => this.db.ref(`bandAppliedOpportunities/${uid}/${oid}`)
+
   //Created
   userCreatedOpportunities = (uid) => this.db.ref(`users/${uid}/createdOpportunities`)
   userCreatedOpportunity = (uid, oid) => this.db.ref(`users/${uid}/createdOpportunities/${oid}`)
@@ -114,8 +119,6 @@ class Firebase {
   // Member Requests
   bandMemberRequests = (uid) => this.db.ref(`bandMemberRequests/${uid}/requests`)
   bandMemberRequest = (bid, uid) => this.db.ref(`bandMemberRequests/${bid}/requests/${uid}`)
-  //pendingBandMembers = () => this.db.ref(`bandMemberRequests`)
-  //pendingBandMember = uid => this.db.ref(`bandMemberRequests/${uid}`)
 
   // *** Timeline Posts API ***
   post = uid => this.db.ref(`posts/${uid}`);

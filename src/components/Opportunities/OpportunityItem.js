@@ -3,8 +3,11 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 
 import { Link } from "react-router-dom";
+import Select from "react-select";
 
 import * as ROUTES from "../../constants/routes";
+
+let options = [];
 
 class OpportunityItem extends Component {
   constructor(props) {
@@ -16,14 +19,24 @@ class OpportunityItem extends Component {
       createdBy: "",
       opportunityCreator: "",
       hasApplied: false,
+      hasAppliedBand: false,
       hasSaved: false,
       loading: false,
       applicationText: "",
+      applicationTextBand: "",
+      selectedBand: "",
+      userId: null,
     };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
+    this.loadOpportunity();
+    this.retrieveUsername();
+    this.setState({ loading: false });
+  }
+
+  loadOpportunity = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
@@ -38,7 +51,6 @@ class OpportunityItem extends Component {
               for (const savedOpportunityId in savedOpportunityObj) {
                 if (savedOpportunityObj.hasOwnProperty(savedOpportunityId)) {
                   this.setState({ hasSaved: true });
-                  console.log("has saved" + savedOpportunityId);
                 }
               }
             }
@@ -55,22 +67,43 @@ class OpportunityItem extends Component {
                   appliedOpportunityObj.hasOwnProperty(appliedOpportunityId)
                 ) {
                   this.setState({ hasApplied: true });
-                  console.log("has saved" + appliedOpportunityId);
+                }
+              }
+            }
+          });
+
+        this.props.firebase
+          .userBands(currentUserId)
+          .once("value", (snapshot) => {
+            const bandObj = snapshot.val();
+
+            if (bandObj) {
+              for (let bandId in bandObj) {
+                if (bandObj.hasOwnProperty(bandId)) {
+                  this.props.firebase.band(bandId).once("value", (snap) => {
+                    const bandInfoObj = snap.val();
+                    const bandName = bandInfoObj.name;
+                    console.log("name " + bandName);
+                    const bandObject = {
+                      value: [bandName],
+                      label: [bandName],
+                    };
+                    if (options.includes(bandObject)) {
+                      console.log("included");
+                    } else {
+                      options.push(bandObject);
+                    }
+                  });
                 }
               }
             }
           });
       }
-
-      this.retrieveUsername();
-      this.setState({ loading: false });
     });
-  }
+  };
 
   retrieveUsername = () => {
     const opp = this.props.opportunity.uid;
-    console.log("usernameeee " + opp);
-    console.log("opp " + opp);
     this.props.firebase.opportunity(opp).once("value", (snapshot) => {
       const oppObj = snapshot.val();
       const createdBy = oppObj.createdBy;
@@ -89,7 +122,6 @@ class OpportunityItem extends Component {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
         const userUid = currentUser.uid;
-        console.log("saved 1 " + uid);
 
         const oppReference = this.props.firebase.userSavedOpportunity(
           userUid,
@@ -104,7 +136,6 @@ class OpportunityItem extends Component {
           [userUid]: true,
         });
 
-        console.log("saved 2");
         this.setState({ hasSaved: true });
       }
     });
@@ -115,7 +146,6 @@ class OpportunityItem extends Component {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
         const userUid = currentUser.uid;
-        console.log("unsaved " + uid);
         this.props.firebase.userSavedOpportunity(userUid, uid).remove();
         this.props.firebase.savedOpportunity(uid).set({
           [userUid]: false,
@@ -130,7 +160,8 @@ class OpportunityItem extends Component {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
         const userUid = currentUser.uid;
-        console.log("applied " + uid);
+
+  
         this.props.firebase.userAppliedOpportunity(userUid, uid).set({
           appliedAt: this.props.firebase.serverValue.TIMESTAMP,
           applicationText: this.state.applicationText,
@@ -144,13 +175,54 @@ class OpportunityItem extends Component {
     });
   };
 
-  onChangeApplicationText = event => {
+  onApplyToOpportunityBand = (uid) => {
+    const band = this.state.selectedBand;
+    console.log("baaaand " + band)
+
+    /*
+    this.props.firebase.bandAppliedOpportunity(band, uid).set({
+      appliedAt: this.props.firebase.serverValue.TIMESTAMP,
+      applicationTextBand: this.state.applicationTextBand,
+    });
+
+    this.props.firebase.appliedOpportunity(band).set({
+      band: true,
+    });
+
+    this.setState({ hasApplied: true });
+    */
+  };
+
+  onChangeApplicationText = (event) => {
     this.setState({ applicationText: event.target.value });
+  };
+
+  onChangeApplicationTextBand = (event) => {
+    this.setState({ applicationTextBand: event.target.value });
+  };
+
+  handleChange = (event) => {
+    this.setState({ selectedBand: event.target.value });
+    console.log("selected band " + this.state.selectedBand)
   };
 
   render() {
     const { authUser, opportunity } = this.props;
-    const { hasApplied, hasSaved, opportunityCreator, createdBy, applicationText } = this.state;
+    const {
+      hasApplied,
+      hasSaved,
+      opportunityCreator,
+      createdBy,
+      applicationText,
+      hasAppliedBand,
+      applicationTextBand,
+      selectedBand,
+    } = this.state;
+
+
+    const isInvalidBand = applicationTextBand === "";
+    const isInvalid = applicationText === "";
+    const value = selectedBand && selectedBand.value;
 
     return (
       <li>
@@ -228,18 +300,51 @@ class OpportunityItem extends Component {
           </span>
         )}
 
-        {authUser.uid !== opportunity.createdBy && hasApplied === false && (
+        {authUser.uid !== opportunity.createdBy && !hasApplied && (
           <span>
-            <form onSubmit={() => {
-            this.onApplyToOpportunity(opportunity.uid);
-          }}>
-            <input type="text" value={applicationText} onChange={this.onChangeApplicationText} />
-          <button type="submit">Send Application</button>
-          </form>
-          </span> 
+            <form
+              onSubmit={() => {
+                this.onApplyToOpportunity(opportunity.uid);
+              }}
+            >
+              <input
+                type="text"
+                value={applicationText}
+                onChange={this.onChangeApplicationText}
+              />
+
+              <button disabled={isInvalid} type="submit">
+                Send Application
+              </button>
+            </form>
+          </span>
         )}
 
+        {authUser.uid !== opportunity.createdBy && !hasAppliedBand && (
+          <span>
+            <form
+              onSubmit={() => {
+                this.onApplyToOpportunityBand(opportunity.uid);
+              }}
+            >
+              <Select
+                value={selectedBand}
+                options={options}
+                onChange={this.handleChange}
+              />
 
+              <input
+                type="text"
+                value={applicationTextBand}
+                onChange={this.onChangeApplicationTextBand}
+              />
+
+              <button disabled={isInvalidBand} type="submit">
+                Send Application as band
+              </button>
+            </form>
+          </span>
+        )}
       </li>
     );
   }
