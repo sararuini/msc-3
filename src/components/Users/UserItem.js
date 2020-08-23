@@ -131,7 +131,7 @@ class UserItem extends Component {
 
     this.props.firebase.notifications(receiverId).push(
       {
-        type: "Connection Request",
+        type: "Connection Request Received",
         senderId: sender.uid,
         createdAt: this.props.firebase.serverValue.TIMESTAMP,
       }
