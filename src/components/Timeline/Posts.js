@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { AuthUserContext } from '../Session';
-import { withFirebase } from '../Firebase';
-import PostList from './PostList';
+import { AuthUserContext } from "../Session";
+import { withFirebase } from "../Firebase";
+import PostList from "./PostList";
 
 class Posts extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      text: '',
+      text: "",
       loading: false,
       posts: [],
       limit: 5,
@@ -25,13 +25,13 @@ class Posts extends Component {
 
     this.props.firebase
       .posts()
-      .orderByChild('createdAt')
+      .orderByChild("createdAt")
       .limitToLast(this.state.limit)
-      .on('value', snapshot => {
+      .on("value", (snapshot) => {
         const postObject = snapshot.val();
 
         if (postObject) {
-          const postList = Object.keys(postObject).map(key => ({
+          const postList = Object.keys(postObject).map((key) => ({
             ...postObject[key],
             uid: key,
           }));
@@ -50,7 +50,7 @@ class Posts extends Component {
     this.props.firebase.posts().off();
   }
 
-  onChangeText = event => {
+  onChangeText = (event) => {
     this.setState({ text: event.target.value });
   };
 
@@ -61,7 +61,7 @@ class Posts extends Component {
       createdAt: this.props.firebase.serverValue.TIMESTAMP,
     });
 
-    this.setState({ text: '' });
+    this.setState({ text: "" });
 
     event.preventDefault();
   };
@@ -76,14 +76,14 @@ class Posts extends Component {
     });
   };
 
-  onRemovePost = uid => {
+  onRemovePost = (uid) => {
     this.props.firebase.post(uid).remove();
   };
 
   onNextPage = () => {
     this.setState(
-      state => ({ limit: state.limit + 5 }),
-      this.onListenForPosts,
+      (state) => ({ limit: state.limit + 5 }),
+      this.onListenForPosts
     );
   };
 
@@ -92,13 +92,16 @@ class Posts extends Component {
 
     return (
       <AuthUserContext.Consumer>
-        {authUser => (
+        {(authUser) => (
           <div>
-            {!loading && posts && (
-              <button type="button" onClick={this.onNextPage}>
-                More
-              </button>
-            )}
+
+            <form onSubmit={(event) => this.onCreatePost(event, authUser)}>
+              <input type="text" value={text} onChange={this.onChangeText} />
+              <button type="submit">Create a post</button>
+            </form>
+
+
+            
 
             {loading && <div>Loading ...</div>}
 
@@ -107,24 +110,17 @@ class Posts extends Component {
                 authUser={authUser}
                 posts={posts}
                 onEditPost={this.onEditPost}
-                onRemovePost = {this.onRemovePost}
+                onRemovePost={this.onRemovePost}
               />
+            )}
+            
+            {!loading && posts && (
+              <button type="button" onClick={this.onNextPage}>
+                More
+              </button>
             )}
 
             {!posts && <div>There are no posts ...</div>}
-
-            <form
-              onSubmit={event =>
-                this.onCreatePost(event, authUser)
-              }
-            >
-              <input
-                type="text"
-                value={text}
-                onChange={this.onChangeText}
-              />
-              <button type="submit">Send</button>
-            </form>
           </div>
         )}
       </AuthUserContext.Consumer>

@@ -27,6 +27,7 @@ class AppliedOpportunityItem extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
+    console.log("applied opportunity " + this.props.appliedOpportunity.uid)
     this.loadAppliedOpportunity();
     this.retrieveUsername();
     this.retrieveStatus()
@@ -37,6 +38,7 @@ class AppliedOpportunityItem extends Component {
     const thisOpp = this.props.appliedOpportunity.uid;
     this.props.firebase.opportunity(thisOpp).off();
   }
+
   retrieveUsername = () => {
     const opp = this.props.appliedOpportunity.uid;
     console.log("usernameeee " + opp);

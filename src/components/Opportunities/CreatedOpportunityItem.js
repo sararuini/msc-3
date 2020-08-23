@@ -82,7 +82,7 @@ class CreatedOpportunityItem extends Component {
         );
       });
   };
-
+  /*
   onEditOpportunity = (
     createdOpportunity,
     title,
@@ -115,6 +115,7 @@ class CreatedOpportunityItem extends Component {
     this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
     console.log("removed");
   };
+*/
 
   loadApplicants = () => {
     const thisCreatedOpportunity = this.props.opportunityCreated.uid;

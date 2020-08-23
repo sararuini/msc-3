@@ -1,4 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { withFirebase } from "../Firebase";
+import { Link } from "react-router-dom";
+import * as ROUTES from "../../constants/routes";
 
 class PostItem extends Component {
   constructor(props) {
@@ -7,17 +10,28 @@ class PostItem extends Component {
     this.state = {
       editMode: false,
       editText: this.props.post.text,
+      username: "",
     };
   }
+  componentDidMount() {
+    const postId = this.props.post.uid;
+    const userId = this.props.post.userId
 
+    this.props.firebase.user(userId).once("value", (snapshot) => {
+      const userObj = snapshot.val();
+      this.setState({
+        username: userObj.username,
+      })
+    });
+  }
   onToggleEditMode = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       editMode: !state.editMode,
       editText: this.props.post.text,
     }));
   };
 
-  onChangeEditText = event => {
+  onChangeEditText = (event) => {
     this.setState({ editText: event.target.value });
   };
 
@@ -29,7 +43,7 @@ class PostItem extends Component {
 
   render() {
     const { authUser, post, onRemovePost } = this.props;
-    const { editMode, editText } = this.state;
+    const { editMode, editText, username} = this.state;
 
     return (
       <li>
@@ -41,7 +55,14 @@ class PostItem extends Component {
           />
         ) : (
           <span>
-            <strong>{post.userId}</strong> {post.text}
+            <Link
+              to={{
+                pathname: `${ROUTES.USERS}/${post.userId}`,
+              }}
+            >
+              {username}
+            </Link>
+             {post.text}
             {post.editedAt && <span>(Edited)</span>}
           </span>
         )}
@@ -58,10 +79,7 @@ class PostItem extends Component {
             )}
 
             {!editMode && (
-              <button
-                type="button"
-                onClick={() => onRemovePost(post.uid)}
-              >
+              <button type="button" onClick={() => onRemovePost(post.uid)}>
                 Delete
               </button>
             )}
@@ -72,4 +90,4 @@ class PostItem extends Component {
   }
 }
 
-export default PostItem;
+export default withFirebase(PostItem);

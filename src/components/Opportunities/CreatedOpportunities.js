@@ -137,8 +137,8 @@ class CreatedOpportunities extends Component {
               <CreatedOpportunityList
                 authUser={authUser}
                 opportunitiesCreated={opportunitiesCreated}
-                onEditOpportunity={this.onEditOpportunity}
-                onRemoveOpportunity={this.onRemoveOpportunity}
+                //onEditOpportunity={this.onEditOpportunity}
+                //onRemoveOpportunity={this.onRemoveOpportunity}
               />
             )}
 
