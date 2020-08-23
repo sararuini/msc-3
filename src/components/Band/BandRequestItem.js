@@ -57,12 +57,29 @@ class BandRequestItem extends Component {
       userRole: this.state.roleRequest,
     })
 
+    this.props.firebase.notifications(user).push(
+      {
+        type: "Approved Band Member",
+        band: band,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP,
+      }
+    )
+
     this.props.firebase.bandMemberRequest(band, user).remove()
+
   }
 
   declineMembership = () => {
     const user = this.props.user.uid
     const band = this.props.band
+
+    this.props.firebase.notifications(user).push(
+      {
+        type: "Declined Band Member",
+        band: band,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP,
+      }
+    )
     this.props.firebase.bandMemberRequest(band, user).remove()
 
   }

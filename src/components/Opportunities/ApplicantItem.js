@@ -46,6 +46,15 @@ class ApplicantItem extends Component {
     this.props.firebase.userAppliedOpportunity(applicant, uid).set({
       statusMessage: this.state.statusMessage,
     });
+
+    this.props.firebase.notifications(applicant).push({
+      type: "Opportunity Status Notification",
+        statusMessage: this.state.statusMessage,
+        opportunity: this.props.opportunity,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP,
+    }
+        
+    )
   };
 
   componentDidMount() {

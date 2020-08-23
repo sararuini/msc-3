@@ -136,6 +136,10 @@ class Firebase {
   appliedOpportunities = () => this.db.ref(`appliedOpportunities/`);
 
 
+ // *** Notifications API ***/
+ notifications = uid => this.db.ref(`notifications/${uid}`)
+ notification = (uid, nid) => this.db.ref(`notifications/${uid}/${nid}`)
+
   // ** Connections API *** /
   //Connections
   connection = uid =>  this.db.ref(`connections/${uid}`);
@@ -144,5 +148,7 @@ class Firebase {
   pendingConnections = () => this.db.ref(`pendingConnections`)
   pendingConnection = uid => this.db.ref(`pendingConnections/${uid}`)
  }
+
+
 
 export default Firebase;

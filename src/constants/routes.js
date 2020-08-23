@@ -36,6 +36,10 @@ export const OPPORTUNITIES_SAVED = "/opportunities/saved";
 export const OPPORTUNITIES_APPLIED = "/opportunities/applied";
 export const OPPORTUNITIES_PUBLISHED= "/opportunities/published";
 
+//notifications
+export const NOTIFICATIONS= "/notifications"
+export const NOTIFICATION = "/notifications/:id"
+
 //bands
 export const BANDS = "/bands";
 export const BAND = "/bands/:id";

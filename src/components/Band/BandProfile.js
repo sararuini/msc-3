@@ -135,6 +135,15 @@ class BandProfile extends Component {
     });
     this.setState({ bandPendingMembership: true });
     console.log(" membership rqst sent");
+
+
+    this.props.firebase.notifications(this.state.bandMembers).push(
+      {
+        type: "Band Member Request",
+        bandApplicant: userProfileId,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP,
+      }
+    )
   };
 
   componentWillUnmount() {

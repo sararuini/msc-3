@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 
 import * as ROUTES from "../../constants/routes";
-import OpportunityProfile from "./OpportunityProfile";
 
 let options = [];
 

@@ -128,6 +128,14 @@ class UserItem extends Component {
       console.log("request sent");
       console.log(newRefKey);
     }
+
+    this.props.firebase.notifications(receiverId).push(
+      {
+        type: "Connection Request",
+        senderId: sender.uid,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP,
+      }
+    )
   };
 
   render() {

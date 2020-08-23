@@ -15,6 +15,7 @@ import { withAuthentication } from '../Session';
 import UsersDisplayPage from '../Users'
 import ConnectionPage from '../Connections';
 import OpportunityPage from '../Opportunities';
+import NotificationPage from '../Notifications'
 import BandPage from '../Band';
 import { ScrollView, View} from "react-native-web";
 //import page_styles from './styles';
@@ -41,7 +42,7 @@ const App = () => (
       <Route path = {ROUTES.OPPORTUNITIES} component={OpportunityPage}/>
       <Route path = {ROUTES.CONNECTIONS} component={ConnectionPage}/>
       <Route path = {ROUTES.BANDS} component={BandPage}/>
-      
+      <Route path = {ROUTES.NOTIFICATIONS} component={NotificationPage} />
     </div>
   
 

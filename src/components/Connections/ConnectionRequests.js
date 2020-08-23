@@ -99,6 +99,14 @@ class ConnectionRequests extends Component {
           console.log("finito");
         });
 
+        this.props.firebase.notifications(this.state.connectionUser).push(
+          {
+            type: "Accepted Connection Request",
+            user: currentUserId,
+            createdAt: this.props.firebase.serverValue.TIMESTAMP,
+          }
+        )
+
         this.props.firebase.pendingConnection(uid).remove();
         console.log("acrtually finito");
       }
@@ -106,8 +114,22 @@ class ConnectionRequests extends Component {
   };
 
   declineConnectionRequest = (uid) => {
-    console.log("uid " + uid);
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const currentUserId = currentUser.uid;
+
+    this.props.firebase.notifications(this.state.connectionUser).push(
+      {
+        type: "Declined Connection Request",
+        user: currentUserId,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP,
+      }
+    )
     this.props.firebase.pendingConnection(uid).remove();
+
+      }
+    })
     
   };
 
