@@ -12,6 +12,8 @@ import AppliedOpportunities from "./AppliedOpportunities";
 import CreatedOpportunities from "./CreatedOpportunities";
 import OpportunitiesAvailable from "./OpportunitiesAvailable";
 import OpportunityItem from "./OpportunityItem";
+import OpportunityProfile from "./OpportunityProfile";
+
 
 
 const OpportunityPage = () => (
@@ -23,6 +25,7 @@ const OpportunityPage = () => (
       <Route exact path={ROUTES.OPPORTUNITIES_PUBLISHED} component={CreatedOpportunities} />
       <Route exact path={ROUTES.OPPORTUNITIES_AVAILABLE} component={OpportunitiesAvailable} />
       <Route exact path={ROUTES.OPPORTUNITY} component={OpportunityItem} />
+      <Route exact path={ROUTES.OPPORTUNITY_PROFILE} component={OpportunityProfile} />
 
     </Switch>
     
