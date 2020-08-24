@@ -110,6 +110,10 @@ class Firebase {
   userBands = (uid) => this.db.ref(`users/${uid}/bands`)
   userBand = (uid,bid) => this.db.ref(`users/${uid}/bands/${bid}`)
 
+  //Posts
+  userPosts = (uid) => this.db.ref(`users/${uid}/posts`)
+  userPost = (uid,bid) => this.db.ref(`users/${uid}/posts/${bid}`)
+
  // *** Band Profile API ***
   band = (uid) => this.db.ref(`bands/${uid}/`)
   bands = () =>this.db.ref(`bands/`)

@@ -14,6 +14,7 @@ const PostList = ({
         authUser={authUser}
         key={post.uid}
         post={post}
+        postCreator={post.userId}
         onEditPost={onEditPost}
         onRemovePost={onRemovePost}
       />

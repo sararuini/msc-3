@@ -19,7 +19,7 @@ class ConnectionRequests extends Component {
 
   listenForConnectionRequests = () => {
     this.setState({ loading: true });
-    console.log("loading your connection rqst")
+    console.log("loading your connection rqst");
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         const currentUser = this.props.firebase.auth.currentUser;
@@ -57,10 +57,9 @@ class ConnectionRequests extends Component {
     this.listenForConnectionRequests();
   };
 
-  
   componentWillUnmount = () => {
     this.props.firebase.pendingConnections().off();
-  }
+  };
 
   acceptConnectionRequest = (uid) => {
     console.log("accept 1 ");
@@ -72,40 +71,42 @@ class ConnectionRequests extends Component {
 
         this.props.firebase.pendingConnection(uid).once("value", (snapshot) => {
           const sender = snapshot.val().senderId;
-          console.log("sender " + sender);
-          this.setState({ connectionUser: sender });
+          if (sender) {
+            console.log("sender " + sender);
+            this.setState({ connectionUser: sender });
 
-          const reference = this.props.firebase.connections().push({
-            userA: this.state.connectionUser,
-            userB: currentUserId,
-            createdAt: this.props.firebase.serverValue.TIMESTAMP,
-          });
+            const reference = this.props.firebase.connections().push({
+              userA: this.state.connectionUser,
+              userB: currentUserId,
+              createdAt: this.props.firebase.serverValue.TIMESTAMP,
+            });
 
-          const refKey = reference.key;
+            const refKey = reference.key;
 
-          console.log("ref key " + refKey);
+            console.log("ref key " + refKey);
 
-          this.props.firebase.userConnection(currentUserId, refKey).set({
-            user: this.state.connectionUser,
-            state: true,
-          })
-          console.log("oh ye")
+            this.props.firebase.userConnection(currentUserId, refKey).set({
+              user: this.state.connectionUser,
+              state: true,
+            });
+            console.log("oh ye");
 
-          this.props.firebase.userConnection(this.state.connectionUser, refKey).set({
-            user: currentUserId,
-            state: true,
-          })
+            this.props.firebase
+              .userConnection(this.state.connectionUser, refKey)
+              .set({
+                user: currentUserId,
+                state: true,
+              });
 
-          console.log("finito");
+            console.log("finito");
+          }
         });
 
-        this.props.firebase.notifications(this.state.connectionUser).push(
-          {
-            type: "Accepted Connection Request",
-            user: currentUserId,
-            createdAt: this.props.firebase.serverValue.TIMESTAMP,
-          }
-        )
+        this.props.firebase.notifications(this.state.connectionUser).push({
+          type: "Accepted Connection Request",
+          user: currentUserId,
+          createdAt: this.props.firebase.serverValue.TIMESTAMP,
+        });
 
         this.props.firebase.pendingConnection(uid).remove();
         console.log("acrtually finito");
@@ -119,31 +120,27 @@ class ConnectionRequests extends Component {
         const currentUser = this.props.firebase.auth.currentUser;
         const currentUserId = currentUser.uid;
 
-    this.props.firebase.notifications(this.state.connectionUser).push(
-      {
-        type: "Declined Connection Request",
-        user: currentUserId,
-        createdAt: this.props.firebase.serverValue.TIMESTAMP,
+        this.props.firebase.notifications(this.state.connectionUser).push({
+          type: "Declined Connection Request",
+          user: currentUserId,
+          createdAt: this.props.firebase.serverValue.TIMESTAMP,
+        });
+        this.props.firebase.pendingConnection(uid).remove();
       }
-    )
-    this.props.firebase.pendingConnection(uid).remove();
-
-      }
-    })
-    
+    });
   };
 
   deleteConnectionRequest = (uid) => {
-    console.log("deleted connection requests")
+    console.log("deleted connection requests");
     console.log("uid " + uid);
     this.props.firebase.pendingConnection(uid).remove();
-  }
+  };
 
   onNextPage = () => {
-      this.setState(
-        (state) => ({ limit: state.limit + 5 }),
-        this.listenForConnectionRequests
-      );
+    this.setState(
+      (state) => ({ limit: state.limit + 5 }),
+      this.listenForConnectionRequests
+    );
   };
 
   render() {

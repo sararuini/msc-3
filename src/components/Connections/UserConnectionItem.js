@@ -32,7 +32,8 @@ class UserConnectionItem extends Component {
     console.log("thisConnection " + thisConnection)
     this.props.firebase.connection(thisConnection).once("value", (snapshot) => {
       const connectionObj = snapshot.val();
-      const userA = connectionObj.userA;
+      if (connectionObj) {
+        const userA = connectionObj.userA;
       const userB = connectionObj.userB;
       let selectedUser = "";
 
@@ -47,6 +48,8 @@ class UserConnectionItem extends Component {
         console.log("userUserna " + userUsername)
         this.setState({ connectionUsername: userUsername });
       });
+      }
+      
     });
   };
   render() {

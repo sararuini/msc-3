@@ -15,18 +15,58 @@ class PostItem extends Component {
       canShowPost: false,
     };
   }
+
   componentDidMount() {
     const postId = this.props.post.uid;
-    const userId = this.props.post.userId;
+    const creator = this.props.postCreator
+    const user = this.props.firebase.auth.currentUser
+    const userId = user.uid;
 
+    this.props.firebase.userConnections(userId)
+      .once("value", (snapshot) => {
+        const userConnObj = snapshot.val();
+
+        if (userConnObj){
+          for (const property in userConnObj){
+            if (userConnObj.hasOwnProperty(property)) {
+              console.log(userConnObj[property])
+
+              const connectionObject = userConnObj[property].user
+              console.log("uuuser " + connectionObject)
+              
+              this.setState({ connection: connectionObject })
+            }
+            if (creator ===  this.state.connection || creator === userId){
+              this.setState({
+                canShowPost: true
+              })
+              console.log("creeator " + creator)
+              console.log("state " + this.state.canShowPost)
+            } 
+          }
+        } else {
+          if (creator === userId){
+            this.setState({
+              canShowPost: true
+            })
+            console.log("creeator " + creator)
+            console.log("state " + this.state.canShowPost)
+          } 
+        }
+        
+    })    
+     
+    
+    /*
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
+        console.log("start")
         const currentUser = this.props.firebase.auth.currentUser;
         const currentUserId = currentUser.uid;
 
         this.props.firebase
           .userConnections(currentUserId)
-          .once("value", (snapshot) => {
+          .on("value", (snapshot) => {
             const userConnObj = snapshot.val();
 
             if (userConnObj) {
@@ -41,7 +81,7 @@ class PostItem extends Component {
                           if (property === "userA" || property === "userB") {
                             if (connectionObj[property] !== currentUserId) {
                               console.log(
-                                property + "proppp " + connectionObj[property]
+                                property + " proppp " + connectionObj[property]
                               );
                               console.log("current user id " + currentUserId);
                               const conn = connectionObj[property];
@@ -55,7 +95,7 @@ class PostItem extends Component {
 
                               this.props.firebase
                                 .post(postId)
-                                .once("value", (snapshot) => {
+                                .on("value", (snapshot) => {
                                   const postObj = snapshot.val();
                                   this.setState({
                                     userId: postObj.userId,
@@ -94,8 +134,8 @@ class PostItem extends Component {
                               if (this.state.canShowPost === true) {
                                 this.props.firebase
                                   .user(userId)
-                                  .once("value", (snapshot) => {
-                                    const userObj = snapshot.val();
+                                  .on("value", (snshot) => {
+                                    const userObj = snshot.val();
 
                                     this.setState({
                                       username: userObj.username,
@@ -111,7 +151,7 @@ class PostItem extends Component {
                 }
               }
             } else {
-              this.props.firebase.post(postId).once("value", (snapshot) => {
+              this.props.firebase.post(postId).on("value", (snapshot) => {
                 const postObj = snapshot.val();
                 if (postObj) {
                   this.setState({
@@ -127,9 +167,13 @@ class PostItem extends Component {
                 } 
               });
             }
+            
           });
+          console.log("finish")
       }
     });
+
+    */
   }
 
   onToggleEditMode = () => {
@@ -150,12 +194,11 @@ class PostItem extends Component {
   };
 
   render() {
-    const { authUser, post, onRemovePost } = this.props;
+    const { authUser, post, onRemovePost, postCreator} = this.props;
     const { editMode, editText, username, canShowPost } = this.state;
 
     return (
       <div>
-        
         {authUser && canShowPost && (
           <div>
             {editMode && (
@@ -173,7 +216,7 @@ class PostItem extends Component {
                     pathname: `${ROUTES.USERS}/${post.userId}`,
                   }}
                 >
-                  {username}
+                  {username} {postCreator}
                 </Link>
                 {post.text}
                 {post.editedAt && <span>(Edited)</span>}
@@ -199,6 +242,9 @@ class PostItem extends Component {
             )}
           </div>
         )}
+        
+          
+        
       </div>
     );
   }

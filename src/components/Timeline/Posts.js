@@ -55,11 +55,20 @@ class Posts extends Component {
   };
 
   onCreatePost = (event, authUser) => {
-    this.props.firebase.posts().push({
+    const ref = this.props.firebase.posts().push()
+    const refKey = ref.key
+    const userId = authUser.uid
+
+    ref.set({
       text: this.state.text,
-      userId: authUser.uid,
+      userId: userId,
       createdAt: this.props.firebase.serverValue.TIMESTAMP,
     });
+
+    this.props.firebase.userPosts(userId).set({
+      [refKey]: "posted",
+    }
+    )
 
     this.setState({ text: "" });
 
