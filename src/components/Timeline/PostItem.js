@@ -42,7 +42,18 @@ class PostItem extends Component {
               })
               console.log("creeator " + creator)
               console.log("state " + this.state.canShowPost)
-            } 
+            }
+            if (this.state.canShowPost === true) {
+              this.props.firebase
+                .user(creator)
+                .on("value", (snshot) => {
+                  const userObj = snshot.val();
+
+                  this.setState({
+                    username: userObj.username,
+                  });
+                });
+            }
           }
         } else {
           if (creator === userId){
@@ -52,128 +63,8 @@ class PostItem extends Component {
             console.log("creeator " + creator)
             console.log("state " + this.state.canShowPost)
           } 
-        }
-        
-    })    
-     
-    
-    /*
-    this.props.firebase.auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        console.log("start")
-        const currentUser = this.props.firebase.auth.currentUser;
-        const currentUserId = currentUser.uid;
-
-        this.props.firebase
-          .userConnections(currentUserId)
-          .on("value", (snapshot) => {
-            const userConnObj = snapshot.val();
-
-            if (userConnObj) {
-              for (const id in userConnObj) {
-                if (userConnObj.hasOwnProperty(id)) {
-                  this.props.firebase.connection(id).once("value", (snap) => {
-                    const connectionObj = snap.val();
-
-                    if (connectionObj) {
-                      for (const property in connectionObj) {
-                        if (connectionObj.hasOwnProperty(property)) {
-                          if (property === "userA" || property === "userB") {
-                            if (connectionObj[property] !== currentUserId) {
-                              console.log(
-                                property + " proppp " + connectionObj[property]
-                              );
-                              console.log("current user id " + currentUserId);
-                              const conn = connectionObj[property];
-                              this.setState({
-                                connection: conn,
-                              });
-                              console.log(
-                                "this state loading connections " +
-                                  this.state.connection
-                              );
-
-                              this.props.firebase
-                                .post(postId)
-                                .on("value", (snapshot) => {
-                                  const postObj = snapshot.val();
-                                  this.setState({
-                                    userId: postObj.userId,
-                                  });
-                                  console.log("pooost uuuuser id " + userId);
-                                  console.log("poost " + postObj.text);
-                                  console.log(
-                                    "connection " + this.state.connection
-                                  );
-                                  if (
-                                    this.state.connection === postObj.userId
-                                  ) {
-                                    console.log("friend");
-                                    this.setState({ canShowPost: true });
-                                    console.log(
-                                      "state connection post " +
-                                        this.state.canShowPost
-                                    );
-                                  } else if (postObj.userId === currentUserId) {
-                                    console.log("seelf");
-                                    this.setState({ canShowPost: true });
-                                    console.log(
-                                      "state connection post " +
-                                        this.state.canShowPost
-                                    );
-                                  } else {
-                                    console.log("not friend");
-                                    this.setState({ canShowPost: false });
-                                    console.log(
-                                      "state connection post " +
-                                        this.state.canShowPost
-                                    );
-                                  }
-                                });
-
-                              if (this.state.canShowPost === true) {
-                                this.props.firebase
-                                  .user(userId)
-                                  .on("value", (snshot) => {
-                                    const userObj = snshot.val();
-
-                                    this.setState({
-                                      username: userObj.username,
-                                    });
-                                  });
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  });
-                }
-              }
-            } else {
-              this.props.firebase.post(postId).on("value", (snapshot) => {
-                const postObj = snapshot.val();
-                if (postObj) {
-                  this.setState({
-                    userId: postObj.userId,
-                  });
-                  if (postObj.userId === currentUserId) {
-                    console.log("seelf");
-                    this.setState({ canShowPost: true });
-                    console.log(
-                      "state connection post " + this.state.canShowPost
-                    );
-                  }
-                } 
-              });
-            }
-            
-          });
-          console.log("finish")
-      }
-    });
-
-    */
+        }      
+    })   
   }
 
   onToggleEditMode = () => {
@@ -216,7 +107,7 @@ class PostItem extends Component {
                     pathname: `${ROUTES.USERS}/${post.userId}`,
                   }}
                 >
-                  {username} {postCreator}
+                  {username}
                 </Link>
                 {post.text}
                 {post.editedAt && <span>(Edited)</span>}
