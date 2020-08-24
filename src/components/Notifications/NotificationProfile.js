@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 
 import { Link } from "react-router-dom";
-import Select from "react-select";
 
 import * as ROUTES from "../../constants/routes";
 
@@ -21,6 +20,9 @@ class NotificationProfile extends Component {
       band: "",
       senderId: "",
       user: "",
+      username: "",
+      bandName: "",
+      opportunityTitle: "",
     };
   }
 
@@ -66,7 +68,7 @@ class NotificationProfile extends Component {
                       case "Band Member Request":
                         this.bandMemberRequestReceived(
                           currentUserId,
-                          notificationId
+                          notificationId,
                         );
                         break;
                       case "Connection Request Received":
@@ -122,6 +124,14 @@ class NotificationProfile extends Component {
           }
         }
       });
+
+    this.props.firebase.user(this.state.user).once("value", (snapshot) => {
+      const userObj = snapshot.val();
+      this.setState({
+        username: userObj.username,
+      });
+    });
+    console.log("connection request" + this.state.username)
   };
 
   connectionRequestReceived = (user, notification) => {
@@ -142,8 +152,15 @@ class NotificationProfile extends Component {
           }
         }
       });
+    this.props.firebase.user(this.state.senderId).once("value", (snapshot) => {
+      const userObj = snapshot.val();
+      this.setState({
+        username: userObj.username,
+      });
+    });
   };
 
+  /*
   bandMemberRequestReceived = (user, notification) => {
     this.props.firebase
       .notification(user, notification)
@@ -162,7 +179,14 @@ class NotificationProfile extends Component {
           }
         }
       });
+    this.props.firebase.band(this.state.band).once("value", (snapshot) => {
+      const bandObj = snapshot.val();
+      this.setState({
+        bandName: bandObj.name,
+      });
+    });
   };
+  */
 
   opportunityStatus = (user, notification) => {
     this.props.firebase
@@ -187,6 +211,14 @@ class NotificationProfile extends Component {
           }
         }
       });
+    this.props.firebase
+      .opportunity(this.state.band)
+      .once("value", (snapshot) => {
+        const oppObj = snapshot.val();
+        this.setState({
+          opportunityTitle: oppObj.title,
+        });
+      });
   };
 
   bandMemberNotification = (user, notification) => {
@@ -197,11 +229,29 @@ class NotificationProfile extends Component {
         if (notificationObj) {
           for (const property in notificationObj) {
             if (notificationObj.hasOwnProperty(property)) {
-              if (property === "bandApplicant") {
+              console.log("band: " + notificationObj[property] )
+               if (property  === "band") {
                 this.setState({
-                  bandApplicant: notificationObj[property],
-                });
-                console.log("bandApplicant " + this.state.bandApplicant);
+                  band: notificationObj[property],
+                })
+              }
+            }
+          }
+        }
+      });
+      console.log("baaaaand " + this.state.band)
+
+      this.props.firebase.band(this.state.band).once("value", (snapshot) => {
+        const bandObj = snapshot.val();
+        console.log("baaand " + bandObj.name)
+        if (bandObj) {
+          for (const property in bandObj) {
+            if (bandObj.hasOwnProperty(property)) {
+              if (property === "name") {
+                console.log("band name " + bandObj[property])
+                this.setState({
+                  bandName: bandObj[property],
+                })
               }
             }
           }
@@ -209,12 +259,17 @@ class NotificationProfile extends Component {
       });
   };
 
-  /*
-  componentWillUnmount (){
-    const oppId = this.props.match.params.id;
-    //this.props.firebase.notification(oppId).off();
+  componentWillUnmount() {
+    const notificationId = this.props.match.params.id;
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const currentUser = this.props.firebase.auth.currentUser;
+        const currentUserId = currentUser.uid;
+
+        this.props.firebase.notification(notificationId).off();
+      }
+    });
   }
-  */
 
   render() {
     const { authUser } = this.props;
@@ -228,51 +283,106 @@ class NotificationProfile extends Component {
       band,
       senderId,
       user,
+      username,
+      bandName,
+      opportunityTitle,
     } = this.state;
 
     return (
       <div>
         {loading && <div> Loading...</div>}
         <ul>{type}</ul>
-        <ul>Created At: {createdAt}</ul>
+        <ul>Notification sent at: {createdAt}</ul>
 
         {type === "Accepted Connection Request" && (
           <div>
-            <ul>User: {user}</ul>
+            <ul>User:</ul>
+
+            <Link
+              to={{
+                pathname: `${ROUTES.USERS}/${user}`,
+              }}
+            >
+              {username}
+            </Link>
           </div>
         )}
 
         {type === "Declined Connection Request" && (
           <div>
-            <ul>User: {user}</ul>
+            <ul>User:</ul>
+
+            <Link
+              to={{
+                pathname: `${ROUTES.USERS}/${user}`,
+              }}
+            >
+              {username}
+            </Link>
           </div>
         )}
 
-        {type === "Band Member Request" && (
+{/* {type === "Band Member Request" && (
           <div>
-            <ul>Band: {band}</ul>
+            <ul>Band:</ul>
+
+            <Link
+              to={{
+                pathname: `${ROUTES.BANDS}/${band}`,
+              }}
+            >
+              {bandName}
+            </Link>
           </div>
-        )}
+        )}*/}
+        
 
         {type === "Connection Request Received" && (
           <div>
-            <ul>Sender: {senderId}</ul>
+            <ul>Sender:</ul>
+
+            <Link
+              to={{
+                pathname: `${ROUTES.USERS}/${senderId}`,
+              }}
+            >
+              {username}
+            </Link>
           </div>
         )}
 
         {type === "Opportunity Status Notification" && (
           <div>
-            <ul>Opportunity: {opportunity}</ul>
+            <ul>Opportunity:</ul>
+
+            <Link
+              to={{
+                pathname: `${ROUTES.OPPORTUNITIES}/${opportunity}`,
+              }}
+            >
+              {opportunityTitle}
+            </Link>
             <ul>Status Message: {statusMessage}</ul>
           </div>
         )}
 
         {type === "Approved Band Member" && (
-          <div>Band Applicant: {bandApplicant}</div>
+          <div>
+            <Link
+              to={{
+                pathname: `${ROUTES.BANDS}/${band}`,
+              }}
+            >
+              {bandName}
+            </Link>
+          </div>
         )}
 
         {type === "Declined Band Member" && (
-          <div>Band Applicant: {bandApplicant}</div>
+          <div>
+          <ul>Band: {bandName} :</ul>
+
+        </div>
         )}
       </div>
     );

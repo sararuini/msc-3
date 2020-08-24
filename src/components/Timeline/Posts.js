@@ -100,9 +100,6 @@ class Posts extends Component {
               <button type="submit">Create a post</button>
             </form>
 
-
-            
-
             {loading && <div>Loading ...</div>}
 
             {posts && (
@@ -113,7 +110,7 @@ class Posts extends Component {
                 onRemovePost={this.onRemovePost}
               />
             )}
-            
+
             {!loading && posts && (
               <button type="button" onClick={this.onNextPage}>
                 More
