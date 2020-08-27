@@ -26,7 +26,7 @@ const ModifyProfilePage = () => (
 );
 
 const PROFILE_CONTENT = {
-  profilePicture: "",
+  profilePicture: null,
   location: "",
   headline: "",
   phoneNumber: "",
@@ -81,6 +81,26 @@ class ModifyProfileBase extends Component {
   componentDidMount = () => {
     this.showUser();
   };
+
+  onChangeHandler= (event) =>{
+    this.setState({
+      
+  })
+
+}
+
+onClickHandler = () => {
+  this.props.firebase.auth.onAuthStateChanged((authUser) => {
+    if (authUser) {
+      const userId = this.props.firebase.user(authUser.uid);
+
+      this.props.firebase.userProfilePicture(userId).
+    }
+  })
+  
+}
+
+
 
   showUser = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
@@ -653,6 +673,16 @@ class ModifyProfileBase extends Component {
             <View>
               <button type="submit">Save Profile</button>
             </View>
+            <View>
+              <form>
+                <label>Upload portfolio item</label>
+                <input type="file" multiple="" name="file" onChange={this.onChangeHandler}
+
+                />
+                <button type="" />
+              </form>
+              
+            </View>
           </form>
         </div>
       </View>
@@ -667,3 +697,8 @@ export default compose(
   withEmailVerification,
   withAuthorization(condition)
 )(ModifyProfilePage);
+
+/* Source for uploading file: 
+https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
+
+*/

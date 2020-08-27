@@ -29,6 +29,7 @@ class OpportunityItem extends Component {
 
   retrieveOppInfo = () => {
     const oppId = this.props.opportunity.uid;
+    
     this.props.firebase.opportunity(oppId).once("value", (snapshot) => {
       const oppObj = snapshot.val();
       this.setState({

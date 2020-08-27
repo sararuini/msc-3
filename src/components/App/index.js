@@ -17,6 +17,7 @@ import ConnectionPage from '../Connections';
 import OpportunityPage from '../Opportunities';
 import NotificationPage from '../Notifications'
 import BandPage from '../Band';
+import EventPage from "../Events";
 import { ScrollView, View} from "react-native-web";
 //import page_styles from './styles';
 import page_styles_template from '../StyleTemplate';
@@ -43,6 +44,12 @@ const App = () => (
       <Route path = {ROUTES.CONNECTIONS} component={ConnectionPage}/>
       <Route path = {ROUTES.BANDS} component={BandPage}/>
       <Route path = {ROUTES.NOTIFICATIONS} component={NotificationPage} />
+      
+      {/*
+      <Route path = {ROUTES.EVENTS} component={EventPage} />
+
+      */}
+
     </div>
   
 

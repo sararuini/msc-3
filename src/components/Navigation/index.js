@@ -48,6 +48,11 @@ const NavigationAuth = ({ authUser }) => (
     <Text>
        <Link to={ROUTES.NOTIFICATIONS}>Notifications</Link>
     </Text>
+
+    {/*<Text>
+       <Link to={ROUTES.EVENTS}>Events</Link>
+    </Text> */}
+    
   
       <SignOutButton />
     </View>

@@ -45,3 +45,9 @@ export const BANDS = "/bands";
 export const BAND = "/bands/:id";
 export const BAND_EDIT = "/bands/:id/edit";
 export const USER_BANDS = "/bands/user"
+
+//events
+export const EVENTS = "/events";
+export const EVENT = "/events/:id";
+export const EVENT_EDIT = "/events/:id/edit";
+export const USER_EVENTS = "/events/user"

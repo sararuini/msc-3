@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
-
+import PostCommentList from "./PostCommentList";
+ 
 class PostItem extends Component {
   constructor(props) {
     super(props);
@@ -13,58 +14,58 @@ class PostItem extends Component {
       username: "",
       connection: "",
       canShowPost: false,
+      comment: "",
+      comments: [],
     };
   }
 
   componentDidMount() {
     const postId = this.props.post.uid;
-    const creator = this.props.postCreator
-    const user = this.props.firebase.auth.currentUser
+    const user = this.props.firebase.auth.currentUser;
     const userId = user.uid;
+    const creator = this.props.post.userId;
 
-    this.props.firebase.userConnections(userId)
-      .once("value", (snapshot) => {
-        const userConnObj = snapshot.val();
+    this.props.firebase.userConnections(userId).once("value", (snapshot) => {
+      const userConnObj = snapshot.val();
 
-        if (userConnObj){
-          for (const property in userConnObj){
-            if (userConnObj.hasOwnProperty(property)) {
-              console.log(userConnObj[property])
+      if (userConnObj) {
+        for (const property in userConnObj) {
+          if (userConnObj.hasOwnProperty(property)) {
+            console.log(userConnObj[property]);
 
-              const connectionObject = userConnObj[property].user
-              console.log("uuuser " + connectionObject)
-              
-              this.setState({ connection: connectionObject })
-            }
-            if (creator ===  this.state.connection || creator === userId){
-              this.setState({
-                canShowPost: true
-              })
-              console.log("creeator " + creator)
-              console.log("state " + this.state.canShowPost)
-            }
-            if (this.state.canShowPost === true) {
-              this.props.firebase
-                .user(creator)
-                .on("value", (snshot) => {
-                  const userObj = snshot.val();
+            const connectionObject = userConnObj[property].user;
+            console.log("uuuser " + connectionObject);
 
-                  this.setState({
-                    username: userObj.username,
-                  });
-                });
-            }
+            this.setState({ connection: connectionObject });
           }
-        } else {
-          if (creator === userId){
+          if (creator === this.state.connection || creator === userId) {
             this.setState({
-              canShowPost: true
-            })
-            console.log("creeator " + creator)
-            console.log("state " + this.state.canShowPost)
-          } 
-        }      
-    })   
+              canShowPost: true,
+            });
+            console.log("creeator " + creator);
+            console.log("state " + this.state.canShowPost);
+          }
+          if (this.state.canShowPost === true) {
+            this.props.firebase.user(creator).on("value", (snshot) => {
+              const userObj = snshot.val();
+
+              this.setState({
+                username: userObj.username,
+              });
+            });
+          }
+        }
+      } else {
+        if (creator === userId) {
+          this.setState({
+            canShowPost: true,
+          });
+          console.log("creeator " + creator);
+          console.log("state " + this.state.canShowPost);
+        }
+      }
+    });
+    this.loadComments();
   }
 
   onToggleEditMode = () => {
@@ -84,9 +85,53 @@ class PostItem extends Component {
     this.setState({ editMode: false });
   };
 
+  writeComment = (uid) => {
+    const user = this.props.firebase.auth.currentUser;
+    const userId = user.uid;
+    this.props.firebase.comments(uid).push({
+      comment: this.state.comment,
+      createdBy: userId,
+      createdAt: this.props.firebase.serverValue.TIMESTAMP,
+    });
+  };
+
+  loadComments = () => {
+    this.props.firebase
+      .comments(this.props.post.uid)
+      .orderByChild("createdAt")
+      .once("value", (snapshot) => {
+        const commentObj = snapshot.val();
+
+        if (commentObj) {
+          const commentList = Object.keys(commentObj).map((key) => ({
+            ...commentObj[key],
+            uid: key,
+          }));
+
+          this.setState({
+            comments: commentList
+          });
+        } else {
+          this.setState({ comments: null });
+        }
+      });
+  };
+
+
+  onChangeComment = (event) => {
+    this.setState({ comment: event.target.value });
+  };
+
   render() {
-    const { authUser, post, onRemovePost, postCreator} = this.props;
-    const { editMode, editText, username, canShowPost } = this.state;
+    const { authUser, post, onRemovePost } = this.props;
+    const {
+      editMode,
+      editText,
+      username,
+      canShowPost,
+      comment,
+      comments,
+    } = this.state;
 
     return (
       <div>
@@ -102,17 +147,21 @@ class PostItem extends Component {
 
             {!editMode && (
               <span>
-                <Link
-                  to={{
-                    pathname: `${ROUTES.USERS}/${post.userId}`,
-                  }}
-                >
-                  {username}
-                </Link>
-                {post.text}
+                <div>
+                  <Link
+                    to={{
+                      pathname: `${ROUTES.USERS}/${post.userId}`,
+                    }}
+                  >
+                    {username}
+                  </Link>
+                </div>
+                <div>{post.text}</div>
+
                 {post.editedAt && <span>(Edited)</span>}
               </span>
             )}
+
             {authUser.uid === post.userId && (
               <span>
                 {editMode ? (
@@ -131,11 +180,31 @@ class PostItem extends Component {
                 )}
               </span>
             )}
+
+            <span> Comments: </span>
+            <span>
+              <form onSubmit={() => this.writeComment(post.uid)}>
+                <input
+                  type="text"
+                  value={comment}
+                  onChange={this.onChangeComment}
+                />
+                <button type="submit">Create a comment</button>
+              </form>
+            </span>
+
+            {!comments && <div> This post has no comments </div>}
+
+            {comments && (
+              <PostCommentList
+                authUser={authUser}
+                comments={comments}
+                post={post.uid}
+              />
+            )}  
+          
           </div>
         )}
-        
-          
-        
       </div>
     );
   }
