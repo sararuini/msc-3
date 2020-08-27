@@ -81,7 +81,7 @@ class ModifyProfileBase extends Component {
   componentDidMount = () => {
     this.showUser();
   };
-
+  /*
   onChangeHandler= (event) =>{
     this.setState({
       
@@ -99,6 +99,7 @@ onClickHandler = () => {
   })
   
 }
+*/
 
 
 
