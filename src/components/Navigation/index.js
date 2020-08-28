@@ -35,12 +35,10 @@ const NavigationAuth = ({ authUser }) => (
           />
         </Link>
 
-
-          
         <View style={page_styles.menu_links}>
           <ul>
           <SettingsIcon /> 
-          <Link style={{ textDecoration: "none", padding: "5px" }} to={ROUTES.SETTINGS}>
+          <Link style={{ textDecoration: "none", padding: "10px" }} to={ROUTES.SETTINGS}>
             Settings
           </Link>
           </ul>
@@ -81,7 +79,7 @@ const NavigationAuth = ({ authUser }) => (
           
           <ul>
             <NotificationsIcon />
-            <Link style={{ textDecoration: "none", padding: "5px" }} to={ROUTES.NOTIFICATIONS}>
+            <Link style={{ textDecoration: "none", padding: "10px" }} to={ROUTES.NOTIFICATIONS}>
             Notifications
           </Link>
           </ul>

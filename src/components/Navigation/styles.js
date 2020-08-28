@@ -15,7 +15,7 @@ const page_styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
 
-    }
+    },
     /*
     navigation: {
         position: "absolute",
@@ -39,7 +39,7 @@ const page_styles = StyleSheet.create({
         backgroundColor: "white",
         flexDirection: "row",
     },
-    
+    */
     right_menu: {
         position: "absolute",
         float: "left",
@@ -64,7 +64,7 @@ const page_styles = StyleSheet.create({
         padding: 3,
         fontSize:16,
     }
-    */
+    
 });
 
 export default page_styles;

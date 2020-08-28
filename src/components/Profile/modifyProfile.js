@@ -72,35 +72,21 @@ class ModifyProfileBase extends Component {
     this.setState({ [event.target.name]: event.target.checked });
   };
 
-  /*
-  onChangeDropdown = (event) => {
-    this.setState({ typeOfUserSelection: });
-  }
-  */
 
   componentDidMount = () => {
     this.showUser();
   };
+
   /*
-  onChangeHandler= (event) =>{
-    this.setState({
-      
-  })
-
-}
-
-onClickHandler = () => {
-  this.props.firebase.auth.onAuthStateChanged((authUser) => {
-    if (authUser) {
-      const userId = this.props.firebase.user(authUser.uid);
-
-      this.props.firebase.userProfilePicture(userId).
-    }
-  })
-  
-}
-*/
-
+  componentWillUnmount = () => {
+    this.props.firebase.auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const userId = this.props.firebase.user(authUser.uid);
+        this.props.firebase.user(userId).off()
+      }
+    })
+  }
+  */
 
 
   showUser = () => {
@@ -653,35 +639,19 @@ onClickHandler = () => {
                 </View>
               </View>
             </View>
-      {/*<View>
-              <label>
-                <Text>Are you a ...</Text>
-                <select
-                  defaultValue={typeOfUserSelection}
-                  onChange={this.onChangeDropdown}
-                >
-                  <option value="professional">
-                    Music Industry Professional
-                  </option>
-                  <option value="musician">Musician</option>
-                  <option value="musician-professional">Both</option>
-                  <option value="other">Other</option>
-                </select>
-              </label>
-            </View> */}
             
 
             <View>
               <button type="submit">Save Profile</button>
             </View>
             <View>
-              <form>
+              
                 <label>Upload portfolio item</label>
                 <input type="file" multiple="" name="file" onChange={this.onChangeHandler}
 
                 />
                 <button type="" />
-              </form>
+                
               
             </View>
           </form>

@@ -20,11 +20,13 @@ import BandPage from "../Band";
 import {View, ScrollView, Dimensions } from "react-native-web";
 import page_styles_template from "./styles";
 
+/*
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
+*/
 
 const App = () => {
-  const [dimensions, setDimensions] = useState({ window, screen });
+  //const [dimensions, setDimensions] = useState({ window, screen });
   return(
   <Router>
     <View >

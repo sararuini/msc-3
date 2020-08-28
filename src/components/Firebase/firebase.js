@@ -24,9 +24,6 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
-    //this.storage = app.storage();
-
-    //this.storage = app.storage();
 
     /* Social Sign In Method Provider */
 
@@ -169,14 +166,6 @@ class Firebase {
   pendingConnections = () => this.db.ref(`pendingConnections`);
   pendingConnection = (uid) => this.db.ref(`pendingConnections/${uid}`);
 
-    /*
-  // STORAGE REF
-  // User profile
-  userProfilePicture = (uid, pid) => this.storage.ref(`profilePicture/${uid}`)
-  // Uploads
-  userUploads = (uid) => this.storage.ref(`uploads/${uid}`)
-  userUpload = (uid, pid) => this.storage.ref(`uploads/${uid}/${pid}`)
-
-  */
 }
+
 export default Firebase;
