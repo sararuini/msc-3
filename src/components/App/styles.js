@@ -17,7 +17,8 @@ const page_styles_template = StyleSheet.create({
       margin: 0,
       border: "1px solid",
       color: "black",
-      backgroundColor: "white"
+      backgroundColor: "white",
+      padding: "20px",
     },
     
 })

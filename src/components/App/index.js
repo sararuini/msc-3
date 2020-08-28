@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect }from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Navigation from "../Navigation";
@@ -17,10 +17,15 @@ import ConnectionPage from "../Connections";
 import OpportunityPage from "../Opportunities";
 import NotificationPage from "../Notifications";
 import BandPage from "../Band";
-import {View, ScrollView } from "react-native-web";
+import {View, ScrollView, Dimensions } from "react-native-web";
 import page_styles_template from "./styles";
 
-const App = () => (
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
+
+const App = () => {
+  const [dimensions, setDimensions] = useState({ window, screen });
+  return(
   <Router>
     <View >
       <div>
@@ -47,6 +52,7 @@ const App = () => (
     </View>
     
   </Router>
-);
+)
+}
 
 export default withAuthentication(App);

@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import { AuthUserContext } from "../Session";
 import SignOutButton from "../SignOut";
 import * as ROUTES from "../../constants/routes";
-import { View, Text, Image } from "react-native-web";
+import { View, Text, Image, Dimensions } from "react-native-web";
 import page_styles from "./styles";
-
-const logo = {
-  uri: "https://flic.kr/p/2jAU4Jz",
-  width: 50,
-  height: 50,
-};
+import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import GroupIcon from '@material-ui/icons/Group';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import RecentActorsIcon from '@material-ui/icons/RecentActors';
+import PeopleIcon from '@material-ui/icons/People';
 
 const Navigation = () => (
   <AuthUserContext.Consumer>
@@ -33,35 +34,58 @@ const NavigationAuth = ({ authUser }) => (
             }}
           />
         </Link>
-        
+
+
+          
         <View style={page_styles.menu_links}>
-          <Link style={{ textDecoration: "none" }} to={ROUTES.SETTINGS}>
+          <ul>
+          <SettingsIcon /> 
+          <Link style={{ textDecoration: "none", padding: "5px" }} to={ROUTES.SETTINGS}>
             Settings
           </Link>
-
-          <Link style={{ textDecoration: "none" }} to={ROUTES.EDIT_PROFILE}>
+          </ul>
+          <ul>
+            <PersonIcon />
+          <Link style={{ textDecoration: "none", padding: "10px" }} to={ROUTES.EDIT_PROFILE}>
             Edit Profile
           </Link>
+          </ul>
 
-          <Link style={{ textDecoration: "none" }} to={ROUTES.OPPORTUNITIES}>
+          <ul>
+          <MusicNoteIcon />
+          <Link style={{ textDecoration: "none", padding: "10px" }} to={ROUTES.OPPORTUNITIES}>
             Opportunities
           </Link>
-
-          <Link style={{ textDecoration: "none" }} to={ROUTES.USERS}>
+          </ul>
+          
+          <ul>
+            <PeopleIcon />
+            <Link style={{ textDecoration: "none", padding: "10px" }} to={ROUTES.USERS}>
             Users
           </Link>
-
-          <Link style={{ textDecoration: "none" }} to={ROUTES.CONNECTIONS}>
+          </ul>
+          
+          <ul>
+          <RecentActorsIcon />
+            <Link style={{ textDecoration: "none", padding: "10px" }} to={ROUTES.CONNECTIONS}>
             Connections
           </Link>
-
-          <Link style={{ textDecoration: "none" }} to={ROUTES.BANDS}>
+          </ul>
+          
+          <ul>
+          <GroupIcon />
+            <Link style={{ textDecoration: "none", padding: "10px" }} to={ROUTES.BANDS}>
             Bands
           </Link>
-
-          <Link style={{ textDecoration: "none" }} to={ROUTES.NOTIFICATIONS}>
+          </ul>
+          
+          <ul>
+            <NotificationsIcon />
+            <Link style={{ textDecoration: "none", padding: "5px" }} to={ROUTES.NOTIFICATIONS}>
             Notifications
           </Link>
+          </ul>
+          
 
           <SignOutButton />
         </View>

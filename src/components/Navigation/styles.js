@@ -12,8 +12,9 @@ const page_styles = StyleSheet.create({
         
     },
     menu_links: {
-        flex: 2,
         flexDirection: "row",
+        flexWrap: "wrap",
+
     }
     /*
     navigation: {
