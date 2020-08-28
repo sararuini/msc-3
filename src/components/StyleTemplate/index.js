@@ -1,3 +1,4 @@
+/*
 import { StyleSheet} from "react-native-web";
 
 const page_styles_template = StyleSheet.create({
@@ -16,4 +17,8 @@ const page_styles_template = StyleSheet.create({
     }
 });
 
-export default page_styles_template;
+
+
+export default {page_styles_template, footbar_styles};
+
+*/

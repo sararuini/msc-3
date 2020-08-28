@@ -4,7 +4,7 @@ import { StyleSheet} from "react-native-web";
     https://stackoverflow.com/questions/29447715/react-native-fixed-footer
  */}
 
-const page_styles = StyleSheet.create({
+const footbar_styles = StyleSheet.create({
     footer: {
         backgroundColor: "black",
     borderTop: "1px solid #E7E7E7",
@@ -14,23 +14,23 @@ const page_styles = StyleSheet.create({
     left: "0",
     bottom: "0",
     right: "0",
-    height: "130px",
+    height: "100px",
     width: "100%",
     },
-    text_container: {
-        padding: 10,
-        flexDirection: "row",
-        justifyContent: "space-around",
-    },
-    all_text: {
-        color: "#ffffff",
-        fontFamily: "sans-serif",
-        padding: 3,
-    },
-    column:{
-        flexDirection: "column",
-        alignItems: "stretch"
-    }
+  text_container: {
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  all_text: {
+    color: "#ffffff",
+    fontFamily: "sans-serif",
+    padding: 3,
+  },
+  column: {
+    flexDirection: "column",
+    alignItems: "stretch",
+  },
 });
 
-export default page_styles;
+export default footbar_styles;

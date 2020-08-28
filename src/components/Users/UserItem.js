@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import page_styles_template from "../StyleTemplate";
+//import page_styles_template from "../StyleTemplate";
 import { View, Text } from "react-native-web";
 import { withFirebase } from "../Firebase";
 
@@ -151,7 +151,7 @@ class UserItem extends Component {
       <div>
         {loading && <div>Loading ...</div>}
         {user && (
-          <View style={page_styles_template.main_page}>
+          <View>
             <div>
               {user.username}
               <span>

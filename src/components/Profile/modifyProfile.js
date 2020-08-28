@@ -9,7 +9,7 @@ import {
 import { withFirebase } from "../Firebase";
 import { View, Text } from "react-native-web";
 //import page_styles from "./styles";
-import page_styles_template from '../StyleTemplate';
+//import page_styles_template from '../StyleTemplate';
 
 //page displaying 'modify profile'
 const ModifyProfilePage = () => (
@@ -363,7 +363,7 @@ onClickHandler = () => {
     } = this.state;
 
     return (
-      <View style={page_styles_template.main_page}>
+      <View>
         <div>
           {/* Profile picture here */}
           <form onSubmit={this.onSubmit}>

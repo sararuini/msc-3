@@ -1,77 +1,85 @@
-import React from 'react';
-import { Link} from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import { AuthUserContext } from "../Session";
+import SignOutButton from "../SignOut";
+import * as ROUTES from "../../constants/routes";
+import { View, Text, Image } from "react-native-web";
+import page_styles from "./styles";
 
-import { AuthUserContext } from '../Session';
-import SignOutButton from '../SignOut';
-import * as ROUTES from '../../constants/routes';
-import { View, Text} from "react-native-web";
-//import page_styles from "./styles";
-import page_styles_template from "../StyleTemplate"
+const logo = {
+  uri: "https://flic.kr/p/2jAU4Jz",
+  width: 50,
+  height: 50,
+};
 
 const Navigation = () => (
   <AuthUserContext.Consumer>
-    {authUser =>
-      authUser ? (
-        <NavigationAuth authUser={authUser} />
-      ) : (
-        <NavigationNonAuth />
-      )
+    {(authUser) =>
+      authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
     }
   </AuthUserContext.Consumer>
 );
 
 const NavigationAuth = ({ authUser }) => (
-  <View style={page_styles_template.main_page}>
-    <ul>
-    <View>
-      <Text >
-      <Link to={ROUTES.HOME}>Home</Link>
-    </Text>
-    <Text >
-      <Link to={ROUTES.SETTINGS}>Settings</Link>
-    </Text>
-    <Text >
-      <Link to={ROUTES.EDIT_PROFILE}>Edit Profile</Link>
-    </Text>
-    <Text >
-      <Link to={ROUTES.OPPORTUNITIES}>Opportunities</Link>
-    </Text>
-    <Text>
-       <Link to={ROUTES.USERS}>Users</Link>
-    </Text>
-    <Text>
-       <Link to={ROUTES.CONNECTIONS}>Connections</Link>
-    </Text>
-    <Text>
-       <Link to={ROUTES.BANDS}>Bands</Link>
-    </Text>
-    <Text>
-       <Link to={ROUTES.NOTIFICATIONS}>Notifications</Link>
-    </Text>
+  <div>
+    <View style={page_styles.top_container}>
+      <div>
+        <Link style={{ textDecoration: "none" }} to={ROUTES.HOME}>
+          <Image
+            style={{ width: 150, height: 150 }}
+            source={{
+              uri:
+                "https://live.staticflickr.com/65535/50277251243_fbd7f7b541_o.png",
+            }}
+          />
+        </Link>
+        
+        <View style={page_styles.menu_links}>
+          <Link style={{ textDecoration: "none" }} to={ROUTES.SETTINGS}>
+            Settings
+          </Link>
 
-    {/*<Text>
-       <Link to={ROUTES.EVENTS}>Events</Link>
-    </Text> */}
-    
-  
-      <SignOutButton />
+          <Link style={{ textDecoration: "none" }} to={ROUTES.EDIT_PROFILE}>
+            Edit Profile
+          </Link>
+
+          <Link style={{ textDecoration: "none" }} to={ROUTES.OPPORTUNITIES}>
+            Opportunities
+          </Link>
+
+          <Link style={{ textDecoration: "none" }} to={ROUTES.USERS}>
+            Users
+          </Link>
+
+          <Link style={{ textDecoration: "none" }} to={ROUTES.CONNECTIONS}>
+            Connections
+          </Link>
+
+          <Link style={{ textDecoration: "none" }} to={ROUTES.BANDS}>
+            Bands
+          </Link>
+
+          <Link style={{ textDecoration: "none" }} to={ROUTES.NOTIFICATIONS}>
+            Notifications
+          </Link>
+
+          <SignOutButton />
+        </View>
+      </div>
     </View>
-    
-  </ul>
-  </View>
-  
+  </div>
 );
 
 const NavigationNonAuth = () => (
-  <View style={page_styles_template.main_page}>
+  <View style={page_styles.navbar_container}>
     <ul>
-    <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-    </li>
-  </ul>
+      <li>
+        <Link to={ROUTES.LANDING}>Landing</Link>
+      </li>
+      <li>
+        <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+      </li>
+    </ul>
   </View>
 );
 

@@ -9,7 +9,7 @@ import { Link} from 'react-router-dom';
 import { withFirebase } from "../Firebase";
 import { View, Text } from "react-native-web";
 import * as ROUTES from '../../constants/routes';
-import page_styles_template from "../StyleTemplate";
+//import page_styles_template from "../StyleTemplate";
 
 const PublicProfilePage = () => (
   <AuthUserContext.Consumer>
@@ -151,7 +151,7 @@ class PublicProfileBase extends Component {
 
     return (
       <div>
-        <View style={page_styles_template.main_page}>
+        <View>
             <span>
               <strong>Username:</strong> {username}
             </span>
