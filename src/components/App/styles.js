@@ -1,7 +1,7 @@
-import { StyleSheet} from "react-native-web";
+import { StyleSheet } from "react-native-web";
 
 const page_styles_template = StyleSheet.create({
-    /*
+  /*
     central_container: {
             alignItems: 'center',
             justifyContent: 'center',
@@ -12,17 +12,36 @@ const page_styles_template = StyleSheet.create({
             borderRadius: 10,
     },
     */
-    
-    central_container: {
-      margin: 0,
-      border: "1px solid",
-      color: "black",
-      backgroundColor: "white",
-      padding: "20px",
-    },
-    
-})
+  whole_app: {
+    display: "flex",
+    flexDirections: "column",
+  },
+  central_block: {
+    flex: 1,
+  },
 
+  scrollable_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 2,
+    color: "black",
+    backgroundColor: "white",
+    padding: "20px",
+    width: "100%",
+    height: "100%",
+  },
 
+  footbar: {
+    display: "block",
+    width: "100%",
+
+    position: "fixed",
+    paddingBottom: "15%",
+  },
+  topbar: {
+    position: "fixed",
+    margin: "1px solid black"
+  },
+});
 
 export default page_styles_template;

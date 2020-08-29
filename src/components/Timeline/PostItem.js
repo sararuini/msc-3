@@ -3,7 +3,9 @@ import { withFirebase } from "../Firebase";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 import PostCommentList from "./PostCommentList";
- 
+import { View } from "react-native-web";
+import postStyle from "./styles";
+
 class PostItem extends Component {
   constructor(props) {
     super(props);
@@ -145,7 +147,8 @@ class PostItem extends Component {
               />
             )}
 
-            {!editMode && (
+            <View style={postStyle.postItem}>
+              {!editMode && (
               <span>
                 <div>
                   <Link
@@ -161,6 +164,9 @@ class PostItem extends Component {
                 {post.editedAt && <span>(Edited)</span>}
               </span>
             )}
+            </View>
+
+            
 
             {authUser.uid === post.userId && (
               <span>

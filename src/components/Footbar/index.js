@@ -6,7 +6,6 @@ import { View, Text, } from "react-native-web";
 import * as ROUTES from "../../constants/routes";
 import footbar_styles from "./styles";
 
-
 const Footbar = () => (
 
     <View style={footbar_styles.footer}>

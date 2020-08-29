@@ -1,4 +1,3 @@
-
 import { StyleSheet} from "react-native-web";
 
 const page_styles = StyleSheet.create({

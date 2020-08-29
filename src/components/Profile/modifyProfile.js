@@ -16,9 +16,7 @@ const ModifyProfilePage = () => (
   <AuthUserContext.Consumer>
     {(authUser) => (
       <div>
-        <Text>
-          Edit Profile: {authUser.username}
-        </Text>
+        <Text>Edit Profile: {authUser.username}</Text>
         <ModifyProfile authUser={authUser} />
       </div>
     )}
@@ -26,7 +24,8 @@ const ModifyProfilePage = () => (
 );
 
 const PROFILE_CONTENT = {
-  profilePicture: null,
+  profilePictureUpload: "",
+  profilePictureUrl: "",
   location: "",
   headline: "",
   phoneNumber: "",
@@ -72,10 +71,32 @@ class ModifyProfileBase extends Component {
     this.setState({ [event.target.name]: event.target.checked });
   };
 
-
   componentDidMount = () => {
     this.showUser();
   };
+
+
+  
+  handleImageAsFile = (event) => {
+    const profilePicture = event.target.files[0];
+    this.setState({ profilePictureUpload: profilePicture });
+  };
+
+  handleFirebaseUpload = (event) => {
+    event.preventDefault();
+    console.log("start of upload");
+    if (this.state.profilePictureUpload === "") {
+      console.log("not an image");
+    }
+    const picUpload = this.state.profilePictureUpload;
+    const uploadRef = this.props.firebase.userProfilePicture(picUpload.name);
+    const uploadTask = uploadRef.put(picUpload);
+    const download = uploadRef.getDownloadURL()
+    this.setState({profilePictureUrl: download})
+
+
+  };
+  
 
   /*
   componentWillUnmount = () => {
@@ -87,7 +108,6 @@ class ModifyProfileBase extends Component {
     })
   }
   */
-
 
   showUser = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
@@ -135,7 +155,6 @@ class ModifyProfileBase extends Component {
 
   onSubmit = (event) => {
     const {
-      profilePicture,
       location,
       headline,
       phoneNumber,
@@ -190,15 +209,13 @@ class ModifyProfileBase extends Component {
             updates["phoneNumber"] = phoneNumber;
           }
 
-          if (
-            user.publicEmailAddress !== publicEmailAddress
-          ) {
+          if (user.publicEmailAddress !== publicEmailAddress) {
             updates["publicEmailAddress"] = publicEmailAddress;
           }
 
           if (
             user.reasonsForJoining_findOpportunities !==
-              reasonsForJoining_findOpportunities
+            reasonsForJoining_findOpportunities
           ) {
             updates[
               "reasonsForJoining_findOpportunities"
@@ -207,7 +224,7 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_connectOthers !==
-              reasonsForJoining_connectOthers
+            reasonsForJoining_connectOthers
           ) {
             updates[
               "reasonsForJoining_connectOthers"
@@ -216,7 +233,7 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_offerOpportunities !==
-              reasonsForJoining_offerOpportunities
+            reasonsForJoining_offerOpportunities
           ) {
             updates[
               "reasonsForJoining_offerOpportunities"
@@ -225,16 +242,14 @@ class ModifyProfileBase extends Component {
 
           if (
             user.reasonsForJoining_promoteServices !==
-              reasonsForJoining_promoteServices
+            reasonsForJoining_promoteServices
           ) {
             updates[
               "reasonsForJoining_promoteServices"
             ] = reasonsForJoining_promoteServices;
           }
 
-          if (
-            user.typeOfUserSelection !== typeOfUserSelection
-          ) {
+          if (user.typeOfUserSelection !== typeOfUserSelection) {
             updates["typeOfUserSelection"] = typeOfUserSelection;
           }
 
@@ -317,7 +332,8 @@ class ModifyProfileBase extends Component {
 
   render() {
     const {
-      profilePicture,
+      profilePictureUpload,
+      profilePictureUrl,
       location,
       headline,
       phoneNumber,
@@ -351,10 +367,22 @@ class ModifyProfileBase extends Component {
     return (
       <View>
         <div>
-          {/* Profile picture here */}
+          <View>
+            <div>
+              <form onSubmit={this.handleFirebaseUpload}>
+                <Text>Profile Pictureeee</Text>
+                <input
+                  type="file"
+                  value={profilePictureUpload}
+                  placeholder="Profile Picture"
+                  onChange={this.handleImageAsFile}
+                />
+                <button type="submit">Upload Profile Picture</button>
+              </form>
+            </div>
+          </View>
           <form onSubmit={this.onSubmit}>
-            <View >
-              <Text>Profile Picture</Text>
+            <View>
               <Text>Headline</Text>
               <input
                 type="text"
@@ -419,9 +447,7 @@ class ModifyProfileBase extends Component {
             </View>
 
             <View>
-              <Text>
-                Social Media and Music Profiles
-              </Text>
+              <Text>Social Media and Music Profiles</Text>
               <Text>Facebook</Text>
               <input
                 type="textarea"
@@ -540,12 +566,9 @@ class ModifyProfileBase extends Component {
                 placeholder="BandCamp"
               />
             </View>
-            <View >
+            <View>
               <View>
-                <Text>
-                  {" "}
-                  Why did you join music connector?
-                </Text>
+                <Text> Why did you join music connector?</Text>
 
                 <View>
                   <input
@@ -556,9 +579,7 @@ class ModifyProfileBase extends Component {
                     onChange={this.onChangeCheckbox}
                   />
                   <label htmlFor="reasonsForJoining_connectOthers">
-                    <Text>
-                      Connect with others
-                    </Text>
+                    <Text>Connect with others</Text>
                   </label>
                 </View>
 
@@ -571,9 +592,7 @@ class ModifyProfileBase extends Component {
                     onChange={this.onChangeCheckbox}
                   />
                   <label htmlFor="reasonsForJoining_findOpportunities">
-                    <Text>
-                      Find new opportunities
-                    </Text>
+                    <Text>Find new opportunities</Text>
                   </label>
                 </View>
 
@@ -586,9 +605,7 @@ class ModifyProfileBase extends Component {
                     onChange={this.onChangeCheckbox}
                   />
                   <label htmlFor="reasonsForJoining_promoteServices">
-                    <Text>
-                      Promote my Services and/or my work
-                    </Text>
+                    <Text>Promote my Services and/or my work</Text>
                   </label>
                 </View>
                 <View>
@@ -600,9 +617,7 @@ class ModifyProfileBase extends Component {
                     onChange={this.onChangeCheckbox}
                   />
                   <label htmlFor="reasonsForJoining_offerOpportunities">
-                    <Text>
-                      Offer Opportunities
-                    </Text>
+                    <Text>Offer Opportunities</Text>
                   </label>
                   <View>
                     <Text>Skills & Interests</Text>
@@ -639,20 +654,9 @@ class ModifyProfileBase extends Component {
                 </View>
               </View>
             </View>
-            
 
             <View>
               <button type="submit">Save Profile</button>
-            </View>
-            <View>
-              
-                <label>Upload portfolio item</label>
-                <input type="file" multiple="" name="file" onChange={this.onChangeHandler}
-
-                />
-                <button type="" />
-                
-              
             </View>
           </form>
         </div>
@@ -669,7 +673,7 @@ export default compose(
   withAuthorization(condition)
 )(ModifyProfilePage);
 
-/* Source for uploading file: 
-https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
+/* Source for uploading files: 
+https://dev.to/itnext/how-to-do-image-upload-with-firebase-in-react-cpj
 
 */

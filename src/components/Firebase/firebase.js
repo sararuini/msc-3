@@ -1,6 +1,7 @@
 import app from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import 'firebase/storage'
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -24,6 +25,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
+    this.storage = app.storage();
 
     /* Social Sign In Method Provider */
 
@@ -165,7 +167,11 @@ class Firebase {
   // Pending connections
   pendingConnections = () => this.db.ref(`pendingConnections`);
   pendingConnection = (uid) => this.db.ref(`pendingConnections/${uid}`);
+  
 
+  // ** STORAGE API **
+  // User profile
+  userProfilePicture = (pic) => this.storage.ref(`/profilePicture/${pic}`)
 }
 
 export default Firebase;
