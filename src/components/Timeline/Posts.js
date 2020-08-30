@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { AuthUserContext } from "../Session";
 import { withFirebase } from "../Firebase";
 import PostList from "./PostList";
+import postStyle from "./styles";
+import { View } from "react-native-web";
 
 class Posts extends Component {
   constructor(props) {
@@ -111,7 +113,8 @@ class Posts extends Component {
 
             {loading && <div>Loading ...</div>}
 
-            {posts && (
+            <View style={postStyle.posts}>
+              {posts && (
               <PostList
                 authUser={authUser}
                 posts={posts}
@@ -119,6 +122,8 @@ class Posts extends Component {
                 onRemovePost={this.onRemovePost}
               />
             )}
+            </View>
+            
 
             {!loading && posts && (
               <button type="button" onClick={this.onNextPage}>

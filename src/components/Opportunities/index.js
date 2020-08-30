@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route} from "react-router-dom";
 import { compose } from "recompose";
 import {
   withAuthorization,
@@ -13,12 +13,13 @@ import CreatedOpportunities from "./CreatedOpportunities";
 import OpportunitiesAvailable from "./OpportunitiesAvailable";
 import OpportunityItem from "./OpportunityItem";
 import OpportunityProfile from "./OpportunityProfile";
-
-
+import { View } from "react-native-web";
+import opportunityStyle from "./styles";
 
 const OpportunityPage = () => (
   <div>
-    <Switch>
+    <View style={opportunityStyle.main}>
+      <Switch>
     <Route exact path={ROUTES.OPPORTUNITIES} component={Opportunities} />
       <Route exact path={ROUTES.OPPORTUNITIES_SAVED} component={SavedOpportunities} />
       <Route exact path={ROUTES.OPPORTUNITIES_APPLIED} component={AppliedOpportunities} />
@@ -28,6 +29,8 @@ const OpportunityPage = () => (
       <Route exact path={ROUTES.OPPORTUNITY_PROFILE} component={OpportunityProfile} />
 
     </Switch>
+    </View>
+    
     
   </div>
 );

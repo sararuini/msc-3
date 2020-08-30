@@ -111,14 +111,13 @@ class PostItem extends Component {
           }));
 
           this.setState({
-            comments: commentList
+            comments: commentList,
           });
         } else {
           this.setState({ comments: null });
         }
       });
   };
-
 
   onChangeComment = (event) => {
     this.setState({ comment: event.target.value });
@@ -149,66 +148,68 @@ class PostItem extends Component {
 
             <View style={postStyle.postItem}>
               {!editMode && (
-              <span>
-                <div>
-                  <Link
-                    to={{
-                      pathname: `${ROUTES.USERS}/${post.userId}`,
-                    }}
-                  >
-                    {username}
-                  </Link>
-                </div>
-                <div>{post.text}</div>
+                <span>
+                  <div>
+                    <Link
+                      to={{
+                        pathname: `${ROUTES.USERS}/${post.userId}`,
+                      }}
+                    >
+                      {username}
+                    </Link>
+                  </div>
+                  <div>{post.text}</div>
 
-                {post.editedAt && <span>(Edited)</span>}
+                  {post.editedAt && <span>(Edited)</span>}
+                </span>
+              )}
+
+              {authUser.uid === post.userId && (
+                <span>
+                  {editMode ? (
+                    <span>
+                      <button onClick={this.onSaveEditText}>Save</button>
+                      <button onClick={this.onToggleEditMode}>Reset</button>
+                    </span>
+                  ) : (
+                    <button onClick={this.onToggleEditMode}>Edit</button>
+                  )}
+
+                  {!editMode && (
+                    <button
+                      type="button"
+                      onClick={() => onRemovePost(post.uid)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </span>
+              )}
+
+              <span> Comments: </span>
+              <span>
+                <form onSubmit={() => this.writeComment(post.uid)}>
+                  <input
+                    type="text"
+                    value={comment}
+                    onChange={this.onChangeComment}
+                  />
+                  <button type="submit">Create a comment</button>
+                </form>
               </span>
-            )}
+
+              <View style={postStyle.postComments}>
+                {!comments && <div> This post has no comments </div>}
+
+                {comments && (
+                  <PostCommentList
+                    authUser={authUser}
+                    comments={comments}
+                    post={post.uid}
+                  />
+                )}
+              </View>
             </View>
-
-            
-
-            {authUser.uid === post.userId && (
-              <span>
-                {editMode ? (
-                  <span>
-                    <button onClick={this.onSaveEditText}>Save</button>
-                    <button onClick={this.onToggleEditMode}>Reset</button>
-                  </span>
-                ) : (
-                  <button onClick={this.onToggleEditMode}>Edit</button>
-                )}
-
-                {!editMode && (
-                  <button type="button" onClick={() => onRemovePost(post.uid)}>
-                    Delete
-                  </button>
-                )}
-              </span>
-            )}
-
-            <span> Comments: </span>
-            <span>
-              <form onSubmit={() => this.writeComment(post.uid)}>
-                <input
-                  type="text"
-                  value={comment}
-                  onChange={this.onChangeComment}
-                />
-                <button type="submit">Create a comment</button>
-              </form>
-            </span>
-
-            {!comments && <div> This post has no comments </div>}
-
-            {comments && (
-              <PostCommentList
-                authUser={authUser}
-                comments={comments}
-                post={post.uid}
-              />
-            )}  
-          
           </div>
         )}
       </div>

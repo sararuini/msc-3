@@ -13,34 +13,33 @@ const page_styles_template = StyleSheet.create({
     },
     */
   whole_app: {
-    display: "flex",
-    flexDirections: "column",
+    //display: "flex",
+    //flexDirections: "column",
+    //alignContent: "flex-start",
+    //flexWrap: "wrap",
+    //flex: 1
   },
-  central_block: {
-    flex: 1,
-  },
-
   scrollable_container: {
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 2,
+    //alignItems: "center",
+    //justifyContent: "cener",
     color: "black",
     backgroundColor: "white",
     padding: "20px",
     width: "100%",
-    height: "100%",
+    padding: "10px",
+    backgroundColor: "pink",
   },
 
   footbar: {
     display: "block",
-    width: "100%",
+    position: "absolute",
+    flex: 1,
 
-    position: "fixed",
-    paddingBottom: "15%",
   },
   topbar: {
     position: "fixed",
-    margin: "1px solid black"
+    margin: "1px solid black",
+    backgroundColor: "green"
   },
 });
 

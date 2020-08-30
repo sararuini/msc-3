@@ -1,18 +1,23 @@
 import { StyleSheet} from "react-native-web";
 
 const page_styles = StyleSheet.create({
-
+    /*
     top_container: {
         flex:1,
-        flexDirection: "row",
         backgroundColor: "white",
-        alignItems: "stretch",
-        padding: "10px"
-        
+        padding: "10px",
+        border: "1px solid black",
+        alignSelf: "flex-start",
     },
+    */
     menu_links: {
         flexDirection: "row",
+        width: "100%",
+        height: "10%",
         flexWrap: "wrap",
+        justifyContent: "space-around",
+        alignItems: "center",
+        padding: "10px"
 
     },
     /*
@@ -38,7 +43,7 @@ const page_styles = StyleSheet.create({
         backgroundColor: "white",
         flexDirection: "row",
     },
-    */
+    
     right_menu: {
         position: "absolute",
         float: "left",
@@ -51,6 +56,7 @@ const page_styles = StyleSheet.create({
         width: "15%",
         color: "black",
     },
+    */
     text_container: {
         padding: 5,
         flexDirection: "column",

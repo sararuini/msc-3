@@ -25,9 +25,10 @@ const App = () => {
     <Router>
       <View style={page_styles_template.whole_app}>
         <div>
-          <Navigation style={page_styles_template.topbar} />
-          <ScrollView>
+          <Navigation/>
+          <ScrollView style={page_styles_template.scrollable_container}>
             <div>
+              
               <Route exact path={ROUTES.LANDING} component={LandingPage} />
               <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
               <Route path={ROUTES.SIGN_IN} component={SignInPage} />
@@ -35,17 +36,12 @@ const App = () => {
                 path={ROUTES.PASSWORD_FORGET}
                 component={PasswordForgetPage}
               />
-              <View style={page_styles_template.scrollable_container}>
                 <Route path={ROUTES.HOME} component={HomePage} />
-              </View>
 
               <Route path={ROUTES.SETTINGS} component={SettingsPage} />
               <Route path={ROUTES.USERS} component={UsersDisplayPage} />
 
-              <View style={page_styles_template.scrollable_container}>
                 <Route path={ROUTES.EDIT_PROFILE} component={ModifyProfile} />
-              </View>
-
               <Route path={ROUTES.OPPORTUNITIES} component={OpportunityPage} />
               <Route path={ROUTES.CONNECTIONS} component={ConnectionPage} />
               <Route path={ROUTES.BANDS} component={BandPage} />

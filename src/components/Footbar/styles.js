@@ -1,21 +1,23 @@
-import { StyleSheet} from "react-native-web";
+import { StyleSheet } from "react-native-web";
 
-{/* Resources used:
+{
+  /* Resources used:
     https://stackoverflow.com/questions/29447715/react-native-fixed-footer
- */}
+ */
+}
 
 const footbar_styles = StyleSheet.create({
-    footer: {
-        backgroundColor: "black",
+  footer: {
+    backgroundColor: "black",
     borderTop: "1px solid #E7E7E7",
     textAlign: "center",
-    //padding: "20px",
     left: "0",
-    bottom: "0",
     right: "0",
+    bottom: "0",
     height: "15%",
     width: "100%",
-    },
+    padding: "10px"
+  },
   text_container: {
     padding: "10px",
     flexDirection: "row",
