@@ -36,6 +36,11 @@ const page_styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  title: {
+    color: "black",
+    fontSize: "32px",
+    fontFamily: "monospace",
+  },
 });
 
 export default page_styles;

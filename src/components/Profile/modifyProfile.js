@@ -7,7 +7,7 @@ import {
 } from "../Session";
 
 import { withFirebase } from "../Firebase";
-import { View, Text, TextInput } from "react-native-web";
+import { View, Text, TextInput, TouchableHighlight } from "react-native-web";
 import page_styles from "./styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -27,6 +27,7 @@ import {
   FaHeart,
   FaPencilRuler,
   FaAmazon,
+  FaImage,
 } from "react-icons/fa";
 import {
   SiTiktok,
@@ -41,7 +42,13 @@ const ModifyProfilePage = () => (
   <AuthUserContext.Consumer>
     {(authUser) => (
       <div>
-        <Text>Edit Profile: {authUser.username}</Text>
+        <View style={{ alignItems: "center" }}>
+          <div>
+            <Text style={page_styles.title}>
+              Edit Profile: {authUser.username}
+            </Text>
+          </div>
+        </View>
         <ModifyProfile authUser={authUser} />
       </div>
     )}
@@ -387,10 +394,14 @@ class ModifyProfileBase extends Component {
     return (
       <View>
         <div>
-          <View>
+          <View style={page_styles.whole_page}>
+            <Text style={page_styles.header}>Profile Info</Text>
             <div>
               <form onSubmit={this.handleFirebaseUpload}>
-                <Text>Profile Picture</Text>
+                <View style={page_styles.align_icon}>
+                  <FaImage />
+                  <Text style={page_styles.normal_text}>Profile Picture</Text>
+                </View>
                 <input
                   type="file"
                   value={profilePictureUpload}
@@ -400,13 +411,9 @@ class ModifyProfileBase extends Component {
                 <button type="submit">Upload Profile Picture</button>
               </form>
             </div>
-          </View>
 
-          <View style={page_styles.whole_page}>
             <form onSubmit={this.onSubmit}>
               <View>
-                <Text style={page_styles.header}>Profile Info</Text>
-
                 <View style={page_styles.align_icon}>
                   <ShortTextIcon />
                   <Text style={page_styles.normal_text}>Headline</Text>
@@ -811,10 +818,7 @@ class ModifyProfileBase extends Component {
                   </View>
                 </View>
               </View>
-
-              <View>
-                <button type="submit">Save Profile</button>
-              </View>
+              <button type="submit">Save Profile</button>
             </form>
           </View>
         </div>
