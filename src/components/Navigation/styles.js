@@ -1,26 +1,20 @@
 import { StyleSheet} from "react-native-web";
 
 const page_styles = StyleSheet.create({
-    /*
-    top_container: {
-        flex:1,
-        backgroundColor: "white",
-        padding: "10px",
-        border: "1px solid black",
-        alignSelf: "flex-start",
-    },
-    */
     menu_links: {
         flexDirection: "row",
         width: "100%",
         height: "10%",
         flexWrap: "wrap",
-        justifyContent: "space-around",
+        justifyContent: "space-evenly",
         alignItems: "center",
-        padding: "10px"
+        alignSelf: "center"
+    },   
+});
 
-    },
-    /*
+export default page_styles;
+
+/*
     navigation: {
         position: "absolute",
         float: "left",
@@ -36,6 +30,32 @@ const page_styles = StyleSheet.create({
         width: "15%",
         color: "black",
         height: "100%",
+    },
+     all_text: {
+        color: "#ffffff",
+        fontFamily: "sans-serif",
+        padding: 3,
+        fontSize:16,
+    },
+    icon: {
+        flexDirection: "row",
+        backgroundColor: "blue",
+        alignItems: "center",
+        alignCenter: "flex-start",
+        justifyContent:"flex-start",
+    },
+     text_container: {
+        padding: 5,
+        flexDirection: "column",
+        justifyContent: "space-around",
+        color: "black",
+    },
+    top_container: {
+        flex:1,
+        backgroundColor: "white",
+        padding: "10px",
+        border: "1px solid black",
+        alignSelf: "flex-start",
     },
     
     navbar_container:{
@@ -57,19 +77,3 @@ const page_styles = StyleSheet.create({
         color: "black",
     },
     */
-    text_container: {
-        padding: 5,
-        flexDirection: "column",
-        justifyContent: "space-around",
-        color: "black",
-    },
-    all_text: {
-        color: "#ffffff",
-        fontFamily: "sans-serif",
-        padding: 3,
-        fontSize:16,
-    }
-    
-});
-
-export default page_styles;

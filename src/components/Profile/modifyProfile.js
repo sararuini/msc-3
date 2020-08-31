@@ -8,8 +8,22 @@ import {
 
 import { withFirebase } from "../Firebase";
 import { View, Text } from "react-native-web";
-//import page_styles from "./styles";
-//import page_styles_template from '../StyleTemplate';
+import page_styles from "./styles";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import YouTubeIcon from "@material-ui/icons/YouTube";
+import EmailIcon from "@material-ui/icons/Email";
+import PhoneIcon from "@material-ui/icons/Phone";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
+import LinkIcon from "@material-ui/icons/Link";
+import ShortTextIcon from "@material-ui/icons/ShortText";
+import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
+import { FaSpotify, FaApple, FaGuitar, FaHeart, FaHammer, FaAmazon } from 'react-icons/fa';
+import { SiTiktok, SiSoundcloud, SiDeezer, SiPandora, SiBandcamp} from "react-icons/si";
+
+
 
 //page displaying 'modify profile'
 const ModifyProfilePage = () => (
@@ -75,8 +89,6 @@ class ModifyProfileBase extends Component {
     this.showUser();
   };
 
-
-  
   handleImageAsFile = (event) => {
     const profilePicture = event.target.files[0];
     this.setState({ profilePictureUpload: profilePicture });
@@ -91,12 +103,9 @@ class ModifyProfileBase extends Component {
     const picUpload = this.state.profilePictureUpload;
     const uploadRef = this.props.firebase.userProfilePicture(picUpload.name);
     const uploadTask = uploadRef.put(picUpload);
-    const download = uploadRef.getDownloadURL()
-    this.setState({profilePictureUrl: download})
-
-
+    const download = uploadRef.getDownloadURL();
+    this.setState({ profilePictureUrl: download });
   };
-  
 
   /*
   componentWillUnmount = () => {
@@ -370,7 +379,7 @@ class ModifyProfileBase extends Component {
           <View>
             <div>
               <form onSubmit={this.handleFirebaseUpload}>
-                <Text>Profile Pictureeee</Text>
+                <Text>Profile Picture</Text>
                 <input
                   type="file"
                   value={profilePictureUpload}
@@ -381,289 +390,335 @@ class ModifyProfileBase extends Component {
               </form>
             </div>
           </View>
-          <form onSubmit={this.onSubmit}>
-            <View>
-              <Text>Headline</Text>
-              <input
-                type="text"
-                id="headline"
-                name="headline"
-                value={headline}
-                onChange={this.onChange}
-                placeholder="Headline"
-              />
-              <Text>Location</Text>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                value={location}
-                onChange={this.onChange}
-                placeholder="Location"
-              />
 
-              <Text>Biography</Text>
-              <input
-                type="textarea"
-                id="biography"
-                name="biography"
-                value={biography}
-                onChange={this.onChange}
-                placeholder="Biography"
-              />
-            </View>
-
-            <View>
-              <Text>Public Contact Details</Text>
-              <label htmlFor="publicEmailAddress">Email Address</label>
-              <input
-                type="publicEmailAddress"
-                value={publicEmailAddress}
-                id="publicEmailAddress"
-                name="publicEmailAddress"
-                onChange={this.onChange}
-                placeholder="Email Address"
-              />
-
-              <label htmlFor="phone">Phone Number</label>
-              <input
-                name="phoneNumber"
-                value={phoneNumber}
-                type="tel"
-                onChange={this.onChange}
-                id="phone"
-                placeholder="Phone Number"
-              />
-
-              <label htmlFor="website">Personal Website</label>
-              <input
-                name="website"
-                value={website}
-                type="url"
-                onChange={this.onChange}
-                id="website"
-                placeholder="Website"
-              />
-            </View>
-
-            <View>
-              <Text>Social Media and Music Profiles</Text>
-              <Text>Facebook</Text>
-              <input
-                type="textarea"
-                id="facebook"
-                name="facebook"
-                value={facebook}
-                onChange={this.onChange}
-                placeholder="Facebook"
-              />
-              <Text>Instagram</Text>
-              <input
-                type="textarea"
-                id="instagram"
-                name="instagram"
-                value={instagram}
-                onChange={this.onChange}
-                placeholder="Instagram"
-              />
-              <Text>Twitter</Text>
-              <input
-                type="textarea"
-                id="twitter"
-                name="twitter"
-                value={twitter}
-                onChange={this.onChange}
-                placeholder="twitter"
-              />
-              <Text>LinkedIn</Text>
-              <input
-                type="url"
-                id="linkedin"
-                name="linkedin"
-                value={linkedin}
-                onChange={this.onChange}
-                placeholder="linkedin"
-              />
-              <Text>TikTok</Text>
-              <input
-                type="textarea"
-                id="tiktok"
-                name="tiktok"
-                value={tiktok}
-                onChange={this.onChange}
-                placeholder="TikTok"
-              />
-              <Text>YouTube</Text>
-              <input
-                type="url"
-                id="youtube"
-                name="youtube"
-                value={youtube}
-                onChange={this.onChange}
-                placeholder="YouTube"
-              />
-              <Text>Spotify</Text>
-              <input
-                type="url"
-                id="spotify"
-                name="spotify"
-                value={spotify}
-                onChange={this.onChange}
-                placeholder="Spotify"
-              />
-              <Text>SoundCloud</Text>
-              <input
-                type="url"
-                id="soundcloud"
-                name="soundcloud"
-                value={soundcloud}
-                onChange={this.onChange}
-                placeholder="SoundCloud"
-              />
-              <Text>Apple Music</Text>
-              <input
-                type="url"
-                id="appleMusic"
-                name="appleMusic"
-                value={appleMusic}
-                onChange={this.onChange}
-                placeholder="Apple Music"
-              />
-              <Text>Amazon Music</Text>
-              <input
-                type="url"
-                id="amazonMusic"
-                name="amazonMusic"
-                value={amazonMusic}
-                onChange={this.onChange}
-                placeholder="Amazon Music"
-              />
-              <Text>Deezer</Text>
-              <input
-                type="url"
-                id="deezer"
-                name="deezer"
-                value={deezer}
-                onChange={this.onChange}
-                placeholder="Deezer"
-              />
-              <Text>Pandora</Text>
-              <input
-                type="textarea"
-                id="pandora"
-                name="pandora"
-                value={pandora}
-                onChange={this.onChange}
-                placeholder="Pandora"
-              />
-              <Text>BandCamp</Text>
-              <input
-                type="textarea"
-                id="bandcamp"
-                name="bandcamp"
-                value={bandcamp}
-                onChange={this.onChange}
-                placeholder="BandCamp"
-              />
-            </View>
-            <View>
+          <View style={page_styles.whole_page}>
+            <form onSubmit={this.onSubmit}>
               <View>
-                <Text> Why did you join music connector?</Text>
+                <Text style={page_styles.header}>Profile Info</Text>
+                <Text style={page_styles.normal_text}>Headline</Text>
+                <ShortTextIcon />
+                <input
+                  type="text"
+                  id="headline"
+                  name="headline"
+                  value={headline}
+                  onChange={this.onChange}
+                  placeholder="Headline"
+                />
+                <Text style={page_styles.normal_text}>Location</Text>
+                <LocationCityIcon />
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={location}
+                  onChange={this.onChange}
+                  placeholder="Location"
+                />
 
-                <View>
-                  <input
-                    type="checkbox"
-                    name="reasonsForJoining_connectOthers"
-                    id="reasonsForJoining_connectOthers"
-                    checked={reasonsForJoining_connectOthers}
-                    onChange={this.onChangeCheckbox}
-                  />
-                  <label htmlFor="reasonsForJoining_connectOthers">
-                    <Text>Connect with others</Text>
-                  </label>
-                </View>
+                <Text style={page_styles.normal_text}>Biography</Text>
+                <ViewHeadlineIcon />
+                <input
+                  type="textarea"
+                  id="biography"
+                  name="biography"
+                  value={biography}
+                  onChange={this.onChange}
+                  placeholder="Biography"
+                />
+              </View>
 
-                <View>
-                  <input
-                    type="checkbox"
-                    name="reasonsForJoining_findOpportunities"
-                    id="reasonsForJoining_findOpportunities"
-                    checked={reasonsForJoining_findOpportunities}
-                    onChange={this.onChangeCheckbox}
-                  />
-                  <label htmlFor="reasonsForJoining_findOpportunities">
-                    <Text>Find new opportunities</Text>
-                  </label>
-                </View>
+              <View>
+                <Text style={page_styles.header}>Public Contact Details </Text>
+                <Text style={page_styles.normal_text}>Email Address</Text>
+                <EmailIcon />
+                <input
+                  type="publicEmailAddress"
+                  value={publicEmailAddress}
+                  id="publicEmailAddress"
+                  name="publicEmailAddress"
+                  onChange={this.onChange}
+                  placeholder="Email Address"
+                />
 
+                <Text style={page_styles.normal_text}>Phone Number</Text>
+                <PhoneIcon />
+                <input
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  type="tel"
+                  onChange={this.onChange}
+                  id="phone"
+                  placeholder="Phone Number"
+                />
+
+                <Text style={page_styles.normal_text}>Personal Website</Text>
+                <LinkIcon />
+                <input
+                  name="website"
+                  value={website}
+                  type="url"
+                  onChange={this.onChange}
+                  id="website"
+                  placeholder="Website"
+                />
+              </View>
+
+              <View>
+                <Text style={page_styles.header}>
+                  Social Media and Music Profiles
+                </Text>
+                <Text style={page_styles.normal_text}>Facebook</Text>
+                <FacebookIcon />
+                <input
+                  type="textarea"
+                  id="facebook"
+                  name="facebook"
+                  value={facebook}
+                  onChange={this.onChange}
+                  placeholder="Facebook"
+                />
+                <Text style={page_styles.normal_text}>Instagram</Text>
+                <InstagramIcon />
+                <input
+                  type="textarea"
+                  id="instagram"
+                  name="instagram"
+                  value={instagram}
+                  onChange={this.onChange}
+                  placeholder="Instagram"
+                />
+                <Text style={page_styles.normal_text}>Twitter</Text>
+                <TwitterIcon />
+                <input
+                  type="textarea"
+                  id="twitter"
+                  name="twitter"
+                  value={twitter}
+                  onChange={this.onChange}
+                  placeholder="twitter"
+                />
+                <Text style={page_styles.normal_text}>LinkedIn</Text>
+                <LinkedInIcon />
+                <input
+                  type="url"
+                  id="linkedin"
+                  name="linkedin"
+                  value={linkedin}
+                  onChange={this.onChange}
+                  placeholder="linkedin"
+                />
+                <Text style={page_styles.normal_text}>TikTok</Text>
+                <SiTiktok />
+                <input
+                  type="textarea"
+                  id="tiktok"
+                  name="tiktok"
+                  value={tiktok}
+                  onChange={this.onChange}
+                  placeholder="TikTok"
+                />
+                <Text style={page_styles.normal_text}>YouTube</Text>
+                <YouTubeIcon />
+                <input
+                  type="url"
+                  id="youtube"
+                  name="youtube"
+                  value={youtube}
+                  onChange={this.onChange}
+                  placeholder="YouTube"
+                />
+                <Text style={page_styles.normal_text}>Spotify</Text>
+                <FaSpotify />
+                <input
+                  type="url"
+                  id="spotify"
+                  name="spotify"
+                  value={spotify}
+                  onChange={this.onChange}
+                  placeholder="Spotify"
+                />
+                <Text style={page_styles.normal_text}>SoundCloud</Text>
+                <SiSoundcloud />
+                <input
+                  type="url"
+                  id="soundcloud"
+                  name="soundcloud"
+                  value={soundcloud}
+                  onChange={this.onChange}
+                  placeholder="SoundCloud"
+                />
+                <Text style={page_styles.normal_text}>Apple Music</Text>
+                <FaApple />
+                <input
+                  type="url"
+                  id="appleMusic"
+                  name="appleMusic"
+                  value={appleMusic}
+                  onChange={this.onChange}
+                  placeholder="Apple Music"
+                />
+                <Text style={page_styles.normal_text}>Amazon Music</Text>
+                <FaAmazon />
+                <input
+                  type="url"
+                  id="amazonMusic"
+                  name="amazonMusic"
+                  value={amazonMusic}
+                  onChange={this.onChange}
+                  placeholder="Amazon Music"
+                />
+                <Text style={page_styles.normal_text}>Deezer</Text>
+                <SiDeezer />
+                <input
+                  type="url"
+                  id="deezer"
+                  name="deezer"
+                  value={deezer}
+                  onChange={this.onChange}
+                  placeholder="Deezer"
+                />
+                <Text style={page_styles.normal_text}>Pandora</Text>
+                <SiPandora />
+                <input
+                  type="textarea"
+                  id="pandora"
+                  name="pandora"
+                  value={pandora}
+                  onChange={this.onChange}
+                  placeholder="Pandora"
+                />
+                <Text style={page_styles.normal_text}>BandCamp</Text>
+               <SiBandcamp />
+                <input
+                  type="textarea"
+                  id="bandcamp"
+                  name="bandcamp"
+                  value={bandcamp}
+                  onChange={this.onChange}
+                  placeholder="BandCamp"
+                />
+              </View>
+              <View>
                 <View>
-                  <input
-                    type="checkbox"
-                    name="reasonsForJoining_promoteServices"
-                    id="reasonsForJoining_promoteServices"
-                    checked={reasonsForJoining_promoteServices}
-                    onChange={this.onChangeCheckbox}
-                  />
-                  <label htmlFor="reasonsForJoining_promoteServices">
-                    <Text>Promote my Services and/or my work</Text>
-                  </label>
-                </View>
-                <View>
-                  <input
-                    type="checkbox"
-                    name="reasonsForJoining_offerOpportunities"
-                    id="reasonsForJoining_offerOpportunities"
-                    checked={reasonsForJoining_offerOpportunities}
-                    onChange={this.onChangeCheckbox}
-                  />
-                  <label htmlFor="reasonsForJoining_offerOpportunities">
-                    <Text>Offer Opportunities</Text>
-                  </label>
+                  <Text style={page_styles.header}>
+                    {" "}
+                    Why did you join music connector?
+                  </Text>
+
                   <View>
-                    <Text>Skills & Interests</Text>
-                    <Text>Interests</Text>
                     <input
-                      type="text"
-                      id="interests"
-                      name="interests"
-                      value={interests}
-                      onChange={this.onChange}
-                      placeholder="Interests"
+                      type="checkbox"
+                      name="reasonsForJoining_connectOthers"
+                      id="reasonsForJoining_connectOthers"
+                      checked={reasonsForJoining_connectOthers}
+                      onChange={this.onChangeCheckbox}
                     />
+                    <label htmlFor="reasonsForJoining_connectOthers">
+                      <Text style={page_styles.normal_text}>
+                        Connect with others
+                      </Text>
+                    </label>
+                  </View>
 
-                    <Text>Musical Skills</Text>
+                  <View>
                     <input
-                      type="text"
-                      id="musicalSkills"
-                      name="musicalSkills"
-                      value={musicalSkills}
-                      onChange={this.onChange}
-                      placeholder="Musical Skills"
+                      type="checkbox"
+                      name="reasonsForJoining_findOpportunities"
+                      id="reasonsForJoining_findOpportunities"
+                      checked={reasonsForJoining_findOpportunities}
+                      onChange={this.onChangeCheckbox}
                     />
+                    <label htmlFor="reasonsForJoining_findOpportunities">
+                      <Text style={page_styles.normal_text}>
+                        Find new opportunities
+                      </Text>
+                    </label>
+                  </View>
 
-                    <Text>Non-Musical Skills</Text>
+                  <View>
                     <input
-                      type="text"
-                      id="otherSkills"
-                      name="otherSkills"
-                      value={otherSkills}
-                      onChange={this.onChange}
-                      placeholder="otherSkills"
+                      type="checkbox"
+                      name="reasonsForJoining_promoteServices"
+                      id="reasonsForJoining_promoteServices"
+                      checked={reasonsForJoining_promoteServices}
+                      onChange={this.onChangeCheckbox}
                     />
+                    <label htmlFor="reasonsForJoining_promoteServices">
+                      <Text style={page_styles.normal_text}>
+                        Promote my Services and/or my work
+                      </Text>
+                    </label>
+                  </View>
+                  <View>
+                    <input
+                      type="checkbox"
+                      name="reasonsForJoining_offerOpportunities"
+                      id="reasonsForJoining_offerOpportunities"
+                      checked={reasonsForJoining_offerOpportunities}
+                      onChange={this.onChangeCheckbox}
+                    />
+                    <label htmlFor="reasonsForJoining_offerOpportunities">
+                      <Text style={page_styles.normal_text}>
+                        Offer Opportunities
+                      </Text>
+                    </label>
+
+                    <View>
+                      <Text style={page_styles.header}>Skills & Interests</Text>
+                      <Text style={page_styles.normal_text}>Interests</Text>
+                      <FaHeart />
+                      <input
+                        type="text"
+                        id="interests"
+                        name="interests"
+                        value={interests}
+                        onChange={this.onChange}
+                        placeholder="Interests"
+                      />
+
+                      <Text style={page_styles.normal_text}>
+                        <FaGuitar />
+                        Musical Skills
+                      </Text>
+                      <input
+                        type="text"
+                        id="musicalSkills"
+                        name="musicalSkills"
+                        value={musicalSkills}
+                        onChange={this.onChange}
+                        placeholder="Musical Skills"
+                      />
+
+                      <Text style={page_styles.normal_text}>
+                      <FaHammer />
+                        Non-Musical Skills
+                      </Text>
+                      <input
+                        type="text"
+                        id="otherSkills"
+                        name="otherSkills"
+                        value={otherSkills}
+                        onChange={this.onChange}
+                        placeholder="otherSkills"
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
 
-            <View>
-              <button type="submit">Save Profile</button>
-            </View>
-          </form>
+              <View>
+                <button type="submit">Save Profile</button>
+              </View>
+            </form>
+          </View>
         </div>
+       
       </View>
     );
   }
 }
+
 
 const ModifyProfile = withFirebase(ModifyProfileBase);
 const condition = (authUser) => !!authUser;

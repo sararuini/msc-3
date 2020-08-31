@@ -2,8 +2,29 @@ import { StyleSheet} from "react-native-web";
 
 
 const page_styles = StyleSheet.create({
-  whole_page: {}
-  {/*
+  whole_page: {
+    marginRight: "20%",
+    marginLeft: "20%"
+  },
+  text_container: {
+    padding: "5%"
+  },
+  header: {
+    color: "black",
+    fontSize: "22px",
+    fontFamily: "monospace",
+      
+  },
+  normal_text: {
+    color: "black",
+fontSize: "14px",
+fontFamily: "monospace",
+  }
+});
+
+export default page_styles;
+
+/*
     whole_page: {
       padding: 10,
       flexDirection: 'column',
@@ -36,7 +57,4 @@ const page_styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
 },
-     */}
-});
-
-export default page_styles;
+     */

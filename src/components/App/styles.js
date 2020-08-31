@@ -24,7 +24,7 @@ const page_styles_template = StyleSheet.create({
     //justifyContent: "cener",
     color: "black",
     backgroundColor: "white",
-    padding: "20px",
+    padding: "20%",
     width: "100%",
     padding: "10px",
     backgroundColor: "pink",

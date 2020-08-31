@@ -57,9 +57,9 @@ class Posts extends Component {
   };
 
   onCreatePost = (event, authUser) => {
-    const ref = this.props.firebase.posts().push()
-    const refKey = ref.key
-    const userId = authUser.uid
+    const ref = this.props.firebase.posts().push();
+    const refKey = ref.key;
+    const userId = authUser.uid;
 
     ref.set({
       text: this.state.text,
@@ -69,8 +69,7 @@ class Posts extends Component {
 
     this.props.firebase.userPosts(userId).set({
       [refKey]: "posted",
-    }
-    )
+    });
 
     this.setState({ text: "" });
 
@@ -105,16 +104,16 @@ class Posts extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-
-            <form onSubmit={(event) => this.onCreatePost(event, authUser)}>
-              <input type="text" value={text} onChange={this.onChangeText} />
-              <button type="submit">Create a post</button>
-            </form>
+            <View style={postStyle.createPost}>
+              <form onSubmit={(event) => this.onCreatePost(event, authUser)}>
+                <input type="text" value={text} onChange={this.onChangeText} />
+                <button type="submit">Create a post</button>
+              </form>
+            </View>
 
             {loading && <div>Loading ...</div>}
 
-            <View style={postStyle.posts}>
-              {posts && (
+            {posts && (
               <PostList
                 authUser={authUser}
                 posts={posts}
@@ -122,8 +121,6 @@ class Posts extends Component {
                 onRemovePost={this.onRemovePost}
               />
             )}
-            </View>
-            
 
             {!loading && posts && (
               <button type="button" onClick={this.onNextPage}>

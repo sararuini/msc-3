@@ -25,7 +25,7 @@ const footbar_styles = StyleSheet.create({
   },
   all_text: {
     color: "#ffffff",
-    fontFamily: "sans-serif",
+    fontFamily: "monospace",
     padding: 3,
   },
   column: {

@@ -194,7 +194,7 @@ class PostItem extends Component {
                     value={comment}
                     onChange={this.onChangeComment}
                   />
-                  <button type="submit">Create a comment</button>
+                  <button type="submit">Leave a comment</button>
                 </form>
               </span>
 
