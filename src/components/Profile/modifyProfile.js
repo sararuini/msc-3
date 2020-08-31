@@ -7,7 +7,7 @@ import {
 } from "../Session";
 
 import { withFirebase } from "../Firebase";
-import { View, Text } from "react-native-web";
+import { View, Text, TextInput } from "react-native-web";
 import page_styles from "./styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -20,10 +20,21 @@ import LocationCityIcon from "@material-ui/icons/LocationCity";
 import LinkIcon from "@material-ui/icons/Link";
 import ShortTextIcon from "@material-ui/icons/ShortText";
 import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
-import { FaSpotify, FaApple, FaGuitar, FaHeart, FaHammer, FaAmazon } from 'react-icons/fa';
-import { SiTiktok, SiSoundcloud, SiDeezer, SiPandora, SiBandcamp} from "react-icons/si";
-
-
+import {
+  FaSpotify,
+  FaApple,
+  FaGuitar,
+  FaHeart,
+  FaPencilRuler,
+  FaAmazon,
+} from "react-icons/fa";
+import {
+  SiTiktok,
+  SiSoundcloud,
+  SiDeezer,
+  SiPandora,
+  SiBandcamp,
+} from "react-icons/si";
 
 //page displaying 'modify profile'
 const ModifyProfilePage = () => (
@@ -395,72 +406,95 @@ class ModifyProfileBase extends Component {
             <form onSubmit={this.onSubmit}>
               <View>
                 <Text style={page_styles.header}>Profile Info</Text>
-                <Text style={page_styles.normal_text}>Headline</Text>
-                <ShortTextIcon />
-                <input
-                  type="text"
-                  id="headline"
-                  name="headline"
+
+                <View style={page_styles.align_icon}>
+                  <ShortTextIcon />
+                  <Text style={page_styles.normal_text}>Headline</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Tell us a few things about yourself"
                   value={headline}
-                  onChange={this.onChange}
-                  placeholder="Headline"
-                />
-                <Text style={page_styles.normal_text}>Location</Text>
-                <LocationCityIcon />
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  value={location}
-                  onChange={this.onChange}
-                  placeholder="Location"
+                  nativeID="headline"
+                  blurOnSubmit="false"
+                  onChangeText={(headline) => this.setState({ headline })}
                 />
 
-                <Text style={page_styles.normal_text}>Biography</Text>
-                <ViewHeadlineIcon />
-                <input
-                  type="textarea"
-                  id="biography"
-                  name="biography"
+                <View style={page_styles.align_icon}>
+                  <LocationCityIcon />
+                  <Text style={page_styles.normal_text}>Location</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="City or country you live in"
+                  value={location}
+                  nativeID="location"
+                  blurOnSubmit="false"
+                  onChangeText={(location) => this.setState({ location })}
+                />
+
+                <View style={page_styles.align_icon}>
+                  <ViewHeadlineIcon />
+                  <Text style={page_styles.normal_text}>Biography</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Share anything you want - from your work history to your goals for the future"
                   value={biography}
-                  onChange={this.onChange}
-                  placeholder="Biography"
+                  nativeID="biography"
+                  blurOnSubmit="false"
+                  onChangeText={(biography) => this.setState({ biography })}
                 />
               </View>
 
               <View>
                 <Text style={page_styles.header}>Public Contact Details </Text>
-                <Text style={page_styles.normal_text}>Email Address</Text>
-                <EmailIcon />
-                <input
-                  type="publicEmailAddress"
-                  value={publicEmailAddress}
-                  id="publicEmailAddress"
-                  name="publicEmailAddress"
-                  onChange={this.onChange}
+
+                <View style={page_styles.align_icon}>
+                  <EmailIcon />
+                  <Text style={page_styles.normal_text}>Email Address</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
                   placeholder="Email Address"
+                  value={publicEmailAddress}
+                  nativeID="publicEmailAddress"
+                  blurOnSubmit="false"
+                  onChangeText={(publicEmailAddress) =>
+                    this.setState({ publicEmailAddress })
+                  }
                 />
 
-                <Text style={page_styles.normal_text}>Phone Number</Text>
-                <PhoneIcon />
-                <input
-                  name="phoneNumber"
-                  value={phoneNumber}
-                  type="tel"
-                  onChange={this.onChange}
-                  id="phone"
+                <View style={page_styles.align_icon}>
+                  <PhoneIcon />
+                  <Text style={page_styles.normal_text}>Phone Number</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
                   placeholder="Phone Number"
+                  value={phoneNumber}
+                  nativeID="phoneNumber"
+                  blurOnSubmit="false"
+                  onChangeText={(phoneNumber) => this.setState({ phoneNumber })}
                 />
 
-                <Text style={page_styles.normal_text}>Personal Website</Text>
-                <LinkIcon />
-                <input
-                  name="website"
+                <View style={page_styles.align_icon}>
+                  <LinkIcon />
+                  <Text style={page_styles.normal_text}>Personal Website</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Personal Website"
                   value={website}
-                  type="url"
-                  onChange={this.onChange}
-                  id="website"
-                  placeholder="Website"
+                  nativeID="website"
+                  blurOnSubmit="false"
+                  onChangeText={(website) => this.setState({ website })}
                 />
               </View>
 
@@ -468,141 +502,193 @@ class ModifyProfileBase extends Component {
                 <Text style={page_styles.header}>
                   Social Media and Music Profiles
                 </Text>
-                <Text style={page_styles.normal_text}>Facebook</Text>
-                <FacebookIcon />
-                <input
-                  type="textarea"
-                  id="facebook"
-                  name="facebook"
+
+                <View style={page_styles.align_icon}>
+                  <FacebookIcon />
+                  <Text style={page_styles.normal_text}>Facebook</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Facebook Page"
                   value={facebook}
-                  onChange={this.onChange}
-                  placeholder="Facebook"
+                  nativeID="facebook"
+                  blurOnSubmit="false"
+                  onChangeText={(facebook) => this.setState({ facebook })}
                 />
-                <Text style={page_styles.normal_text}>Instagram</Text>
-                <InstagramIcon />
-                <input
-                  type="textarea"
-                  id="instagram"
-                  name="instagram"
+
+                <View style={page_styles.align_icon}>
+                  <InstagramIcon />
+                  <Text style={page_styles.normal_text}>Instagram</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Instagram Profile"
                   value={instagram}
-                  onChange={this.onChange}
-                  placeholder="Instagram"
+                  nativeID="instagram"
+                  blurOnSubmit="false"
+                  onChangeText={(instagram) => this.setState({ instagram })}
                 />
-                <Text style={page_styles.normal_text}>Twitter</Text>
-                <TwitterIcon />
-                <input
-                  type="textarea"
-                  id="twitter"
-                  name="twitter"
+
+                <View style={page_styles.align_icon}>
+                  <TwitterIcon />
+                  <Text style={page_styles.normal_text}>Twitter</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Twitter Profile"
                   value={twitter}
-                  onChange={this.onChange}
-                  placeholder="twitter"
+                  nativeID="twitter"
+                  blurOnSubmit="false"
+                  onChangeText={(twitter) => this.setState({ twitter })}
                 />
-                <Text style={page_styles.normal_text}>LinkedIn</Text>
-                <LinkedInIcon />
-                <input
-                  type="url"
-                  id="linkedin"
-                  name="linkedin"
+
+                <View style={page_styles.align_icon}>
+                  <LinkedInIcon />
+                  <Text style={page_styles.normal_text}>LinkedIn</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to LinkedIn Profile"
                   value={linkedin}
-                  onChange={this.onChange}
-                  placeholder="linkedin"
+                  nativeID="linkedin"
+                  blurOnSubmit="false"
+                  onChangeText={(linkedin) => this.setState({ linkedin })}
                 />
-                <Text style={page_styles.normal_text}>TikTok</Text>
-                <SiTiktok />
-                <input
-                  type="textarea"
-                  id="tiktok"
-                  name="tiktok"
+
+                <View style={page_styles.align_icon}>
+                  <SiTiktok />
+                  <Text style={page_styles.normal_text}>TikTok</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to TikTok Profile"
                   value={tiktok}
-                  onChange={this.onChange}
-                  placeholder="TikTok"
+                  nativeID="tiktok"
+                  blurOnSubmit="false"
+                  onChangeText={(tiktok) => this.setState({ tiktok })}
                 />
-                <Text style={page_styles.normal_text}>YouTube</Text>
-                <YouTubeIcon />
-                <input
-                  type="url"
-                  id="youtube"
-                  name="youtube"
+
+                <View style={page_styles.align_icon}>
+                  <YouTubeIcon />
+                  <Text style={page_styles.normal_text}>YouTube</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to YouTube Profile"
                   value={youtube}
-                  onChange={this.onChange}
-                  placeholder="YouTube"
+                  nativeID="youtube"
+                  blurOnSubmit="false"
+                  onChangeText={(youtube) => this.setState({ youtube })}
                 />
-                <Text style={page_styles.normal_text}>Spotify</Text>
-                <FaSpotify />
-                <input
-                  type="url"
-                  id="spotify"
-                  name="spotify"
+
+                <View style={page_styles.align_icon}>
+                  <FaSpotify />
+                  <Text style={page_styles.normal_text}>Spotify</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Spotify Artist Profile"
                   value={spotify}
-                  onChange={this.onChange}
-                  placeholder="Spotify"
+                  nativeID="spotify"
+                  blurOnSubmit="false"
+                  onChangeText={(spotify) => this.setState({ spotify })}
                 />
-                <Text style={page_styles.normal_text}>SoundCloud</Text>
-                <SiSoundcloud />
-                <input
-                  type="url"
-                  id="soundcloud"
-                  name="soundcloud"
+
+                <View style={page_styles.align_icon}>
+                  <SiSoundcloud />
+                  <Text style={page_styles.normal_text}>SoundCloud</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Soundcloud Artist Profile"
                   value={soundcloud}
-                  onChange={this.onChange}
-                  placeholder="SoundCloud"
+                  nativeID="soundcloud"
+                  blurOnSubmit="false"
+                  onChangeText={(soundcloud) => this.setState({ soundcloud })}
                 />
-                <Text style={page_styles.normal_text}>Apple Music</Text>
-                <FaApple />
-                <input
-                  type="url"
-                  id="appleMusic"
-                  name="appleMusic"
+
+                <View style={page_styles.align_icon}>
+                  <FaApple />
+                  <Text style={page_styles.normal_text}>Apple Music</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Apple Music Artist Profile"
                   value={appleMusic}
-                  onChange={this.onChange}
-                  placeholder="Apple Music"
+                  nativeID="appleMusic"
+                  blurOnSubmit="false"
+                  onChangeText={(appleMusic) => this.setState({ appleMusic })}
                 />
-                <Text style={page_styles.normal_text}>Amazon Music</Text>
-                <FaAmazon />
-                <input
-                  type="url"
-                  id="amazonMusic"
-                  name="amazonMusic"
+
+                <View style={page_styles.align_icon}>
+                  <FaAmazon />
+                  <Text style={page_styles.normal_text}>Amazon Music</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Amazon Music Artist Profile"
                   value={amazonMusic}
-                  onChange={this.onChange}
-                  placeholder="Amazon Music"
+                  nativeID="amazonMusic"
+                  blurOnSubmit="false"
+                  onChangeText={(amazonMusic) => this.setState({ amazonMusic })}
                 />
-                <Text style={page_styles.normal_text}>Deezer</Text>
-                <SiDeezer />
-                <input
-                  type="url"
-                  id="deezer"
-                  name="deezer"
+
+                <View style={page_styles.align_icon}>
+                  <SiDeezer />
+                  <Text style={page_styles.normal_text}>Deezer</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Deezer Artist Profile"
                   value={deezer}
-                  onChange={this.onChange}
-                  placeholder="Deezer"
+                  nativeID="deezer"
+                  blurOnSubmit="false"
+                  onChangeText={(deezer) => this.setState({ deezer })}
                 />
-                <Text style={page_styles.normal_text}>Pandora</Text>
-                <SiPandora />
-                <input
-                  type="textarea"
-                  id="pandora"
-                  name="pandora"
+
+                <View style={page_styles.align_icon}>
+                  <SiPandora />
+                  <Text style={page_styles.normal_text}>Pandora</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to Pandora Artist Profile"
                   value={pandora}
-                  onChange={this.onChange}
-                  placeholder="Pandora"
+                  nativeID="pandora"
+                  blurOnSubmit="false"
+                  onChangeText={(pandora) => this.setState({ pandora })}
                 />
-                <Text style={page_styles.normal_text}>BandCamp</Text>
-               <SiBandcamp />
-                <input
-                  type="textarea"
-                  id="bandcamp"
-                  name="bandcamp"
+
+                <View style={page_styles.align_icon}>
+                  <SiBandcamp />
+                  <Text style={page_styles.normal_text}>BandCamp</Text>
+                </View>
+
+                <TextInput
+                  style={page_styles.text_input}
+                  placeholder="Link to BandCamp Artist Profile"
                   value={bandcamp}
-                  onChange={this.onChange}
-                  placeholder="BandCamp"
+                  nativeID="bandcamp"
+                  blurOnSubmit="false"
+                  onChangeText={(bandcamp) => this.setState({ bandcamp })}
                 />
               </View>
+
               <View>
                 <View>
                   <Text style={page_styles.header}>
-                    {" "}
                     Why did you join music connector?
                   </Text>
 
@@ -666,42 +752,61 @@ class ModifyProfileBase extends Component {
 
                     <View>
                       <Text style={page_styles.header}>Skills & Interests</Text>
-                      <Text style={page_styles.normal_text}>Interests</Text>
-                      <FaHeart />
-                      <input
-                        type="text"
-                        id="interests"
-                        name="interests"
+
+                      <View style={page_styles.align_icon}>
+                        <FaHeart />
+                        <Text style={page_styles.normal_text}>
+                          Interests and Hobbies
+                        </Text>
+                      </View>
+
+                      <TextInput
+                        style={page_styles.text_input}
+                        placeholder="What do you like to do in your free time?"
                         value={interests}
-                        onChange={this.onChange}
-                        placeholder="Interests"
+                        nativeID="interests"
+                        blurOnSubmit="false"
+                        onChangeText={(interests) =>
+                          this.setState({ interests })
+                        }
                       />
 
-                      <Text style={page_styles.normal_text}>
+                      <View style={page_styles.align_icon}>
                         <FaGuitar />
-                        Musical Skills
-                      </Text>
-                      <input
-                        type="text"
-                        id="musicalSkills"
-                        name="musicalSkills"
+                        <Text style={page_styles.normal_text}>
+                          Musical Skills
+                        </Text>
+                      </View>
+
+                      <TextInput
+                        style={page_styles.text_input}
+                        placeholder="Musical instruments, music production, etc."
                         value={musicalSkills}
-                        onChange={this.onChange}
-                        placeholder="Musical Skills"
+                        nativeID="musicalSkills"
+                        blurOnSubmit="false"
+                        onChangeText={(musicalSkills) =>
+                          this.setState({ musicalSkills })
+                        }
                       />
 
-                      <Text style={page_styles.normal_text}>
-                      <FaHammer />
-                        Non-Musical Skills
-                      </Text>
-                      <input
-                        type="text"
-                        id="otherSkills"
-                        name="otherSkills"
-                        value={otherSkills}
-                        onChange={this.onChange}
-                        placeholder="otherSkills"
-                      />
+                      <View style={page_styles.align_icon}>
+                        <FaPencilRuler />
+                        <Text style={page_styles.normal_text}>
+                          Non-Musical Skills
+                        </Text>
+                      </View>
+                      <View style={page_styles.view_space}>
+                        <TextInput
+                          style={page_styles.text_input}
+                          placeholder="Skills that have nothing to do with music - e.g. events management, music publishing, etc."
+                          value={otherSkills}
+                          nativeID="otherSkills"
+                          blurOnSubmit="false"
+                          onChangeText={(otherSkills) =>
+                            this.setState({ otherSkills })
+                          }
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -713,12 +818,10 @@ class ModifyProfileBase extends Component {
             </form>
           </View>
         </div>
-       
       </View>
     );
   }
 }
-
 
 const ModifyProfile = withFirebase(ModifyProfileBase);
 const condition = (authUser) => !!authUser;

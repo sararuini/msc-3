@@ -1,25 +1,41 @@
-import { StyleSheet} from "react-native-web";
-
+import { StyleSheet } from "react-native-web";
 
 const page_styles = StyleSheet.create({
   whole_page: {
     marginRight: "20%",
-    marginLeft: "20%"
+    marginLeft: "20%",
   },
   text_container: {
-    padding: "5%"
+    padding: "5%",
   },
   header: {
     color: "black",
     fontSize: "22px",
     fontFamily: "monospace",
-      
+    marginBottom: "2%",
+    marginTop: "2%",
   },
   normal_text: {
     color: "black",
-fontSize: "14px",
-fontFamily: "monospace",
-  }
+    fontSize: "14px",
+    fontFamily: "monospace",
+    marginLeft: "1%",
+  },
+  view_space: {
+    marginBottom: "3%",
+  },
+  text_input: {
+    backgroundColor: "white",
+    opacity: "0.9",
+    color: "black",
+    alignItems: "center",
+    marginBottom: "1%",
+    marginTop: "1%",
+  },
+  align_icon: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });
 
 export default page_styles;
