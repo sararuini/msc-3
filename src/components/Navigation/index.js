@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthUserContext } from "../Session";
 import SignOutButton from "../SignOut";
 import * as ROUTES from "../../constants/routes";
-import { View, Image, Dimensions } from "react-native-web";
+import { View, Image } from "react-native-web";
 import page_styles from "./styles";
 import SettingsIcon from "@material-ui/icons/Settings";
 import PersonIcon from "@material-ui/icons/Person";
@@ -36,10 +36,9 @@ const NavigationAuth = ({ authUser }) => (
         />
       </Link>
     </ul>
-        <ul>
-           <SettingsIcon />
-       
-
+    <ul>
+      <View style={page_styles.align_icon}>
+        <SettingsIcon />
         <Link
           style={{
             textDecoration: "none",
@@ -52,108 +51,120 @@ const NavigationAuth = ({ authUser }) => (
         >
           Settings
         </Link>
-      </ul>
-      
+      </View>
+    </ul>
 
-      <ul>
-        <PersonIcon />
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontSize: "18px",
-            fontFamily: "monospace",
-            paddingLeft: "10px"
-          }}
-          to={ROUTES.EDIT_PROFILE}
-        >
-          Edit Profile
-        </Link>
-      </ul>
+    <ul>
+    <View style={page_styles.align_icon}>
+      <PersonIcon />
+      <Link
+        style={{
+          textDecoration: "none",
+          color: "black",
+          fontSize: "18px",
+          fontFamily: "monospace",
+          paddingLeft: "10px",
+        }}
+        to={ROUTES.EDIT_PROFILE}
+      >
+        Edit Profile
+      </Link>
+      </View>
+    </ul>
 
-      <ul>
-        <MusicNoteIcon />
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontSize: "18px",
-            fontFamily: "monospace",
-            paddingLeft: "10px"
-          }}
-          to={ROUTES.OPPORTUNITIES}
-        >
-          Opportunities
-        </Link>
-      </ul>
-      
-      <ul>
-        <PeopleIcon />
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontSize: "18px",
-            fontFamily: "monospace",
-            paddingLeft: "10px"
-          }}
-          to={ROUTES.USERS}
-        >
-          Users
-        </Link>
-      </ul>
+    <ul>
+    <View style={page_styles.align_icon}>
+      <MusicNoteIcon />
+      <Link
+        style={{
+          textDecoration: "none",
+          color: "black",
+          fontSize: "18px",
+          fontFamily: "monospace",
+          paddingLeft: "10px",
+        }}
+        to={ROUTES.OPPORTUNITIES}
+      >
+        Opportunities
+      </Link>
+    </View>
+    </ul>
 
-      <ul>
-        <RecentActorsIcon />
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontSize: "18px",
-            fontFamily: "monospace",
-            paddingLeft: "10px"
-          }}
-          to={ROUTES.CONNECTIONS}
-        >
-          Connections
-        </Link>
-      </ul>
+    <ul>
+    <View style={page_styles.align_icon}>
+      <PeopleIcon />
+      <Link
+        style={{
+          textDecoration: "none",
+          color: "black",
+          fontSize: "18px",
+          fontFamily: "monospace",
+          paddingLeft: "10px",
+        }}
+        to={ROUTES.USERS}
+      >
+        Users
+      </Link>
+    </View>
+    </ul>
 
-      <ul>
-        <GroupIcon />
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontSize: "18px",
-            fontFamily: "monospace",
-            paddingLeft: "10px"
-          }}
-          to={ROUTES.BANDS}
-        >
-          Bands
-        </Link>
-      </ul>
+    <ul>
+    <View style={page_styles.align_icon}>
+      <RecentActorsIcon />
+      <Link
+        style={{
+          textDecoration: "none",
+          color: "black",
+          fontSize: "18px",
+          fontFamily: "monospace",
+          paddingLeft: "10px",
+        }}
+        to={ROUTES.CONNECTIONS}
+      >
+        Connections
+      </Link>
+    </View>
+    </ul>
 
-      <ul>
-        <NotificationsIcon />
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontSize: "18px",
-            fontFamily: "monospace",
-            paddingLeft: "10px",
-          }}
-          to={ROUTES.NOTIFICATIONS}
-        >
-          Notifications
-        </Link>
-      </ul>
+    <ul>
+    <View style={page_styles.align_icon}>
+      <GroupIcon />
+      <Link
+        style={{
+          textDecoration: "none",
+          color: "black",
+          fontSize: "18px",
+          fontFamily: "monospace",
+          paddingLeft: "10px",
+        }}
+        to={ROUTES.BANDS}
+      >
+        Bands
+      </Link>
+      </View>
+    </ul>
 
-      <ul>
-        <SignOutButton />
-      </ul>
+    <ul>
+    <View style={page_styles.align_icon}>
+      <NotificationsIcon />
+      <Link
+        style={{
+          textDecoration: "none",
+          color: "black",
+          fontSize: "18px",
+          fontFamily: "monospace",
+          paddingLeft: "10px",
+        }}
+        to={ROUTES.NOTIFICATIONS}
+      >
+        Notifications
+      </Link>
+      </View>
+    </ul>
+
+    <ul>
+      <SignOutButton />
+    </ul>
   </View>
 );
 

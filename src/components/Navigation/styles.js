@@ -10,6 +10,10 @@ const page_styles = StyleSheet.create({
         alignItems: "center",
         alignSelf: "center"
     },   
+    align_icon: {
+        flexDirection: "row",
+        alignItems: "center",
+      }
 });
 
 export default page_styles;

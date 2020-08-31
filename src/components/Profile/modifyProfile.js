@@ -7,7 +7,7 @@ import {
 } from "../Session";
 
 import { withFirebase } from "../Firebase";
-import { View, Text, TextInput, TouchableHighlight } from "react-native-web";
+import { View, Text, TextInput, CheckBox } from "react-native-web";
 import page_styles from "./styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -453,6 +453,8 @@ class ModifyProfileBase extends Component {
                   value={biography}
                   nativeID="biography"
                   blurOnSubmit="false"
+                  multiline="true"
+                  numberOfLines= "3"
                   onChangeText={(biography) => this.setState({ biography })}
                 />
               </View>
@@ -471,6 +473,7 @@ class ModifyProfileBase extends Component {
                   value={publicEmailAddress}
                   nativeID="publicEmailAddress"
                   blurOnSubmit="false"
+                  keyboardType="email-address"
                   onChangeText={(publicEmailAddress) =>
                     this.setState({ publicEmailAddress })
                   }
@@ -487,6 +490,7 @@ class ModifyProfileBase extends Component {
                   value={phoneNumber}
                   nativeID="phoneNumber"
                   blurOnSubmit="false"
+                  keyboardType="phone-pad"
                   onChangeText={(phoneNumber) => this.setState({ phoneNumber })}
                 />
 
@@ -501,6 +505,7 @@ class ModifyProfileBase extends Component {
                   value={website}
                   nativeID="website"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(website) => this.setState({ website })}
                 />
               </View>
@@ -521,6 +526,7 @@ class ModifyProfileBase extends Component {
                   value={facebook}
                   nativeID="facebook"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(facebook) => this.setState({ facebook })}
                 />
 
@@ -535,6 +541,7 @@ class ModifyProfileBase extends Component {
                   value={instagram}
                   nativeID="instagram"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(instagram) => this.setState({ instagram })}
                 />
 
@@ -549,6 +556,7 @@ class ModifyProfileBase extends Component {
                   value={twitter}
                   nativeID="twitter"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(twitter) => this.setState({ twitter })}
                 />
 
@@ -563,6 +571,7 @@ class ModifyProfileBase extends Component {
                   value={linkedin}
                   nativeID="linkedin"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(linkedin) => this.setState({ linkedin })}
                 />
 
@@ -577,6 +586,7 @@ class ModifyProfileBase extends Component {
                   value={tiktok}
                   nativeID="tiktok"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(tiktok) => this.setState({ tiktok })}
                 />
 
@@ -591,6 +601,7 @@ class ModifyProfileBase extends Component {
                   value={youtube}
                   nativeID="youtube"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(youtube) => this.setState({ youtube })}
                 />
 
@@ -605,6 +616,7 @@ class ModifyProfileBase extends Component {
                   value={spotify}
                   nativeID="spotify"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(spotify) => this.setState({ spotify })}
                 />
 
@@ -619,6 +631,7 @@ class ModifyProfileBase extends Component {
                   value={soundcloud}
                   nativeID="soundcloud"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(soundcloud) => this.setState({ soundcloud })}
                 />
 
@@ -633,6 +646,7 @@ class ModifyProfileBase extends Component {
                   value={appleMusic}
                   nativeID="appleMusic"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(appleMusic) => this.setState({ appleMusic })}
                 />
 
@@ -647,6 +661,7 @@ class ModifyProfileBase extends Component {
                   value={amazonMusic}
                   nativeID="amazonMusic"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(amazonMusic) => this.setState({ amazonMusic })}
                 />
 
@@ -661,6 +676,7 @@ class ModifyProfileBase extends Component {
                   value={deezer}
                   nativeID="deezer"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(deezer) => this.setState({ deezer })}
                 />
 
@@ -675,6 +691,7 @@ class ModifyProfileBase extends Component {
                   value={pandora}
                   nativeID="pandora"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(pandora) => this.setState({ pandora })}
                 />
 
@@ -689,17 +706,17 @@ class ModifyProfileBase extends Component {
                   value={bandcamp}
                   nativeID="bandcamp"
                   blurOnSubmit="false"
+                  keyboardType="url"
                   onChangeText={(bandcamp) => this.setState({ bandcamp })}
                 />
               </View>
 
               <View>
-                <View>
                   <Text style={page_styles.header}>
                     Why did you join music connector?
                   </Text>
 
-                  <View>
+                  <View style={page_styles.align_icon}>
                     <input
                       type="checkbox"
                       name="reasonsForJoining_connectOthers"
@@ -708,13 +725,13 @@ class ModifyProfileBase extends Component {
                       onChange={this.onChangeCheckbox}
                     />
                     <label htmlFor="reasonsForJoining_connectOthers">
-                      <Text style={page_styles.normal_text}>
+                      <Text style={page_styles.checkbox_text}>
                         Connect with others
                       </Text>
                     </label>
                   </View>
 
-                  <View>
+                  <View style={page_styles.align_icon}>
                     <input
                       type="checkbox"
                       name="reasonsForJoining_findOpportunities"
@@ -723,13 +740,13 @@ class ModifyProfileBase extends Component {
                       onChange={this.onChangeCheckbox}
                     />
                     <label htmlFor="reasonsForJoining_findOpportunities">
-                      <Text style={page_styles.normal_text}>
+                      <Text style={page_styles.checkbox_text}>
                         Find new opportunities
                       </Text>
                     </label>
                   </View>
 
-                  <View>
+                  <View style={page_styles.align_icon}>
                     <input
                       type="checkbox"
                       name="reasonsForJoining_promoteServices"
@@ -738,12 +755,13 @@ class ModifyProfileBase extends Component {
                       onChange={this.onChangeCheckbox}
                     />
                     <label htmlFor="reasonsForJoining_promoteServices">
-                      <Text style={page_styles.normal_text}>
+                      <Text style={page_styles.checkbox_text}>
                         Promote my Services and/or my work
                       </Text>
                     </label>
                   </View>
-                  <View>
+
+                  <View style={page_styles.align_icon}>
                     <input
                       type="checkbox"
                       name="reasonsForJoining_offerOpportunities"
@@ -752,10 +770,11 @@ class ModifyProfileBase extends Component {
                       onChange={this.onChangeCheckbox}
                     />
                     <label htmlFor="reasonsForJoining_offerOpportunities">
-                      <Text style={page_styles.normal_text}>
+                      <Text style={page_styles.checkbox_text}>
                         Offer Opportunities
                       </Text>
                     </label>
+                    </View>
 
                     <View>
                       <Text style={page_styles.header}>Skills & Interests</Text>
@@ -815,8 +834,7 @@ class ModifyProfileBase extends Component {
                         />
                       </View>
                     </View>
-                  </View>
-                </View>
+                
               </View>
               <button type="submit">Save Profile</button>
             </form>

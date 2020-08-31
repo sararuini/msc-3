@@ -21,6 +21,11 @@ const page_styles = StyleSheet.create({
     fontFamily: "monospace",
     marginLeft: "1%",
   },
+  checkbox_text: {
+    color: "black",
+    fontSize: "14px",
+    fontFamily: "monospace",
+  },
   view_space: {
     marginBottom: "3%",
   },
@@ -41,6 +46,7 @@ const page_styles = StyleSheet.create({
     fontSize: "32px",
     fontFamily: "monospace",
   },
+
 });
 
 export default page_styles;
