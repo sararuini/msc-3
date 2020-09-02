@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import page_styles from "./styles";
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import { View, Text } from "react-native-web";
 
 class UserList extends Component {
   constructor(props) {
@@ -40,35 +41,57 @@ class UserList extends Component {
     const { users, loading } = this.state;
 
     return (
-      <div>
-        <h2>Users</h2>
+      <View style={page_styles.whole_page}>
+          <Text style={page_styles.header}>Users</Text>
         {loading && <div>Loading ...</div>}
         <ul>
           {users.map(user => (
             <li key={user.uid}>
-              <span>
-                <strong>ID:</strong> {user.uid}
-              </span>
-              <span>
-                <strong>Username:</strong> {user.username}
-              </span>
-              <span>
-              <strong>Location</strong>{user.location}
-            </span>
-              <span>
                 <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  fontSize: "18px",
+                  fontFamily: "monospace",
+                  paddingLeft: "10px",
+                }}
                   to={{
                     pathname: `${ROUTES.USERS}/${user.uid}`,
                     state: { user },
                   }}
                 >
-                  Details
+                  {user.username}
                 </Link>
-              </span>
+                <Text style={{
+                  color: "black",
+                  fontSize: "18px",
+                  fontFamily: "monospace",
+                  paddingLeft: "10px",
+                  fontWeight: "bold"
+                }}> Headline:</Text><Text style={{
+                  textDecoration: "none",
+                  color: "black",
+                  fontSize: "18px",
+                  fontFamily: "monospace",
+                  paddingLeft: "10px",
+                }}>{user.headline}</Text>
+                <Text style={{
+                  color: "black",
+                  fontSize: "18px",
+                  fontFamily: "monospace",
+                  paddingLeft: "10px",
+                  fontWeight: "bold"
+                }}> Location: </Text> <Text style={{
+                  textDecoration: "none",
+                  color: "black",
+                  fontSize: "18px",
+                  fontFamily: "monospace",
+                  paddingLeft: "10px",
+                }}>{user.location}</Text>
             </li>
           ))}
         </ul>
-      </div>
+      </View>
     );
   }
 }

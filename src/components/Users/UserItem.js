@@ -1,7 +1,34 @@
 import React, { Component } from "react";
-//import page_styles_template from "../StyleTemplate";
-import { View, Text } from "react-native-web";
 import { withFirebase } from "../Firebase";
+import { View, Text,  } from "react-native-web";
+import page_styles from "./styles";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import YouTubeIcon from "@material-ui/icons/YouTube";
+import EmailIcon from "@material-ui/icons/Email";
+import PhoneIcon from "@material-ui/icons/Phone";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
+import LinkIcon from "@material-ui/icons/Link";
+import ShortTextIcon from "@material-ui/icons/ShortText";
+import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
+import {
+  FaSpotify,
+  FaApple,
+  FaGuitar,
+  FaHeart,
+  FaPencilRuler,
+  FaAmazon,
+  FaImage,
+} from "react-icons/fa";
+import {
+  SiTiktok,
+  SiSoundcloud,
+  SiDeezer,
+  SiPandora,
+  SiBandcamp,
+} from "react-icons/si";
 
 class UserItem extends Component {
   constructor(props) {
@@ -150,108 +177,142 @@ class UserItem extends Component {
     return (
       <div>
         {loading && <div>Loading ...</div>}
-        {user && (
-          <View>
+
+
+        {user && ( 
+        <View>
+        <div>
+          <View style={page_styles.whole_page}>
+          <Text style={page_styles.header}>{user.username}</Text>
             <div>
-              {user.username}
-              <span>
-                <strong>Location</strong>
-                {user.location}
-              </span>
-              <span>
-                <strong>Headline</strong>
-                {user.headline}
-              </span>
-              <span>
-                <strong>Phone Number</strong>
-                {user.phoneNumber}
-              </span>
-              <span>
-                <strong>Email</strong>
-                {user.publicEmailAddress}
-              </span>
-              <span>
-                <strong>Website</strong>
-                {user.website}
-              </span>
-              <span>
-                <strong>Biography</strong>
-                {user.biography}
-              </span>
-              <span>
-                <strong>Reasons for Joining</strong>
-                {user.reasonsForJoining_findOpportunities}
-                {user.reasonsForJoining_connectOthers}
-                {user.reasonsForJoining_offerOpportunities}
-                {user.reasonsForJoining_promoteServices}
-              </span>
-              <span>
-                <strong>I am </strong>
-                {user.typeOfUserSelection}
-              </span>
-              <span>
-                <strong>Facebook</strong>
-                {user.facebook}
-              </span>
-              <span>
-                <strong>Instagram</strong>
-                {user.instagram}
-              </span>
-              <span>
-                <strong>Twitter</strong>
-                {user.twitter}
-              </span>
-              <span>
-                <strong>LinkedIn</strong>
-                {user.linkedin}
-              </span>
-              <span>
-                <strong>TikTok</strong>
-                {user.tiktok}
-              </span>
-              <span>
-                <strong>Spotify</strong>
-                {user.spotify}
-              </span>
-              <span>
-                <strong>SoundCloud</strong>
-                {user.soundcloud}
-              </span>
-              <span>
-                <strong>Apple Music</strong>
-                {user.appleMusic}
-              </span>
-              <span>
-                <strong>Amazon Music</strong>
-                {user.amazonMusic}
-              </span>
-              <span>
-                <strong>Deezer</strong>
-                {user.deezer}
-              </span>
-              <span>
-                <strong>Pandora</strong>
-                {user.pandora}
-              </span>
-              <span>
-                <strong>BandCamp</strong>
-                {user.bandcamp}
-              </span>
-              <span>
-                <strong>Interests</strong>
-                {user.interests}
-              </span>
-              <span>
-                <strong>Musical Skills</strong>
-                {user.musicalSkills}
-              </span>
-              <span>
-                <strong>Other Skills</strong>
-                {user.otherSkills}
-              </span>
+            <Text style={page_styles.header}>Profile Info</Text>
+
+                <View style={page_styles.align_icon}>
+                  <ShortTextIcon />
+                  <Text style={page_styles.normal_text}>Headline: {user.headline}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <LocationCityIcon />
+                  <Text style={page_styles.normal_text}>Location: {user.location}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <ViewHeadlineIcon />
+                  <Text style={page_styles.normal_text}>Biography: {user.biography}</Text>
+                </View>
+                <View>
+                <Text style={page_styles.header}>Public Contact Details </Text>
+
+                <View style={page_styles.align_icon}>
+                  <EmailIcon />
+                  <Text style={page_styles.normal_text}>Email Address: {user.publicEmailAddress}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <PhoneIcon />
+                  <Text style={page_styles.normal_text}>Phone Number: {user.phoneNumber}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <LinkIcon />
+        <Text style={page_styles.normal_text}>Personal Website: {user.website}</Text>
+                </View>
+                <Text style={page_styles.header}>
+                  Social Media and Music Profiles
+                </Text>
+                <View style={page_styles.align_icon}>
+                  <FacebookIcon />
+                  <Text style={page_styles.normal_text}>Facebook: {user.facebook}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <InstagramIcon />
+                  <Text style={page_styles.normal_text}>Instagram {user.instagram} </Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <TwitterIcon />
+                  <Text style={page_styles.normal_text}>Twitter {user.twitter}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <LinkedInIcon />
+                  <Text style={page_styles.normal_text}>LinkedIn: {user.linkedin}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <SiTiktok />
+                  <Text style={page_styles.normal_text}>TikTok: {user.tiktok}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <YouTubeIcon />
+                  <Text style={page_styles.normal_text}>YouTube: {user.youtube}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <FaSpotify />
+                  <Text style={page_styles.normal_text}>Spotify: {user.spotify}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <SiSoundcloud />
+                  <Text style={page_styles.normal_text}>SoundCloud: {user.soundcloud}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <FaApple />
+                  <Text style={page_styles.normal_text}>Apple Music: {user.appleMusic}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <FaAmazon />
+                  <Text style={page_styles.normal_text}>Amazon Music: {user.amazonMusic}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <SiDeezer />
+                  <Text style={page_styles.normal_text}>Deezer: {user.deezer}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <SiPandora />
+                  <Text style={page_styles.normal_text}>Pandora: {user.pandora}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                  <SiBandcamp />
+                  <Text style={page_styles.normal_text}>BandCamp: {user.bandcamp}</Text>
+                </View>
+                <View style={page_styles.align_icon}>
+                <Text style={page_styles.header}>
+                    Why did you join music connector?
+                  </Text>
+                      <Text style={page_styles.checkbox_text}>
+                        Connect with others: {user.reasonsForJoining_connectOthers}
+                      </Text>
+                      <Text style={page_styles.checkbox_text}>
+                      Find new opportunities: {user.reasonsForJoining_findOpportunities}
+                      </Text>
+                      <Text style={page_styles.checkbox_text}>
+                      Promote my Services and/or my work: {user.reasonsForJoining_promoteServices}
+                      </Text>
+                      <Text style={page_styles.checkbox_text}>
+                        Offer Opportunities: {user.reasonsForJoining_offerOpportunities}
+                      </Text>
+                  </View>
+                  <Text style={page_styles.header}>Skills & Interests</Text>
+                  <View style={page_styles.align_icon}>
+                        <FaHeart />
+                        <Text style={page_styles.normal_text}>
+                          Interests and Hobbies: {user.interests}
+                        </Text>
+                  </View>
+                  <View style={page_styles.align_icon}>
+                        <FaGuitar />
+                        <Text style={page_styles.normal_text}>
+                          Musical Skills: {user.musicalSkills}
+                        </Text>
+                      </View>
+                      <View style={page_styles.align_icon}>
+                        <FaPencilRuler />
+                        <Text style={page_styles.normal_text}>
+                          Non-Musical Skills: {user.otherSkills}
+                        </Text>
+                      </View>
+
+              </View>
             </div>
           </View>
+          </div>
+        </View>
         )}
+          
 
         {existingFriendship === false &&
           pendingConnection === false &&
