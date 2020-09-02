@@ -4,6 +4,7 @@ const page_styles = StyleSheet.create({
   whole_page: {
     marginRight: "20%",
     marginLeft: "20%",
+    display: "block"
   },
   text_container: {
     padding: "5%",
@@ -46,6 +47,9 @@ const page_styles = StyleSheet.create({
     fontSize: "32px",
     fontFamily: "monospace",
   },
+  item_create: {
+    width: "100%"
+  }
 
 });
 

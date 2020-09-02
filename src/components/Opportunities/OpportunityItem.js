@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 
 import { withFirebase } from "../Firebase";
+import { View, Text } from "react-native-web";
 
 import { Link } from "react-router-dom";
 import Select from "react-select";
+import { MdLocationOn, MdWork} from "react-icons/md";
+import opportunityStyle from "./styles";
+
+import {GiDrum } from "react-icons/gi";
 
 import * as ROUTES from "../../constants/routes";
 
@@ -23,13 +28,13 @@ class OpportunityItem extends Component {
   componentDidMount() {
     this.setState({ loading: true });
     console.log("Opportunity Item" + this.props.opportunity.uid);
-    this.retrieveOppInfo()
+    this.retrieveOppInfo();
     this.setState({ loading: false });
   }
 
   retrieveOppInfo = () => {
     const oppId = this.props.opportunity.uid;
-    
+
     this.props.firebase.opportunity(oppId).once("value", (snapshot) => {
       const oppObj = snapshot.val();
       this.setState({
@@ -42,25 +47,20 @@ class OpportunityItem extends Component {
 
   render() {
     const { authUser, opportunity } = this.props;
-    const { loading, title,location } = this.state;
+    const { loading, title, location } = this.state;
 
     return (
-      <span>
-        <ul>
-          <div>
-            <label>{title}</label>
-            <p>Location: {location}</p>
-          </div>
-          <Link
-            to={{
-              pathname: `${ROUTES.OPPORTUNITIES}/${opportunity.uid}/profile`,
-            }}
-          >
-            {" "}
-            View more
-          </Link>
-        </ul>
-      </span>
+      <View style={opportunityStyle.list_opps}>
+        
+        <Link
+          to={{
+            pathname: `${ROUTES.OPPORTUNITIES}/${opportunity.uid}/profile`,
+          }}
+        >
+          <Text style={opportunityStyle.header}>{title}</Text>
+
+        </Link>
+      </View>
     );
   }
 }

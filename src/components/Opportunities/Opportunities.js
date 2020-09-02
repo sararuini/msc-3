@@ -7,10 +7,17 @@ import { Link } from "react-router-dom";
 import { View, Text, TextInput, Image } from "react-native-web";
 import opportunityStyle from "./styles";
 import { MdWork } from "react-icons/md";
-import { BsPlusSquare, BsPersonFill, BsFillTagFill, BsFillPersonLinesFill} from "react-icons/bs";
-import {MdDescription, MdLocationOn} from "react-icons/md"
-import {BiCalendarEvent, BiCalendarWeek} from "react-icons/bi"
-import {GrContact, GrMoney} from "react-icons/gr"
+import {
+  BsPlusSquare,
+  BsPersonFill,
+  BsFillTagFill,
+  BsFillPersonLinesFill,
+} from "react-icons/bs";
+import { MdDescription, MdLocationOn } from "react-icons/md";
+import { BiCalendarEvent, BiCalendarWeek } from "react-icons/bi";
+import { GrContact, GrMoney, GrDocumentUser} from "react-icons/gr";
+import {FaSave } from "react-icons/fa";
+import {CgUserList } from "react-icons/cg";
 
 class Opportunities extends Component {
   constructor(props) {
@@ -97,7 +104,7 @@ class Opportunities extends Component {
       jobTags: "",
       salary: "",
       startingDate: "",
-      skills: ""
+      skills: "",
     });
   };
 
@@ -126,166 +133,186 @@ class Opportunities extends Component {
           <div>
             {loading && <div>Loading ...</div>}
             <View style={opportunityStyle.whole_page}>
-              <View>
+              <View style={opportunityStyle.opportunity_create_container}>
                 <form
                   onSubmit={(event) =>
                     this.onCreateOpportunity(event, authUser)
                   }
                 >
-                  <View style={opportunityStyle.align_icon}>
-                      <BsPlusSquare />
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <BsPlusSquare />
 
                     <Text style={opportunityStyle.header}>
                       Create a new opportunity
                     </Text>
                   </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                      <BsPersonFill />
+                  </View>
+                  
+                  
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <BsPersonFill />
 
                     <Text style={opportunityStyle.normal_text}>
                       Position advertised:
                     </Text>
                   </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="Position you are advertising for"
-                      value={position}
-                      nativeID="position"
-                      blurOnSubmit="false"
-                      onChangeText={(position) => this.setState({ position })}
-                    />
-
-                  <View style={opportunityStyle.align_icon}>
-                      <MdDescription />
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="Position you are advertising for"
+                    value={position}
+                    nativeID="position"
+                    blurOnSubmit="false"
+                    onChangeText={(position) => this.setState({ position })}
+                  />
+                  </View>
+                  
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <MdDescription />
 
                     <Text style={opportunityStyle.normal_text}>
                       Opportunity description:
                     </Text>
                   </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="Describe what this opportunity consists of"
-                      value={description}
-                      nativeID="description"
-                      blurOnSubmit="false"
-                      onChangeText={(description) => this.setState({ description })}
-                    />
-
-<View style={opportunityStyle.align_icon}>
-                      <MdLocationOn />
-
-                    <Text style={opportunityStyle.normal_text}>
-                      Location:
-                    </Text>
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="Describe what this opportunity consists of"
+                    value={description}
+                    nativeID="description"
+                    blurOnSubmit="false"
+                    onChangeText={(description) =>
+                      this.setState({ description })
+                    }
+                  />
                   </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="Address(es) of opportunity"
-                      value={location}
-                      nativeID="location"
-                      blurOnSubmit="false"
-                      onChangeText={(location) => this.setState({ location })}
-                    />
-
-<View style={opportunityStyle.align_icon}>
-                      <BiCalendarWeek />
-
-                    <Text style={opportunityStyle.normal_text}>
-                      Job Type:
-                    </Text>
-                  </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="Is the job full-time, part-time, commission, freelancer, one-Off, etc."
-                      value={jobType}
-                      nativeID="jobType"
-                      blurOnSubmit="false"
-                      onChangeText={(jobType) => this.setState({ jobType })}
-                    />
-
+                  
+                  <View style={opportunityStyle.item_create}>
                     <View style={opportunityStyle.align_icon}>
-                      <BsFillTagFill />
+                    <MdLocationOn />
 
-                    <Text style={opportunityStyle.normal_text}>
-                      Job Tags:
-                    </Text>
+                    <Text style={opportunityStyle.normal_text}>Location:</Text>
                   </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="Job Tags e.g.(Music Publishing, London, etc.)"
-                      value={jobTags}
-                      nativeID="jobTags"
-                      blurOnSubmit="false"
-                      onChangeText={(jobTags) => this.setState({ jobTags })}
-                    />
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="Address(es) of opportunity"
+                    value={location}
+                    nativeID="location"
+                    blurOnSubmit="false"
+                    onChangeText={(location) => this.setState({ location })}
+                  />
+                  </View>
+                  
+                  <View style={opportunityStyle.item_create}>
                     <View style={opportunityStyle.align_icon}>
-                      <BiCalendarEvent />
+                    <BiCalendarWeek />
+
+                    <Text style={opportunityStyle.normal_text}>Job Type:</Text>
+                  </View>
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="Is the job full-time, part-time, commission, freelancer, one-Off, etc."
+                    value={jobType}
+                    nativeID="jobType"
+                    blurOnSubmit="false"
+                    onChangeText={(jobType) => this.setState({ jobType })}
+                  />
+                  </View>
+                  
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <BsFillTagFill />
+
+                    <Text style={opportunityStyle.normal_text}>Job Tags:</Text>
+                  </View>
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="Job Tags e.g.(Music Publishing, London, etc.)"
+                    value={jobTags}
+                    nativeID="jobTags"
+                    blurOnSubmit="false"
+                    onChangeText={(jobTags) => this.setState({ jobTags })}
+                  />
+                  </View>
+                  
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <BiCalendarEvent />
 
                     <Text style={opportunityStyle.normal_text}>
-                      Starting Date: 
+                      Starting Date:
                     </Text>
                   </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="When is the opportunity starting? (precise or approximate date)"
-                      value={startingDate}
-                      nativeID="startingDate"
-                      blurOnSubmit="false"
-                      onChangeText={(startingDate) => this.setState({ startingDate })}
-                    />
-
-<View style={opportunityStyle.align_icon}>
-                      <GrContact />
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="When is the opportunity starting? (precise or approximate date)"
+                    value={startingDate}
+                    nativeID="startingDate"
+                    blurOnSubmit="false"
+                    onChangeText={(startingDate) =>
+                      this.setState({ startingDate })
+                    }
+                  />
+                  </View>
+                  
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <GrContact />
 
                     <Text style={opportunityStyle.normal_text}>
-                      Contact details to apply: 
+                      Contact details to apply:
                     </Text>
                   </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="Please insert email address and/or phone number to apply to this opportunity"
-                      value={contact}
-                      nativeID="contact"
-                      blurOnSubmit="false"
-                      onChangeText={(contact) => this.setState({ contact })}
-                    />
-
-<View style={opportunityStyle.align_icon}>
-                      <BsFillPersonLinesFill />
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="Please insert email address and/or phone number to apply to this opportunity"
+                    value={contact}
+                    nativeID="contact"
+                    blurOnSubmit="false"
+                    onChangeText={(contact) => this.setState({ contact })}
+                  />
+                  </View>
+                  
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <BsFillPersonLinesFill />
 
                     <Text style={opportunityStyle.normal_text}>
-                      Skills needed to apply to opportunity: 
+                      Skills needed to apply to opportunity:
                     </Text>
                   </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="List must-have and optional skills required for this opportunity"
-                      value={skills}
-                      nativeID="skills"
-                      blurOnSubmit="false"
-                      onChangeText={(skills) => this.setState({ skills })}
-                    />
-
-<View style={opportunityStyle.align_icon}>
-                      <GrMoney />
-
-                    <Text style={opportunityStyle.normal_text}>
-                      Salary: 
-                    </Text>
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="List must-have and optional skills required for this opportunity"
+                    value={skills}
+                    nativeID="skills"
+                    blurOnSubmit="false"
+                    onChangeText={(skills) => this.setState({ skills })}
+                  />
                   </View>
-                    <TextInput
-                      style={opportunityStyle.text_input}
-                      placeholder="Specify if it's hourly/daily/weekly/monthly/ annual pay and the net amount"
-                      value={salary}
-                      nativeID="salary"
-                      blurOnSubmit="false"
-                      onChangeText={(salary) => this.setState({ salary })}
-                    />
+                  
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <GrMoney />
 
-                  <button disabled={isInvalid} type="submit">
-                    Publish opportunity
-                  </button>
+                    <Text style={opportunityStyle.normal_text}>Salary:</Text>
+                  </View>
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="Specify if it's hourly/daily/weekly/monthly/ annual pay and the net amount"
+                    value={salary}
+                    nativeID="salary"
+                    blurOnSubmit="false"
+                    onChangeText={(salary) => this.setState({ salary })}
+                  />
+                  </View>
+                  
+                  <View style={opportunityStyle.item_create}>
+                    <button disabled={isInvalid} type="submit">
+                      Publish opportunity
+                    </button>
+                  </View>
                 </form>
               </View>
 
@@ -298,9 +325,8 @@ class Opportunities extends Component {
           }}
           />
                  */}
-
-              <View style={opportunityStyle.row}>
-                <ul>
+              <View style={opportunityStyle.row_opps}>
+                <View style={opportunityStyle.available_opp}>
                   <View style={opportunityStyle.align_icon}>
                     <MdWork />
                     <Link
@@ -318,10 +344,10 @@ class Opportunities extends Component {
                       Available opportunities
                     </Link>
                   </View>
-                </ul>
-                <ul>
+                </View>
+                <View style={opportunityStyle.saved_opp}>
                   <View style={opportunityStyle.align_icon}>
-                    <MdWork />
+                    <FaSave />
                     <Link
                       style={{
                         textDecoration: "none",
@@ -337,11 +363,11 @@ class Opportunities extends Component {
                       Saved opportunities
                     </Link>
                   </View>
-                </ul>
+                </View>
 
-                <ul>
+                <View style={opportunityStyle.published_opp}>
                   <View style={opportunityStyle.align_icon}>
-                    <MdWork />
+                    <CgUserList />
                     <Link
                       style={{
                         textDecoration: "none",
@@ -357,11 +383,11 @@ class Opportunities extends Component {
                       Published opportunities
                     </Link>
                   </View>
-                </ul>
+                </View>
 
-                <ul>
+                <View style={opportunityStyle.applied_opp}>
                   <View style={opportunityStyle.align_icon}>
-                    <MdWork />
+                    <GrDocumentUser />
                     <Link
                       style={{
                         textDecoration: "none",
@@ -377,7 +403,7 @@ class Opportunities extends Component {
                       Applied opportunities
                     </Link>
                   </View>
-                </ul>
+                </View>
               </View>
             </View>
           </div>

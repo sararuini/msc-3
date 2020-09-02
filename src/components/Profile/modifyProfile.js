@@ -396,6 +396,7 @@ class ModifyProfileBase extends Component {
         <div>
           <View style={page_styles.whole_page}>
             <Text style={page_styles.header}>Profile Info</Text>
+            {/* 
             <div>
               <form onSubmit={this.handleFirebaseUpload}>
                 <View style={page_styles.align_icon}>
@@ -411,6 +412,7 @@ class ModifyProfileBase extends Component {
                 <button type="submit">Upload Profile Picture</button>
               </form>
             </div>
+            */}
 
             <form onSubmit={this.onSubmit}>
               <View>

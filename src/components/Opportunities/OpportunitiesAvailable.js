@@ -5,6 +5,8 @@ import { withFirebase } from "../Firebase";
 import OpportunityList from "./OpportunityList";
 import * as ROUTES from "../../constants/routes";
 import { Link } from "react-router-dom";
+import opportunityStyle from "./styles";
+import { View, Text, TextInput, Image } from "react-native-web";
 
 class OpportunitiesAvailable extends Component {
   constructor(props) {
@@ -92,17 +94,16 @@ class OpportunitiesAvailable extends Component {
 
           <div>
             {loading && <div>Loading ...</div>}
-            <ul>
+            <View style={opportunityStyle.main_opps_av}>
               <Link
                 to={{
                   pathname: `${ROUTES.OPPORTUNITIES}`,
                 }}
               >
-               Opportunities
+               <Text style={opportunityStyle.normal_text}>Go back to main opportunities page</Text>
               </Link>
-            </ul>
             
-            <span> Current Opportunities: </span>
+            <Text style={opportunityStyle.normal_text}>Current available Opportunities: </Text>
             {opportunities && (
               <OpportunityList
                 authUser={authUser}
@@ -115,6 +116,7 @@ class OpportunitiesAvailable extends Component {
                 More
               </button>
             )}
+            </View>
 
             {!opportunities && <div>There are no opportunities ...</div>}
             
