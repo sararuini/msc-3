@@ -834,9 +834,10 @@ class ModifyProfileBase extends Component {
                         />
                       </View>
                     </View>
-                
+                <button type="submit">Save Profile</button>
               </View>
-              <button type="submit">Save Profile</button>
+              
+              
             </form>
           </View>
         </div>

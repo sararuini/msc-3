@@ -27,6 +27,7 @@ const NavigationAuth = ({ authUser }) => (
   <View style={page_styles.menu_links}>
     <ul>
       <Link to={ROUTES.HOME}>
+        
         <Image
           style={{ width: 100, height: 100 }}
           source={{
@@ -34,6 +35,8 @@ const NavigationAuth = ({ authUser }) => (
               "https://live.staticflickr.com/65535/50277251243_fbd7f7b541_o.png",
           }}
         />
+        
+        
       </Link>
     </ul>
     <ul>

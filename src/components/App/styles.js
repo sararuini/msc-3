@@ -20,8 +20,6 @@ const page_styles_template = StyleSheet.create({
     //flex: 1
   },
   scrollable_container: {
-    //alignItems: "center",
-    //justifyContent: "cener",
     color: "black",
     backgroundColor: "white",
     padding: "20%",
@@ -33,13 +31,15 @@ const page_styles_template = StyleSheet.create({
   footbar: {
     display: "block",
     position: "absolute",
-    flex: 1,
-
+    flex: 0.1,
+    bottom: 0,
+    height: "15%",
+    width: "100%",
   },
   topbar: {
     position: "fixed",
     margin: "1px solid black",
-    backgroundColor: "green"
+    backgroundColor: "green",
   },
 });
 
