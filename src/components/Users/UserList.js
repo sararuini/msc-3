@@ -49,7 +49,6 @@ class UserList extends Component {
             <li key={user.uid}>
                 <Link
                 style={{
-                  textDecoration: "none",
                   color: "black",
                   fontSize: "18px",
                   fontFamily: "monospace",

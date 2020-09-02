@@ -13,13 +13,14 @@ class OpportunitiesAvailable extends Component {
     super(props);
 
     this.state = {
-      title: "",
+      position: "",
       description: "",
       location: "",
       jobType: "",
       salary: "",
       jobTags: "",
       startingDate: "",
+      skills: "",
       contact: "",
       loading: false,
       opportunities: [],
@@ -74,19 +75,20 @@ class OpportunitiesAvailable extends Component {
 
   render() {
     const {
-      title,
+      position,
       description,
       contact,
       location,
       jobType,
       jobTags,
       salary,
+      skills,
       startingDate,
       opportunities,
       loading,
     } = this.state;
 
-    const isInvalid = title === "" || location === "" || contact === "";
+    const isInvalid = position === "" || location === "" || contact === "";
 
     return (
       <AuthUserContext.Consumer>

@@ -20,7 +20,7 @@ class OpportunityItem extends Component {
 
     this.state = {
       loading: false,
-      title: "",
+      position: "",
       location: "",
     };
   }
@@ -38,7 +38,7 @@ class OpportunityItem extends Component {
     this.props.firebase.opportunity(oppId).once("value", (snapshot) => {
       const oppObj = snapshot.val();
       this.setState({
-        title: oppObj.title,
+        position: oppObj.position,
         description: oppObj.description,
         location: oppObj.location,
       });
@@ -47,7 +47,7 @@ class OpportunityItem extends Component {
 
   render() {
     const { authUser, opportunity } = this.props;
-    const { loading, title, location } = this.state;
+    const { loading, position, location } = this.state;
 
     return (
       <View style={opportunityStyle.list_opps}>
@@ -57,7 +57,7 @@ class OpportunityItem extends Component {
             pathname: `${ROUTES.OPPORTUNITIES}/${opportunity.uid}/profile`,
           }}
         >
-          <Text style={opportunityStyle.header}>{title}</Text>
+          <Text style={opportunityStyle.header}>{position}</Text>
 
         </Link>
       </View>

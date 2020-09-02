@@ -331,7 +331,6 @@ class Opportunities extends Component {
                     <MdWork />
                     <Link
                       style={{
-                        textDecoration: "none",
                         color: "black",
                         fontSize: "18px",
                         fontFamily: "monospace",
@@ -350,7 +349,6 @@ class Opportunities extends Component {
                     <FaSave />
                     <Link
                       style={{
-                        textDecoration: "none",
                         color: "black",
                         fontSize: "18px",
                         fontFamily: "monospace",
@@ -370,7 +368,6 @@ class Opportunities extends Component {
                     <CgUserList />
                     <Link
                       style={{
-                        textDecoration: "none",
                         color: "black",
                         fontSize: "18px",
                         fontFamily: "monospace",
@@ -390,7 +387,6 @@ class Opportunities extends Component {
                     <GrDocumentUser />
                     <Link
                       style={{
-                        textDecoration: "none",
                         color: "black",
                         fontSize: "18px",
                         fontFamily: "monospace",

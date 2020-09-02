@@ -11,7 +11,8 @@ class SavedOpportunityItem extends Component {
 
     this.state = {
       loading: false,
-      title: "",
+      position: "",
+      skills: "",
       contact: "",
       description: "",
       jobType: "",
@@ -44,7 +45,8 @@ class SavedOpportunityItem extends Component {
           .once("value", (snapshot) => {
 
             const oppObj = snapshot.val();
-            const title = oppObj.title;
+            const position = oppObj.position;
+            const skills = oppObj.skills;
             const contact = oppObj.contact;
             const description = oppObj.description;
             const jobType = oppObj.jobType;
@@ -55,7 +57,7 @@ class SavedOpportunityItem extends Component {
             const startingDate = oppObj.startingDate;
 
             this.setState({
-              title: title,
+              position: position,
               contact: contact,
               description: description,
               createdBy: createdBy,
@@ -63,6 +65,7 @@ class SavedOpportunityItem extends Component {
               jobTags: jobTags,
               location: location,
               salary: salary,
+              skills: skills,
               startingDate: startingDate,
             });
           });
@@ -92,7 +95,8 @@ class SavedOpportunityItem extends Component {
     } = this.props;
 
     const {
-      title,
+      position,
+      skills,
       contact,
       createdBy,
       description,
@@ -117,12 +121,13 @@ class SavedOpportunityItem extends Component {
                 </Link>
           
             <ul> Opportunity code: {savedOpportunity.uid} </ul>
-            <ul> Title: {title}</ul>
+            <ul> Position: {position}</ul>
             <ul> Contact Details: {contact}</ul>
             <ul> Description: {description}</ul>
             <ul> Job Type: {jobType} </ul>
             <ul> Job Tags: {jobTags}</ul>
             <ul> Location: {location}</ul>
+            <ul> Skills: {skills}</ul>
             <ul> Salary: {salary} </ul>
             <ul> Starting Date: {startingDate}</ul>
          </span>

@@ -4,7 +4,8 @@ import { withFirebase } from "../Firebase";
 
 import { Link } from "react-router-dom";
 import Select from "react-select";
-
+import { View, Text, } from "react-native-web";
+import opportunityStyle from "./styles";
 import * as ROUTES from "../../constants/routes";
 
 let options = [];
@@ -35,7 +36,8 @@ class OpportunityProfile extends Component {
       location: "",
       salary: "",
       startingDate: "",
-      title: "",
+      position: "",
+      skills: ""
     };
   }
 
@@ -69,8 +71,9 @@ class OpportunityProfile extends Component {
             location: opportunityObj.location,
             salary: opportunityObj.salary,
             startingDate: opportunityObj.startingDate,
-            title: opportunityObj.title,
-            createdBy: opportunityObj.createdBy
+            skills: opportunityObj.skills,
+            createdBy: opportunityObj.createdBy,
+            position: opportunityObj.position
           });
         });
 
@@ -259,7 +262,9 @@ class OpportunityProfile extends Component {
       location,
       salary,
       startingDate,
-      title,
+      position,
+
+      skills,
       opportunityId,
       createdAt
       
@@ -271,7 +276,7 @@ class OpportunityProfile extends Component {
 
     return (
       <li>
-        <span>
+        <View>
           <ul>
             Created by:
             <Link
@@ -283,41 +288,46 @@ class OpportunityProfile extends Component {
             </Link>
           </ul>
           <ul>
-            <label>Title: </label>
-            {title}
+          <Text style={opportunityStyle.header}>Position advertised:</Text>
+            <Text style={opportunityStyle.normal_text}>{position}</Text>
           </ul>
           <ul>
-            <label> Description:</label>
-            {description}
+          <Text style={opportunityStyle.header}>Description:</Text>
+            <Text style={opportunityStyle.normal_text}>{description}</Text>
           </ul>
           <ul>
-            <label>Location: </label>
-            {location}
+          <Text style={opportunityStyle.header}>Location:</Text>
+            <Text style={opportunityStyle.normal_text}>{location}</Text>
           </ul>
           <ul>
-            <label>Job Type: </label>
-            {jobType}
+          <Text style={opportunityStyle.header}>Job Type:</Text>
+            <Text style={opportunityStyle.normal_text}>{jobType}</Text>
           </ul>
           <ul>
-            <label>Contact: </label> {contact}
+          <Text style={opportunityStyle.header}>Contact:</Text>
+            <Text style={opportunityStyle.normal_text}>{contact}</Text>
           </ul>
           <ul>
-            <label>Tags: </label>
-            {jobTags}
+          <Text style={opportunityStyle.header}>Job Tags:</Text>
+            <Text style={opportunityStyle.normal_text}>{jobTags}</Text>
           </ul>
           <ul>
-            <label>Salary: </label>
-            {salary}
+          <Text style={opportunityStyle.header}>Skills Required:</Text>
+            <Text style={opportunityStyle.normal_text}>{skills}</Text>
           </ul>
           <ul>
-            <label>Starting Date:</label>
-            {startingDate}
+          <Text style={opportunityStyle.header}>Salary:</Text>
+            <Text style={opportunityStyle.normal_text}>{salary}</Text>
           </ul>
           <ul>
-            <label>Opportunity Code:</label>
-            {opportunityId}
+          <Text style={opportunityStyle.header}>Starting Date:</Text>
+            <Text style={opportunityStyle.normal_text}>{startingDate}</Text>
           </ul>
-        </span>
+          <ul>
+            <Text style={opportunityStyle.header}>Opportunity Code:</Text>
+            <Text style={opportunityStyle.normal_text}>{opportunityId}</Text>
+          </ul>
+        </View>
 
         {opportunityId !== createdBy && hasSaved === true && (
           <span>
@@ -363,34 +373,7 @@ class OpportunityProfile extends Component {
           </span>
         )}
 
-        {/*
-        {authUser.uid !== opportunity.createdBy && !hasAppliedBand && (
-          <span>
-            <form
-              onSubmit={() => {
-                this.onApplyToOpportunityBand(opportunity.uid);
-              }}
-            >
-              <Select
-                value={selectedBand}
-                options={options}
-                onChange={this.handleChange}
-              />
-
-              <input
-                type="text"
-                value={applicationTextBand}
-                onChange={this.onChangeApplicationTextBand}
-              />
-
-              <button disabled={isInvalidBand} type="submit">
-                Send Application as band
-              </button>
-            </form>
-          </span>
-          
-        )} 
-        */}
+       
       </li>
     );
   }

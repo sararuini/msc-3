@@ -21,6 +21,9 @@ const page_styles = StyleSheet.create({
     fontSize: "14px",
     fontFamily: "monospace",
     marginLeft: "1%",
+    marginTop: "1%",
+    marginBottom: "1%",
+    
   },
   checkbox_text: {
     color: "black",

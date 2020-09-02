@@ -12,7 +12,7 @@ class CreatedOpportunityItem extends Component {
       loading: false,
       limit: 5,
       editMode: false,
-      editTitle: this.props.opportunityCreated.title,
+      editPosition: this.props.opportunityCreated.position,
       editDescription: this.props.opportunityCreated.description,
       editLocation: this.props.opportunityCreated.location,
       editJobType: this.props.opportunityCreated.jobType,
@@ -22,7 +22,7 @@ class CreatedOpportunityItem extends Component {
       editContact: this.props.opportunityCreated.contact,
       createdOpportunity: "",
       applicants: "",
-      title: "",
+      position: "",
       description: "",
       location: "",
       jobType: "",
@@ -38,7 +38,7 @@ class CreatedOpportunityItem extends Component {
     console.log("THIS IS LOADING CREATED OPP (CREATED OPP ITEM)");
     console.log("uid of opp loading: " + this.props.opportunityCreated.uid);
 
-    console.log("title of opp loading: " + this.props.opportunityCreated.title);
+    console.log("title of opp loading: " + this.props.opportunityCreated.position);
     this.loadCreatedOpportunity();
     console.log("DONE LOADING CREATED OPP (CREATED OPP ITEM)");
     this.retrieveUsername();
@@ -74,9 +74,7 @@ class CreatedOpportunityItem extends Component {
         const createdOpportunityObject = snapshot.val();
 
         this.setState({ createdOpportunity: createdOpportunityObject });
-        console.log(
-          "loadCreatedOpportunity title" + createdOpportunityObject.title
-        );
+       
         console.log(
           "loadCreatedOpportunity des" + createdOpportunityObject.description
         );
@@ -161,7 +159,8 @@ class CreatedOpportunityItem extends Component {
   onToggleEditMode = () => {
     this.setState((state) => ({
       editMode: !state.editMode,
-      editTitle: this.state.createdOpportunity.title,
+      editPosition: this.state.createdOpportunity.position,
+      editSkills: this.state.createdOpportunity.skills,
       editDescription: this.state.createdOpportunity.description,
       editLocation: this.state.createdOpportunity.location,
       editJobType: this.state.createdOpportunity.jobType,
@@ -171,10 +170,6 @@ class CreatedOpportunityItem extends Component {
       editContact: this.state.createdOpportunity.contact,
     }));
 
-    console.log("edit mode start");
-    console.log(this.state.editMode);
-    console.log("title " + this.props.opportunityCreated.title);
-    console.log("edit mode finish");
   };
 
   onChangeEdit = (event) => {
@@ -184,7 +179,7 @@ class CreatedOpportunityItem extends Component {
   };
 
   onSaveEdit = () => {
-    this.onEditOpportunity(this.state.createdOpportunity, this.state.editTitle);
+    this.onEditOpportunity(this.state.createdOpportunity, this.state.editSkills);
 
     this.onEditOpportunity(
       this.state.createdOpportunity,
@@ -214,6 +209,10 @@ class CreatedOpportunityItem extends Component {
       this.state.createdOpportunity,
       this.state.editSalary
     );
+    this.onEditOpportunity(
+      this.state.createdOpportunity,
+      this.state.editPosition
+    );
 
     this.setState({ editMode: false });
   };
@@ -222,7 +221,8 @@ class CreatedOpportunityItem extends Component {
     const { authUser, opportunityCreated } = this.props;
     const {
       editMode,
-      editTitle,
+      editPosition,
+      editSkills,
       editDescription,
       editLocation,
       editJobType,
@@ -238,7 +238,7 @@ class CreatedOpportunityItem extends Component {
     } = this.state;
 
     const isInvalid =
-      editTitle === "" ||
+      editPosition === "" ||
       editLocation === "" ||
       editContact === "" ||
       editJobType === "";
@@ -250,11 +250,11 @@ class CreatedOpportunityItem extends Component {
         {editMode && (
           <div>
             <form>
-              <label> Title </label>
+              <label> Position </label>
               <input
                 type="text"
-                value={editTitle}
-                name="editTitle"
+                value={editPosition}
+                name="editPosition"
                 onChange={this.onChangeEdit}
               />
 
@@ -265,6 +265,13 @@ class CreatedOpportunityItem extends Component {
                 value={editDescription}
                 onChange={this.onChangeEdit}
               />
+              <input
+                type="text"
+                value={editSkills}
+                name="editSkills"
+                onChange={this.onChangeEdit}
+              />
+
 
               <label> Location </label>
               <input
@@ -320,8 +327,8 @@ class CreatedOpportunityItem extends Component {
         {!editMode && authUser && (
           <span>
             <ul>
-              <label>Title: </label>
-              {createdOpportunity.title}
+              <label>Position: </label>
+              {createdOpportunity.position}
             </ul>
             <ul>
               <label> Description:</label>
@@ -330,6 +337,10 @@ class CreatedOpportunityItem extends Component {
             <ul>
               <label>Location: </label>
               {createdOpportunity.location}
+            </ul>
+            <ul>
+              <label>Skills: </label>
+              {createdOpportunity.skills}
             </ul>
             <ul>
               <label>Job Type: </label>
@@ -384,7 +395,7 @@ class CreatedOpportunityItem extends Component {
         {applicants && (
           <span>
             <ul>
-              <h4>Applicants for {createdOpportunity.title}:</h4>
+              <h4>Applicants for {createdOpportunity.position}:</h4>
               <ApplicantList authUser={authUser} applicants={applicants} opportunity={opportunityCreated.uid} />
             </ul>
             </span>
@@ -405,7 +416,7 @@ class CreatedOpportunityItem extends Component {
 
         {authUser && !applicants && (
           <span>
-            <ul>There are no applicants for {createdOpportunity.title}</ul>
+            <ul>There are no applicants for {createdOpportunity.position}</ul>
           </span>
         )}
       </div>
