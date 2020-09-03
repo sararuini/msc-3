@@ -4,7 +4,14 @@ const page_styles = StyleSheet.create({
   whole_page: {
     marginRight: "20%",
     marginLeft: "20%",
-    display: "block"
+    display: "block",
+    paddingTop:"2%",
+    //paddingBottom:"25%",
+    
+  },
+  whole_page_2: {
+    marginRight: "20%",
+    marginLeft: "20%",
   },
   text_container: {
     padding: "5%",

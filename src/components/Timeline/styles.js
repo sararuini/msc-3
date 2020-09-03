@@ -45,7 +45,9 @@ const postStyle = StyleSheet.create({
     display: "flex",
     //alignItems: "stretch",
     flexDirection: "column",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    paddingTop: "5%",
+    paddingBottom: "5%",
   },
   posts: {
       alignItems: "stretch"

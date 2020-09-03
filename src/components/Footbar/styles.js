@@ -9,7 +9,7 @@ import { StyleSheet } from "react-native-web";
 const footbar_styles = StyleSheet.create({
   footer: {
     backgroundColor: "black",
-    borderTop: "1px solid #E7E7E7",
+    //borderTop: "1px solid #E7E7E7",
     textAlign: "center",
     left: "0",
     right: "0",

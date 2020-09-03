@@ -94,7 +94,7 @@ class OpportunitiesAvailable extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
 
-          <div>
+          <View>
             {loading && <div><Text style={opportunityStyle.normal_text}>Loading ...</Text></div>}
             <View>
               <Link
@@ -122,7 +122,7 @@ class OpportunitiesAvailable extends Component {
 
             {!opportunities && <div>There are no opportunities ...</div>}
             
-          </div>
+          </View>
         )}
       </AuthUserContext.Consumer>
     );

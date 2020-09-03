@@ -24,7 +24,10 @@ const opportunityStyle = StyleSheet.create({
   whole_page: {
     marginRight: "10%",
     marginLeft: "10%",
+    paddingTop: "2%",
+    paddingBottom: "2%",
     flexDirection: "row",
+    //height: "100%",
     flexWrap: "wrap",
     //justifyContent:"space-evenly",
     alignItems:  "center",

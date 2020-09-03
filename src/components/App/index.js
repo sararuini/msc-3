@@ -23,7 +23,7 @@ import page_styles_template from "./styles";
 const App = () => {
   return (
     <Router>
-      <View style={page_styles_template.whole_app}>
+      <View>
         <div>
           <Navigation/>
           <ScrollView style={page_styles_template.scrollable_container}>

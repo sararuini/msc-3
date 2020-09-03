@@ -12,20 +12,18 @@ const page_styles_template = StyleSheet.create({
             borderRadius: 10,
     },
     */
-  whole_app: {
-    //display: "flex",
-    //flexDirections: "column",
-    //alignContent: "flex-start",
-    //flexWrap: "wrap",
-    //flex: 1
-  },
   scrollable_container: {
     color: "black",
     backgroundColor: "white",
     padding: "20%",
     width: "100%",
+    height: "100%",
+    maxHeight: "95%",
     padding: "10px",
     backgroundColor: "pink",
+    overflow: "auto",
+    margin: 0,
+   
   },
 
   footbar: {
@@ -39,7 +37,7 @@ const page_styles_template = StyleSheet.create({
   topbar: {
     position: "fixed",
     margin: "1px solid black",
-    backgroundColor: "green",
+    backgroundColor: "white",
   },
 });
 

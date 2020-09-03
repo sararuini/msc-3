@@ -180,9 +180,9 @@ class UserItem extends Component {
 
 
         {user && ( 
-        <View>
+        <View style={page_styles.whole_page}>
         <div>
-          <View style={page_styles.whole_page}>
+          <View>
           <Text style={page_styles.header}>{user.username}</Text>
             <div>
             <Text style={page_styles.header}>Profile Info</Text>
