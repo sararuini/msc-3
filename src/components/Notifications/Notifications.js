@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { AuthUserContext } from "../Session";
 import { withFirebase } from "../Firebase";
 import NotificationList from "./NotificationList";
+import notificationStyle from "./styles";
+import { View, Text } from "react-native-web";
 
 class Notifications extends Component {
   constructor(props) {
@@ -73,9 +75,9 @@ class Notifications extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-            {loading && <div>Loading ...</div>}
+            {loading && <Text style={notificationStyle.normal_text}>Loading ...</Text>}
 
-            {notifications && <span> Recent Notifications: </span>}
+            {notifications && <Text style={notificationStyle.normal_text}> Recent Notifications: </Text>}
 
             {notifications && (
               <NotificationList
@@ -84,11 +86,11 @@ class Notifications extends Component {
               />
             )}
 
-            {!notifications && <span> There are no notifications</span>}
+            {!notifications && <Text style={notificationStyle.normal_text}> There are no notifications</Text>}
 
             {!loading && notifications && notifications.length > 10 && (
               <button type="button" onClick={this.onNextPage}>
-                More notifications
+              <Text style={notificationStyle.normal_text}>  More notifications </Text>
               </button>
             )}
           </div>

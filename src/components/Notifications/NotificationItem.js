@@ -4,6 +4,8 @@ import { withFirebase } from "../Firebase";
 
 import { Link } from "react-router-dom";
 
+import notificationStyle from "./styles";
+import { View, Text } from "react-native-web";
 import * as ROUTES from "../../constants/routes";
 let options = [];
 
@@ -68,7 +70,7 @@ class NotificationItem extends Component {
             }}
           >
             {" "}
-            {type}
+           <Text style={notificationStyle.normal_text}> {type}</Text>
           </Link>
         </ul>
       </span>

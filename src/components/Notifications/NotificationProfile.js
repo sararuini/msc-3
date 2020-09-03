@@ -3,7 +3,8 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 
 import { Link } from "react-router-dom";
-
+import notificationStyle from "./styles";
+import { View, Text } from "react-native-web";
 import * as ROUTES from "../../constants/routes";
 
 class NotificationProfile extends Component {
@@ -290,34 +291,33 @@ class NotificationProfile extends Component {
 
     return (
       <div>
-        {loading && <div> Loading...</div>}
+        {loading && <div><Text style={notificationStyle.normal_text}> Loading...</Text></div>}
         <ul>{type}</ul>
-        <ul>Notification sent at: {createdAt}</ul>
 
         {type === "Accepted Connection Request" && (
           <div>
-            <ul>User:</ul>
+            <ul><Text style={notificationStyle.normal_text}>User:</Text></ul>
 
             <Link
               to={{
                 pathname: `${ROUTES.USERS}/${user}`,
               }}
             >
-              {username}
+             <Text style={notificationStyle.normal_text}>{username}</Text> 
             </Link>
           </div>
         )}
 
         {type === "Declined Connection Request" && (
           <div>
-            <ul>User:</ul>
+            <ul><Text style={notificationStyle.normal_text}>User:</Text></ul>
 
             <Link
               to={{
                 pathname: `${ROUTES.USERS}/${user}`,
               }}
             >
-              {username}
+             <Text style={notificationStyle.normal_text}>{username}</Text> 
             </Link>
           </div>
         )}
@@ -339,21 +339,21 @@ class NotificationProfile extends Component {
 
         {type === "Connection Request Received" && (
           <div>
-            <ul>Sender:</ul>
+            <ul><Text style={notificationStyle.header}>Sender:</Text></ul>
 
             <Link
               to={{
                 pathname: `${ROUTES.USERS}/${senderId}`,
               }}
             >
-              {username}
+             <Text style={notificationStyle.normal_text}>{username}</Text> 
             </Link>
           </div>
         )}
 
         {type === "Opportunity Status Notification" && (
           <div>
-            <ul>Opportunity:</ul>
+            <ul><Text style={notificationStyle.header}>Opportunity:</Text></ul>
 
             <Link
               to={{
@@ -362,7 +362,7 @@ class NotificationProfile extends Component {
             >
               {opportunityTitle}
             </Link>
-            <ul>Status Message: {statusMessage}</ul>
+            <ul><Text style={notificationStyle.header}>Status Message: </Text><Text style={notificationStyle.normal_text}>{statusMessage}</Text></ul>
           </div>
         )}
 
@@ -373,14 +373,16 @@ class NotificationProfile extends Component {
                 pathname: `${ROUTES.BANDS}/${band}`,
               }}
             >
-              {bandName}
+             <Text style={notificationStyle.normal_text}>
+                {bandName}
+              </Text> 
             </Link>
           </div>
         )}
 
         {type === "Declined Band Member" && (
           <div>
-          <ul>Band: {bandName} :</ul>
+            <ul><Text style={notificationStyle.header}>Band: </Text><Text style={notificationStyle.normal_text}>{bandName}</Text></ul>
 
         </div>
         )}

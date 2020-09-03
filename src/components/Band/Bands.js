@@ -108,7 +108,7 @@ class Bands extends Component {
         {(authUser) => (
           <div>
             <form onSubmit={this.createBand}>
-              <label>Band Name</label>
+            <Text style={bandStyle.header}>Band Name</Text>
               <input
                 type="text"
                 value={bandName}
