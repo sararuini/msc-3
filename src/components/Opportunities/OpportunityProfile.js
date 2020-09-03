@@ -4,7 +4,7 @@ import { withFirebase } from "../Firebase";
 
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { View, Text, } from "react-native-web";
+import { View, Text } from "react-native-web";
 import opportunityStyle from "./styles";
 import * as ROUTES from "../../constants/routes";
 
@@ -18,6 +18,7 @@ class OpportunityProfile extends Component {
       savedAt: "",
       appliedAt: "",
       createdBy: "",
+      currentUserId: "",
       opportunityCreator: "",
       hasApplied: false,
       hasAppliedBand: false,
@@ -37,7 +38,7 @@ class OpportunityProfile extends Component {
       salary: "",
       startingDate: "",
       position: "",
-      skills: ""
+      skills: "",
     };
   }
 
@@ -48,8 +49,6 @@ class OpportunityProfile extends Component {
     this.setState({ loading: false });
   }
 
-  
-
   loadOpportunity = () => {
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -57,8 +56,11 @@ class OpportunityProfile extends Component {
         const currentUserId = currentUser.uid;
         const oppId = this.props.match.params.id;
         this.setState({
-            opportunityId: oppId,
-        })
+          opportunityId: oppId,
+          currentUserId: currentUserId,
+        });
+        console.log("user id " + currentUserId);
+        console.log("opp id " + oppId);
 
         this.props.firebase.opportunity(oppId).once("value", (snapshot) => {
           const opportunityObj = snapshot.val();
@@ -73,36 +75,37 @@ class OpportunityProfile extends Component {
             startingDate: opportunityObj.startingDate,
             skills: opportunityObj.skills,
             createdBy: opportunityObj.createdBy,
-            position: opportunityObj.position
+            position: opportunityObj.position,
           });
         });
 
         // check for existing applied and saved opportunities
         this.props.firebase
-          .userSavedOpportunity(currentUserId, oppId )
+          .userSavedOpportunity(currentUserId, oppId)
           .once("value")
           .then((snapshot) => {
             const savedOpportunityObj = snapshot.val();
 
-            if (savedOpportunityObj){
-                this.setState({ hasSaved: true });
+            if (savedOpportunityObj) {
+              this.setState({ hasSaved: true });
             } else {
-                this.setState({ hasSaved: false });
+              this.setState({ hasSaved: false });
             }
+            console.log("saved state " + this.state.hasSaved);
           });
 
         this.props.firebase
           .userAppliedOpportunity(currentUserId, oppId)
           .once("value")
           .then((snapshot) => {
-              
             const appliedOpportunityObj = snapshot.val();
 
-            if (appliedOpportunityObj){
-                this.setState({ hasApplied: true });
+            if (appliedOpportunityObj) {
+              this.setState({ hasApplied: true });
             } else {
-                this.setState({ hasApplied: false });
+              this.setState({ hasApplied: false });
             }
+            console.log("saved applied " + this.state.hasApplied);
           });
 
         this.props.firebase
@@ -189,7 +192,7 @@ class OpportunityProfile extends Component {
     });
   };
 
-  componentWillUnmount (){
+  componentWillUnmount() {
     const oppId = this.props.match.params.id;
     this.props.firebase.opportunity(oppId).off();
   }
@@ -252,9 +255,6 @@ class OpportunityProfile extends Component {
       opportunityCreator,
       createdBy,
       applicationText,
-      hasAppliedBand,
-      applicationTextBand,
-      selectedBand,
       contact,
       description,
       jobTags,
@@ -263,11 +263,10 @@ class OpportunityProfile extends Component {
       salary,
       startingDate,
       position,
-
+      currentUserId,
       skills,
       opportunityId,
-      createdAt
-      
+      createdAt,
     } = this.state;
 
     //const isInvalidBand = applicationTextBand === "";
@@ -275,106 +274,115 @@ class OpportunityProfile extends Component {
     //const value = selectedBand && selectedBand.value;
 
     return (
-      <li>
-        <View>
-          <ul>
-            Created by:
-            <Link
-              to={{
-                pathname: `${ROUTES.USERS}/${createdBy}`,
-              }}
-            >
-              {opportunityCreator}
-            </Link>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Position advertised:</Text>
-            <Text style={opportunityStyle.normal_text}>{position}</Text>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Description:</Text>
-            <Text style={opportunityStyle.normal_text}>{description}</Text>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Location:</Text>
-            <Text style={opportunityStyle.normal_text}>{location}</Text>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Job Type:</Text>
-            <Text style={opportunityStyle.normal_text}>{jobType}</Text>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Contact:</Text>
-            <Text style={opportunityStyle.normal_text}>{contact}</Text>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Job Tags:</Text>
-            <Text style={opportunityStyle.normal_text}>{jobTags}</Text>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Skills Required:</Text>
-            <Text style={opportunityStyle.normal_text}>{skills}</Text>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Salary:</Text>
-            <Text style={opportunityStyle.normal_text}>{salary}</Text>
-          </ul>
-          <ul>
-          <Text style={opportunityStyle.header}>Starting Date:</Text>
-            <Text style={opportunityStyle.normal_text}>{startingDate}</Text>
-          </ul>
-          <ul>
-            <Text style={opportunityStyle.header}>Opportunity Code:</Text>
-            <Text style={opportunityStyle.normal_text}>{opportunityId}</Text>
-          </ul>
-        </View>
+      <div>
+        <Link
+          to={{
+            pathname: `${ROUTES.OPPORTUNITIES}`,
+          }}
+        >
+          <Text style={opportunityStyle.normal_text}>
+            Go back to main opportunities page
+          </Text>
+        </Link>
 
-        {opportunityId !== createdBy && hasSaved === true && (
-          <span>
-            <button
-              onClick={() => {
-                this.onUnsaveOpportunity(opportunityId);
-              }}
-            >
-              Unsave Opportunity
-            </button>
-          </span>
-        )}
+      
+          <View>
+            <ul>
+              <Text style={opportunityStyle.normal_text}>Created by: </Text>
+              <Link
+                to={{
+                  pathname: `${ROUTES.USERS}/${createdBy}`,
+                }}
+              >
+                {opportunityCreator}
+              </Link>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Position advertised:</Text>
+              <Text style={opportunityStyle.normal_text}>{position}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Description:</Text>
+              <Text style={opportunityStyle.normal_text}>{description}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Location:</Text>
+              <Text style={opportunityStyle.normal_text}>{location}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Job Type:</Text>
+              <Text style={opportunityStyle.normal_text}>{jobType}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Contact:</Text>
+              <Text style={opportunityStyle.normal_text}>{contact}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Job Tags:</Text>
+              <Text style={opportunityStyle.normal_text}>{jobTags}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Skills Required:</Text>
+              <Text style={opportunityStyle.normal_text}>{skills}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Salary:</Text>
+              <Text style={opportunityStyle.normal_text}>{salary}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Starting Date:</Text>
+              <Text style={opportunityStyle.normal_text}>{startingDate}</Text>
+            </ul>
+            <ul>
+              <Text style={opportunityStyle.header}>Opportunity Code:</Text>
+              <Text style={opportunityStyle.normal_text}>{opportunityId}</Text>
+            </ul>
+          </View>
 
-        {opportunityId !== createdBy && hasSaved === false && (
-          <span>
-            <button
-              onClick={() => {
-                this.onSaveOpportunity(opportunityId);
-              }}
-            >
-              Save Opportunity
-            </button>
-          </span>
-        )}
-
-        {opportunityId !== createdBy && !hasApplied && (
-          <span>
-            <form
-              onSubmit={() => {
-                this.onApplyToOpportunity(opportunityId);
-              }}
-            >
-              <input
-                type="text"
-                value={applicationText}
-                onChange={this.onChangeApplicationText}
-              />
-
-              <button disabled={isInvalid} type="submit">
-                Send Application
+          {currentUserId !== createdBy && hasSaved === true && (
+            <span>
+              <button
+                onClick={() => {
+                  this.onUnsaveOpportunity(opportunityId);
+                }}
+              >
+                Unsave Opportunity
               </button>
-            </form>
-          </span>
-        )}
+            </span>
+          )}
 
-       
-      </li>
+          {currentUserId !== createdBy && hasSaved === false && (
+            <span>
+              <button
+                onClick={() => {
+                  this.onSaveOpportunity(opportunityId);
+                }}
+              >
+                Save Opportunity
+              </button>
+            </span>
+          )}
+
+          {currentUserId !== createdBy && !hasApplied && (
+            <span>
+              <form
+                onSubmit={() => {
+                  this.onApplyToOpportunity(opportunityId);
+                }}
+              >
+                <input
+                  type="text"
+                  value={applicationText}
+                  onChange={this.onChangeApplicationText}
+                />
+
+                <button disabled={isInvalid} type="submit">
+                  Send Application
+                </button>
+              </form>
+            </span>
+          )}
+      </div>
     );
   }
 }

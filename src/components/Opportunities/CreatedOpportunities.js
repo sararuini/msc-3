@@ -4,6 +4,8 @@ import { AuthUserContext } from "../Session";
 import CreatedOpportunityList from "./CreatedOpportunityList";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
+import { View, Text } from "react-native-web";
+import opportunityStyle from "./styles";
 
 class CreatedOpportunities extends Component {
   constructor(props) {
@@ -133,6 +135,14 @@ class CreatedOpportunities extends Component {
           <div>
             {loading && <div>Loading ...</div>}
 
+            <Link
+                to={{
+                  pathname: `${ROUTES.OPPORTUNITIES}`,
+                }}
+              >
+               <Text style={opportunityStyle.normal_text}>Go back to main opportunities page</Text>
+            </Link>
+
             {opportunitiesCreated && (
               <CreatedOpportunityList
                 authUser={authUser}
@@ -146,21 +156,13 @@ class CreatedOpportunities extends Component {
               opportunitiesCreated &&
               opportunitiesCreated.length > 2 && (
                 <button type="button" onClick={this.onNextPage}>
-                  View more opportunities created by you
+                  <Text style={opportunityStyle.normal_text}>View more opportunities created by you</Text>
                 </button>
               )}
 
             {!opportunitiesCreated && (
-              <div>You have no opportunities created by you ...</div>
+              <Text style={opportunityStyle.normal_text}>You have no opportunities created by you ...</Text>
             )}
-            <Link
-              to={{
-                pathname: `${ROUTES.OPPORTUNITIES}`,
-              }}
-            >
-              {" "}
-              Opportunities
-            </Link>
           </div>
         )}
       </AuthUserContext.Consumer>

@@ -5,10 +5,12 @@ import {
   withAuthorization,
   withEmailVerification,
 } from "../Session";
-
+import * as ROUTES from "../../constants/routes";
+import { Link } from "react-router-dom";
 import { withFirebase } from "../Firebase";
 import { View, Text, TextInput, CheckBox } from "react-native-web";
 import page_styles from "./styles";
+import SettingsIcon from "@material-ui/icons/Settings";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import InstagramIcon from "@material-ui/icons/Instagram";
@@ -394,7 +396,25 @@ class ModifyProfileBase extends Component {
     return (
       <View>
         <div>
+          
           <View style={page_styles.whole_page}>
+            <View style={page_styles.button_container}>
+              <View style={page_styles.align_icon}>
+        <SettingsIcon />
+        <Link
+          style={{
+            color: "black",
+            fontSize: "18px",
+            fontFamily: "monospace",
+            paddingLeft: "10px",
+          }}
+          to={ROUTES.SETTINGS}
+        >
+          Privacy Settings
+        </Link>
+      </View>
+            </View>
+          
             <Text style={page_styles.header}>Profile Info</Text>
             {/* 
             <div>
@@ -413,10 +433,7 @@ class ModifyProfileBase extends Component {
               </form>
             </div>
             */}
-
-            <form onSubmit={this.onSubmit}>
-              <View>
-                <View style={page_styles.align_icon}>
+              <View style={page_styles.align_icon}>
                   <ShortTextIcon />
                   <Text style={page_styles.normal_text}>Headline</Text>
                 </View>
@@ -429,6 +446,9 @@ class ModifyProfileBase extends Component {
                   blurOnSubmit="false"
                   onChangeText={(headline) => this.setState({ headline })}
                 />
+            <form onSubmit={this.onSubmit}>
+              <View>
+                
 
                 <View style={page_styles.align_icon}>
                   <LocationCityIcon />

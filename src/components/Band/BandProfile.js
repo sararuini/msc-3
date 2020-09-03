@@ -5,6 +5,8 @@ import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 import BandMemberList from "./BandMemberList";
 import BandRequestList from "./BandRequestList";
+import bandStyle from "./styles";
+import { View, Text } from "react-native-web";
 
 class BandProfile extends Component {
   constructor(props) {
@@ -176,7 +178,11 @@ class BandProfile extends Component {
                 pathname: `${ROUTES.BANDS}/${bandId}/edit`,
               }}
             >
+              <Text style={bandStyle.normal_text}>
+
+              
               Edit {band.name}'s profile'
+              </Text>
             </Link>
           </div>
         )}
@@ -184,23 +190,23 @@ class BandProfile extends Component {
         {!bandMember && !bandPendingMembership && (
           <div>
             <form onSubmit={this.sendBandMembershipRequest}>
-              <label> Your role in the band: </label>
+            <Text style={bandStyle.normal_text}> Your role in the band: </Text>
               <input
                 type="text"
                 value={userRole}
                 onChange={this.onSelectRole}
               />
-              <button type="submit">Send Membership Request</button>
+              <button type="submit"> <Text style={bandStyle.normal_text}>Send Membership Request</Text></button>
             </form>
           </div>
         )}
 
         {bandMember && (
-          <div>Review band membership request received:</div>
+          <Text style={bandStyle.normal_text}>Review band membership request received:</Text>
         )}
         
         {bandMember && !bandMembersRequests && (
-          <div> There are no band membership requests </div>
+          <Text style={bandStyle.normal_text}>There are no band membership requests </Text>
         )}
 
         {bandMember && bandMembersRequests && (
@@ -212,39 +218,99 @@ class BandProfile extends Component {
         )}
 
         {band && !bandMember && bandPendingMembership && (
-          <div>
+          <Text style={bandStyle.normal_text}>
             Band membership pending. Your request will be approved by one of the
             band members
-          </div>
+          </Text>
         )}
 
         {band && (
           <div>
-            <h2> {band.name} profile </h2>
-            <p> Music Genre: {band.musicGenre}</p>
-            <p> Location: {band.location}</p>
-            <p> Headline: {band.headline}</p>
-            <p> Email Address: {band.emailAddress}</p>
-            <p> Website: {band.website}</p>
-            <p> Biography: {band.biography}</p>
-            <p>Facebook: {band.facebook}</p>
-            <p> Instagram {band.instagram}</p>
-            <p> Twitter: {band.twitter}</p>
-            <p> TikTok: {band.tiktok}</p>
-            <p> YouTube: {band.youtube}</p>
-            <p> Spotify: {band.spotify}</p>
-            <p> Soundcloud: {band.soundcloud}</p>
-            <p> Apple Music: {band.appleMusic}</p>
-            <p> Amazon Music: {band.amazonMusic}</p>
-            <p> Deezer: {band.deezer}</p>
-            <p> Pandora: {band.pandora}</p>
-            <p> Bandcamp: {band.bandcamp}</p>
-            <p> Concerts:{band.concerts}</p>
-            <p> Concerts:{band.records}</p>
+          <ul>
+          <Text style={bandStyle.header}>{band.name}</Text>
+            <Text style={bandStyle.normal_text}>profile</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Headline:</Text>
+            <Text style={bandStyle.normal_text}>{band.headline}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Music Genre:</Text>
+            <Text style={bandStyle.normal_text}>{band.musicGenre}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Location:</Text>
+            <Text style={bandStyle.normal_text}>{band.location}</Text>
+          </ul>
+          
+          <ul>
+          <Text style={bandStyle.header}>Email Address:</Text>
+            <Text style={bandStyle.normal_text}>{band.emailAddress}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Website:</Text>
+            <Text style={bandStyle.normal_text}>{band.website}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Biography:</Text>
+            <Text style={bandStyle.normal_text}>{band.biography}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Facebook:</Text>
+            <Text style={bandStyle.normal_text}>{band.facebook}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Twitter:</Text>
+            <Text style={bandStyle.normal_text}>{band.twitter}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>TikTok:</Text>
+            <Text style={bandStyle.normal_text}>{band.tiktok}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>YouTube:</Text>
+            <Text style={bandStyle.normal_text}>{band.youtube}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Spotify:</Text>
+            <Text style={bandStyle.normal_text}>{band.spotify}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Soundcloud:</Text>
+            <Text style={bandStyle.normal_text}>{band.soundcloud}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Apple Music:</Text>
+            <Text style={bandStyle.normal_text}>{band.appleMusic}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Amazon Music:</Text>
+            <Text style={bandStyle.normal_text}>{band.amazonMusic}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Deezer:</Text>
+            <Text style={bandStyle.normal_text}>{band.deezer}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Pandora:</Text>
+            <Text style={bandStyle.normal_text}>{band.pandora}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>BandCamp:</Text>
+            <Text style={bandStyle.normal_text}>{band.bandcamp}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Concerts:</Text>
+            <Text style={bandStyle.normal_text}>{band.concerts}</Text>
+          </ul>
+          <ul>
+          <Text style={bandStyle.header}>Discography:</Text>
+            <Text style={bandStyle.normal_text}>{band.discography}</Text>
+          </ul>
           </div>
         )}
 
-        <div> Band Members:</div>
+        <Text style={bandStyle.header}>Band Members:</Text>
 
         {bandMembers && (
           <BandMemberList

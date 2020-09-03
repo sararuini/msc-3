@@ -6,6 +6,9 @@ const page_styles = StyleSheet.create({
     marginLeft: "20%",
     display: "block"
   },
+  button_container: {
+
+  },
   text_container: {
     padding: "5%",
   },

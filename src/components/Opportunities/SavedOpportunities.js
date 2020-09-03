@@ -4,6 +4,8 @@ import { AuthUserContext } from "../Session";
 import SavedOpportunityList from "./SavedOpportunityList";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
+import { View, Text, } from "react-native-web";
+import opportunityStyle from "./styles";
 
 class SavedOpportunities extends Component {
   constructor(props) {
@@ -70,11 +72,21 @@ class SavedOpportunities extends Component {
     return (
       <AuthUserContext.Consumer>
         {(authUser) => (
-          <div>
+          <View>
             {loading && <div>Loading ...</div>}
-            <span>Saved Opportunities</span>
+            
+              <Link
+                to={{
+                  pathname: `${ROUTES.OPPORTUNITIES}`,
+                }}
+              >
+               <Text style={opportunityStyle.normal_text}>Go back to main opportunities page</Text>
+            </Link>
+            
+            
+            <Text style={opportunityStyle.header}>Saved Opportunities</Text>
 
-
+            
             {savedOpportunities && (
               <SavedOpportunityList
                 authUser={authUser}
@@ -84,22 +96,14 @@ class SavedOpportunities extends Component {
 
             {!loading && savedOpportunities && savedOpportunities.length > 5 && (
               <button type="button" onClick={this.onNextPage}>
-                View more saved opportunities
+                <Text style={opportunityStyle.normal_text}>View more saved opportunities </Text>
               </button>
             )}
 
             {!savedOpportunities && (
-              <div>You have no saved opportunities ...</div>
+              <div><Text style={opportunityStyle.normal_text}>You have no saved opportunities ...</Text></div>
             )}
-            <Link
-              to={{
-                pathname: `${ROUTES.OPPORTUNITIES}`,
-              }}
-            >
-              {" "}
-              Opportunities
-            </Link>
-          </div>
+            </View>
         )}
       </AuthUserContext.Consumer>
     );

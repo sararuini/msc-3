@@ -3,16 +3,17 @@ import { compose } from 'recompose';
 
 import { withAuthorization, withEmailVerification } from '../Session';
 import Posts from '../Timeline';
+import homeStyle from "./styles";
+
 //import page_styles_template from '../StyleTemplate';
 
 import { View, Text } from "react-native-web";
 
 const HomePage = () => (
-  <div>
-    <View></View>
-    <h1>Timeline</h1>
+  <View style={homeStyle.whole_page}>
+    <Text style={homeStyle.header}>Timeline</Text>
     <Posts />
-  </div>
+  </View>
 );
 
 const condition = authUser => !!authUser;

@@ -4,6 +4,8 @@ import { withFirebase } from "../Firebase";
 import { AuthUserContext } from "../Session";
 import UserConnectionList from "./UserConnectionList";
 
+import connectionStyle from "./styles";
+import { View, Text } from "react-native-web";
 class UserConnections extends Component {
   constructor(props) {
     super(props);
@@ -94,7 +96,7 @@ class UserConnections extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-            {loading && <div>Loading ...</div>}
+            {loading && <Text style={connectionStyle.normal_text}>Loading ...</Text>}
 
             {connections && (
               <UserConnectionList
@@ -106,11 +108,15 @@ class UserConnections extends Component {
 
             {!loading && connections && connections.length > 10 && (
               <button type="button" onClick={this.onNextPage}>
+                <Text style={connectionStyle.normal_text}>
+
+                
                 View more connections
+                </Text>
               </button>
             )}
 
-            {!connections && <div>You have no connections ...</div>}
+            {!connections && <Text style={connectionStyle.normal_text}>You have no connections ...</Text>}
           </div>
         )}
       </AuthUserContext.Consumer>

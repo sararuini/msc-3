@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
+import opportunityStyle from "./styles";
+import { View, Text, } from "react-native-web";
 
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
@@ -111,25 +113,60 @@ class SavedOpportunityItem extends Component {
       <div>
         {authUser && (
         <span>
-         <label>Created by: </label>
+         
+
+            <ul>
+            <Text style={opportunityStyle.header}>
+            Created by:
+            </Text>
             <Link
-                  to={{
-                    pathname: `${ROUTES.USERS}/${createdBy}`,
-                  }}
-                > 
-              <strong>{opportunityCreator}</strong>
-                </Link>
-          
-            <ul> Opportunity code: {savedOpportunity.uid} </ul>
-            <ul> Position: {position}</ul>
-            <ul> Contact Details: {contact}</ul>
-            <ul> Description: {description}</ul>
-            <ul> Job Type: {jobType} </ul>
-            <ul> Job Tags: {jobTags}</ul>
-            <ul> Location: {location}</ul>
-            <ul> Skills: {skills}</ul>
-            <ul> Salary: {salary} </ul>
-            <ul> Starting Date: {startingDate}</ul>
+              to={{
+                pathname: `${ROUTES.USERS}/${createdBy}`,
+              }}
+            >
+              {opportunityCreator}
+            </Link>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Position advertised:</Text>
+            <Text style={opportunityStyle.normal_text}>{position}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Description:</Text>
+            <Text style={opportunityStyle.normal_text}>{description}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Location:</Text>
+            <Text style={opportunityStyle.normal_text}>{location}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Job Type:</Text>
+            <Text style={opportunityStyle.normal_text}>{jobType}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Contact:</Text>
+            <Text style={opportunityStyle.normal_text}>{contact}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Job Tags:</Text>
+            <Text style={opportunityStyle.normal_text}>{jobTags}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Skills Required:</Text>
+            <Text style={opportunityStyle.normal_text}>{skills}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Salary:</Text>
+            <Text style={opportunityStyle.normal_text}>{salary}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Starting Date:</Text>
+            <Text style={opportunityStyle.normal_text}>{startingDate}</Text>
+          </ul>
+          <ul>
+            <Text style={opportunityStyle.header}>Opportunity Code:</Text>
+            <Text style={opportunityStyle.normal_text}>{savedOpportunity.uid}</Text>
+          </ul>
          </span>
         )}
       </div>

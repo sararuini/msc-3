@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AuthUserContext } from "../Session";
 import SignOutButton from "../SignOut";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import * as ROUTES from "../../constants/routes";
-import { View, Image } from "react-native-web";
+import { View, Image, Text } from "react-native-web";
 import page_styles from "./styles";
-import SettingsIcon from "@material-ui/icons/Settings";
 import PersonIcon from "@material-ui/icons/Person";
 import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import GroupIcon from "@material-ui/icons/Group";
@@ -29,7 +29,7 @@ const NavigationAuth = ({ authUser }) => (
       <Link to={ROUTES.HOME}>
         
         <Image
-          style={{ width: 100, height: 100 }}
+          style={{ width: 80, height: 80 }}
           source={{
             uri:
               "https://live.staticflickr.com/65535/50277251243_fbd7f7b541_o.png",
@@ -39,23 +39,6 @@ const NavigationAuth = ({ authUser }) => (
         
       </Link>
     </ul>
-    <ul>
-      <View style={page_styles.align_icon}>
-        <SettingsIcon />
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontSize: "18px",
-            fontFamily: "monospace",
-            paddingLeft: "10px",
-          }}
-          to={ROUTES.SETTINGS}
-        >
-          Settings
-        </Link>
-      </View>
-    </ul>
 
     <ul>
     <View style={page_styles.align_icon}>
@@ -64,13 +47,14 @@ const NavigationAuth = ({ authUser }) => (
         style={{
           textDecoration: "none",
           color: "black",
-          fontSize: "18px",
+          fontSize: "14px",
           fontFamily: "monospace",
-          paddingLeft: "10px",
+          fontWeigh: "bold",
+          marginLeft: "2px"
         }}
         to={ROUTES.EDIT_PROFILE}
       >
-        Edit Profile
+        SETTINGS & PROFILE
       </Link>
       </View>
     </ul>
@@ -82,13 +66,14 @@ const NavigationAuth = ({ authUser }) => (
         style={{
           textDecoration: "none",
           color: "black",
-          fontSize: "18px",
+          fontSize: "14px",
           fontFamily: "monospace",
-          paddingLeft: "10px",
+          fontWeigh: "bold",
+          marginLeft: "2px"
         }}
         to={ROUTES.OPPORTUNITIES}
       >
-        Opportunities
+        OPPORTUNITIES
       </Link>
     </View>
     </ul>
@@ -100,13 +85,14 @@ const NavigationAuth = ({ authUser }) => (
         style={{
           textDecoration: "none",
           color: "black",
-          fontSize: "18px",
+          fontSize: "14px",
           fontFamily: "monospace",
-          paddingLeft: "10px",
+          fontWeigh: "bold",
+          marginLeft: "2px"
         }}
         to={ROUTES.USERS}
       >
-        Users
+        USERS
       </Link>
     </View>
     </ul>
@@ -118,13 +104,14 @@ const NavigationAuth = ({ authUser }) => (
         style={{
           textDecoration: "none",
           color: "black",
-          fontSize: "18px",
+          fontSize: "14px",
           fontFamily: "monospace",
-          paddingLeft: "10px",
+          fontWeigh: "bold",
+          marginLeft: "2px"
         }}
         to={ROUTES.CONNECTIONS}
       >
-        Connections
+        CONNECTIONS
       </Link>
     </View>
     </ul>
@@ -136,13 +123,14 @@ const NavigationAuth = ({ authUser }) => (
         style={{
           textDecoration: "none",
           color: "black",
-          fontSize: "18px",
+          fontSize: "14px",
           fontFamily: "monospace",
-          paddingLeft: "10px",
+          fontWeigh: "bold",
+          marginLeft: "2px"
         }}
         to={ROUTES.BANDS}
       >
-        Bands
+        BANDS
       </Link>
       </View>
     </ul>
@@ -154,17 +142,19 @@ const NavigationAuth = ({ authUser }) => (
         style={{
           textDecoration: "none",
           color: "black",
-          fontSize: "18px",
+          fontSize: "14px",
           fontFamily: "monospace",
-          paddingLeft: "10px",
+          fontWeigh: "bold",
+          marginLeft: "2px"
         }}
         to={ROUTES.NOTIFICATIONS}
       >
-        Notifications
+        NOTIFICATIONS
       </Link>
       </View>
     </ul>
-
+    
+    
     <ul>
       <SignOutButton />
     </ul>
@@ -191,11 +181,13 @@ const NavigationNonAuth = () => (
           style={{
             textDecoration: "none",
             color: "black",
-            fontSize: "18px",
+            fontSize: "14px",
             fontFamily: "monospace",
+            fontWeigh: "bold",
+          marginLeft: "2px"
           }}
         >
-          Landing
+          LANDING
         </Link>
       </ul>
       <ul>
@@ -205,11 +197,13 @@ const NavigationNonAuth = () => (
           style={{
             textDecoration: "none",
             color: "black",
-            fontSize: "18px",
+            fontSize: "14px",
             fontFamily: "monospace",
+            fontWeigh: "bold",
+          marginLeft: "2px"
           }}
         >
-          Sign In
+          SIGN IN
         </Link>
       </ul>
     </div>

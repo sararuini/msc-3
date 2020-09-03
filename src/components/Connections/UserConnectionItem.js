@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
-
+import connectionStyle from "./styles";
+import { View, Text } from "react-native-web";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
@@ -71,11 +72,15 @@ class UserConnectionItem extends Component {
                 //state: { user },
               }}
             >
+              <Text style={connectionStyle.normal_text}>
+
+              
               {connectionUsername}
+              </Text>
             </Link>
             <button onClick={() => deleteConnection(connection.uid)}>
-              {" "}
-              Delete Connection
+            <Text style={connectionStyle.normal_text}>
+              Delete Connection </Text>
             </button>
           </span>
         )}

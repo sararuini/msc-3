@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import opportunityStyle from "./styles";
 import { Link } from "react-router-dom";
 import { View, Text } from "react-native-web";
 import { withFirebase } from "../Firebase";
@@ -73,15 +73,18 @@ class ApplicantItem extends Component {
       <div>
         {authUser && (
           <div>
-            <p>Applicant: </p>
+            <Text style={opportunityStyle.header}>Applicant: </Text>
             <Link
               to={{
                 pathname: `${ROUTES.USERS}/${applicant.uid}`,
               }}
             >
-              {applicantUsername}
+              <Text style={opportunityStyle.normal_text}>
+                {applicantUsername}
+              </Text>
+              
             </Link>
-            <p>Application Text: {applicationText} </p>
+            <Text style={opportunityStyle.header}>Application Text: </Text> <Text style={opportunityStyle.normal_text}> {applicationText} </Text>
           </div>
         )}
 
@@ -98,7 +101,7 @@ class ApplicantItem extends Component {
                 placeholder="Application Status"
                 onChange={this.onChange}
               />
-              <button type="submit">Send Application Status</button>
+              <button type="submit"><Text style={opportunityStyle.normal_text}>Send Application Status</Text></button>
             </form>
           </div>
 

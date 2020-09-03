@@ -4,7 +4,7 @@ import { AuthUserContext } from "../Session";
 import { withFirebase } from "../Firebase";
 import PostList from "./PostList";
 import postStyle from "./styles";
-import { View } from "react-native-web";
+import { View, Text, TextInput } from "react-native-web";
 
 class Posts extends Component {
   constructor(props) {
@@ -104,31 +104,72 @@ class Posts extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-            <View style={postStyle.createPost}>
-              <form onSubmit={(event) => this.onCreatePost(event, authUser)}>
-                <input type="text" value={text} onChange={this.onChangeText} />
-                <button type="submit">Create a post</button>
-              </form>
+            <View style={postStyle.postContainer}>
+              <View style={postStyle.createPost}>
+                <form onSubmit={(event) => this.onCreatePost(event, authUser)}>
+                  <View>
+                    <TextInput
+                      style={postStyle.text_input}
+                      placeholder="What are you thinking?"
+                      value={text}
+                      nativeID="text"
+                      blurOnSubmit="false"
+                      onChangeText={(text) => this.setState({ text })}
+                    />
+                  </View>
+                  <View>
+                    <button type="submit">
+                      <Text style={postStyle.normal_text}>
+                        Share a post with your connections
+                      </Text>
+                    </button>
+                  </View>
+                </form>
+              </View>
+
+              {loading && (<Text style={{color: "black",
+    fontSize: "14px",
+    fontFamily: "monospace",}}>Loading...</Text>)
+              }
+
+              {posts && (
+                <View style={postStyle.posts}>
+
+                <PostList
+                  authUser={authUser}
+                  posts={posts}
+                  onEditPost={this.onEditPost}
+                  onRemovePost={this.onRemovePost}
+                />
+                </View>
+              )}
+
+              {!loading && posts && (
+                <button type="button" onClick={this.onNextPage}>
+                  <Text
+                    style={{
+                      color: "black",
+                      fontSize: "14px",
+                      fontFamily: "monospace",
+                    }}
+                  >
+                    Show more posts
+                  </Text>
+                </button>
+              )}
+
+              {!posts && (
+                <Text
+                  style={{
+                    color: "black",
+                    fontSize: "14px",
+                    fontFamily: "monospace",
+                  }}
+                >
+                  There are no posts ...
+                </Text>
+              )}
             </View>
-
-            {loading && <div>Loading ...</div>}
-
-            {posts && (
-              <PostList
-                authUser={authUser}
-                posts={posts}
-                onEditPost={this.onEditPost}
-                onRemovePost={this.onRemovePost}
-              />
-            )}
-
-            {!loading && posts && (
-              <button type="button" onClick={this.onNextPage}>
-                More
-              </button>
-            )}
-
-            {!posts && <div>There are no posts ...</div>}
           </div>
         )}
       </AuthUserContext.Consumer>

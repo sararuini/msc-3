@@ -1,14 +1,7 @@
 import { StyleSheet } from "react-native-web";
 
 const opportunityStyle = StyleSheet.create({
-  /*
-  main: {
-      margin: "1px solid black",
-      padding: "10px",
-      backgroundColor: "purple",
-      border: "1px solid white"
-  },
-  */
+  
   normal_text: {
     color: "black",
     fontSize: "14px",
@@ -21,11 +14,12 @@ const opportunityStyle = StyleSheet.create({
   },
   header: {
     color: "black",
-    fontSize: "22px",
+    fontSize: "16px",
     fontFamily: "monospace",
     marginBottom: "2%",
     marginTop: "2%",
-    marginLeft: "2%"
+    marginLeft: "2%",
+    fontWeight: "bold"
   },
   whole_page: {
     marginRight: "10%",
@@ -36,17 +30,7 @@ const opportunityStyle = StyleSheet.create({
     alignItems:  "center",
     flex: 1
   },
-  main_opps_av: {
-    marginRight: "10%",
-    marginLeft: "10%",
-    flexDirection: "column",
-    alignItems: "center",
-    flexWrap: "wrap",
-    paddingBottom: "10%",
-    paddingLeft: "10%",
-    paddingRight: "10%",
-    paddingTop: "3%"
-  },
+  
 
   opportunity_create_container: {
     flexDirection: "column",
@@ -57,11 +41,7 @@ const opportunityStyle = StyleSheet.create({
   },
   row_opps: {
     flexDirection: "column",
-    //flex: 2,
-    //justifyContent:"space-around",
-    //alignItems:  "center",
-    //paddingTop: "17%",
-    //paddingBottom: "17%",
+   
     alignItems: "center",
     width: "50%",
     height: "100%",

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { View, Text } from "react-native-web";
 
+import bandStyle from "./styles";
 const BAND_PROFILE_CONTENT = {
   musicGenre: "",
   location: "",
@@ -229,7 +230,7 @@ class EditBand extends Component {
       <div>
         <form onSubmit={this.onSubmit}>
           <View>
-            <Text>Headline</Text>
+            <Text style={bandStyle.header}>Headline</Text>
             <input
               type="text"
               id="headline"
@@ -238,7 +239,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Headline"
             />
-            <Text>Music Genre</Text>
+            <Text style={bandStyle.header}>Music Genre</Text>
             <input
               type="text"
               id="musicGenre"
@@ -247,7 +248,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Music Genre"
             />
-            <Text>Location</Text>
+            <Text style={bandStyle.header}>Location</Text>
             <input
               type="text"
               id="location"
@@ -257,7 +258,7 @@ class EditBand extends Component {
               placeholder="Location"
             />
 
-            <Text>Biography</Text>
+            <Text style={bandStyle.header}>Biography</Text>
             <input
               type="textarea"
               id="biography"
@@ -269,7 +270,7 @@ class EditBand extends Component {
           </View>
 
           <View>
-            <Text>Public Contact Details</Text>
+            <Text style={bandStyle.header}>Public Contact Details</Text>
             <label htmlFor="publicEmailAddress">Email Address</label>
             <input
               type="publicEmailAddress"
@@ -280,7 +281,7 @@ class EditBand extends Component {
               placeholder="Email Address"
             />
 
-            <label htmlFor="phone">Phone Number</label>
+<Text style={bandStyle.header}>Phone Number</Text>
             <input
               name="phoneNumber"
               value={phoneNumber}
@@ -290,7 +291,7 @@ class EditBand extends Component {
               placeholder="Phone Number"
             />
 
-            <label htmlFor="website">Personal Website</label>
+<Text style={bandStyle.header}>Personal Website</Text>
             <input
               name="website"
               value={website}
@@ -302,8 +303,8 @@ class EditBand extends Component {
           </View>
 
           <View>
-            <Text>Social Media and Music Profiles</Text>
-            <Text>Facebook</Text>
+            <Text style={bandStyle.header}>Social Media and Music Profiles</Text>
+            <Text style={bandStyle.header}>Facebook</Text>
             <input
               type="textarea"
               id="facebook"
@@ -312,7 +313,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Facebook"
             />
-            <Text>Instagram</Text>
+            <Text style={bandStyle.header}>Instagram</Text>
             <input
               type="textarea"
               id="instagram"
@@ -321,7 +322,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Instagram"
             />
-            <Text>Twitter</Text>
+            <Text style={bandStyle.header}>Twitter</Text>
             <input
               type="textarea"
               id="twitter"
@@ -330,7 +331,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="twitter"
             />
-            <Text>LinkedIn</Text>
+            <Text style={bandStyle.header}>LinkedIn</Text>
             <input
               type="url"
               id="linkedin"
@@ -339,7 +340,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="linkedin"
             />
-            <Text>TikTok</Text>
+            <Text style={bandStyle.header}>TikTok</Text>
             <input
               type="textarea"
               id="tiktok"
@@ -348,7 +349,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="TikTok"
             />
-            <Text>YouTube</Text>
+            <Text style={bandStyle.header}> YouTube</Text>
             <input
               type="url"
               id="youtube"
@@ -357,7 +358,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="YouTube"
             />
-            <Text>Spotify</Text>
+            <Text style={bandStyle.header}>Spotify</Text>
             <input
               type="url"
               id="spotify"
@@ -366,7 +367,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Spotify"
             />
-            <Text>SoundCloud</Text>
+            <Text style={bandStyle.header}>SoundCloud</Text>
             <input
               type="url"
               id="soundcloud"
@@ -375,7 +376,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="SoundCloud"
             />
-            <Text>Apple Music</Text>
+            <Text style={bandStyle.header}>Apple Music</Text>
             <input
               type="url"
               id="appleMusic"
@@ -384,7 +385,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Apple Music"
             />
-            <Text>Amazon Music</Text>
+            <Text style={bandStyle.header}>Amazon Music</Text>
             <input
               type="url"
               id="amazonMusic"
@@ -393,7 +394,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Amazon Music"
             />
-            <Text>Deezer</Text>
+            <Text style={bandStyle.header}>Deezer</Text>
             <input
               type="url"
               id="deezer"
@@ -402,7 +403,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Deezer"
             />
-            <Text>Pandora</Text>
+            <Text style={bandStyle.header}>Pandora</Text>
             <input
               type="textarea"
               id="pandora"
@@ -411,7 +412,7 @@ class EditBand extends Component {
               onChange={this.onChange}
               placeholder="Pandora"
             />
-            <Text>BandCamp</Text>
+            <Text style={bandStyle.header}>BandCamp</Text>
             <input
               type="textarea"
               id="bandcamp"
@@ -423,7 +424,7 @@ class EditBand extends Component {
           </View>
 
           <View>
-            <button type="submit">Save Profile</button>
+            <button type="submit"><Text style={bandStyle.header}>Save Profile</Text></button>
           </View>
         </form>
       </div>

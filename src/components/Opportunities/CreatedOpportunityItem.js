@@ -3,6 +3,8 @@ import * as ROUTES from "../../constants/routes";
 import { Link } from "react-router-dom";
 import { withFirebase } from "../Firebase";
 import ApplicantList from "./ApplicantList";
+import opportunityStyle from "./styles";
+import { View, Text, } from "react-native-web";
 
 class CreatedOpportunityItem extends Component {
   constructor(props) {
@@ -327,75 +329,55 @@ class CreatedOpportunityItem extends Component {
         {!editMode && authUser && (
           <span>
             <ul>
-              <label>Position: </label>
-              {createdOpportunity.position}
-            </ul>
-            <ul>
-              <label> Description:</label>
-              {createdOpportunity.description}
-            </ul>
-            <ul>
-              <label>Location: </label>
-              {createdOpportunity.location}
-            </ul>
-            <ul>
-              <label>Skills: </label>
-              {createdOpportunity.skills}
-            </ul>
-            <ul>
-              <label>Job Type: </label>
-              {createdOpportunity.jobType}
-            </ul>
-            <ul>
-              <label>Contact: </label> {createdOpportunity.contact}
-            </ul>
-            <ul>
-              <label>Tags: </label>
-              {createdOpportunity.jobTags}
-            </ul>
-            <ul>
-              <label>Salary: </label>
-              {createdOpportunity.salary}
-            </ul>
-            <ul>
-              <label>Starting Date:</label>
-              {createdOpportunity.startingDate}
-            </ul>
-            <ul>
-              <label>Opportunity Code:</label>
-              {opportunityCreated.uid}
-            </ul>
+          <Text style={opportunityStyle.header}>Position advertised:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.position}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Description:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.description}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Location:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.location}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Job Type:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.jobType}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Contact:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.contact}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Job Tags:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.jobTags}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Skills Required:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.skills}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Salary:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.salary}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Starting Date:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.startingDate}</Text>
+          </ul>
+          <ul>
+            <Text style={opportunityStyle.header}>Opportunity Code:</Text>
+            <Text style={opportunityStyle.normal_text}>{opportunityCreated.uid}</Text>
+          </ul>
+            
           </span>
         )}
 
-        {authUser && (
-          <span>
-            {editMode ? (
-              <span>
-                <button onClick={this.onSaveEdit} disabled={isInvalid}>
-                  Save
-                </button>
-                <button onClick={this.onToggleEditMode}>Reset</button>
-              </span>
-            ) : (
-              <button onClick={this.onToggleEditMode}>Edit</button>
-            )}
-
-            {!editMode && (
-              <button
-                type="button"
-                onClick={() => this.onRemoveOpportunity(opportunityCreated.uid)}
-              >
-                Delete
-              </button>
-            )}
-          </span>
-        )}
 
         {applicants && (
           <span>
+            <Text style={opportunityStyle.normal_text}>Applicants for {createdOpportunity.position}:</Text>
+
             <ul>
-              <h4>Applicants for {createdOpportunity.position}:</h4>
               <ApplicantList authUser={authUser} applicants={applicants} opportunity={opportunityCreated.uid} />
             </ul>
             </span>
@@ -416,7 +398,7 @@ class CreatedOpportunityItem extends Component {
 
         {authUser && !applicants && (
           <span>
-            <ul>There are no applicants for {createdOpportunity.position}</ul>
+            <Text style={opportunityStyle.normal_text}> {createdOpportunity.position}</Text>
           </span>
         )}
       </div>

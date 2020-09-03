@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
+
+import bandStyle from "./styles";
+import { View, Text } from "react-native-web";
 class BandMemberItem extends Component {
   constructor(props) {
     super(props);
@@ -64,9 +67,12 @@ class BandMemberItem extends Component {
               pathname: `${ROUTES.USERS}/${bandMember.uid}`,
             }}
           >
-            {bandMemberUsername}
+            <Text style={bandStyle.normal_text}>
+              {bandMemberUsername}
+            </Text>
+           
           </Link>
-          <p>Role: {bandMemberRole} </p>
+          <Text style={bandStyle.header}>Role:</Text> <Text style={bandStyle.normal_text}>{bandMemberRole}</Text> 
         </ul>
       </div>
     );

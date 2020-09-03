@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
-
+import connectionStyle from "./styles";
+import { View, Text } from "react-native-web";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
@@ -70,39 +71,48 @@ class ConnectionRequestItem extends Component {
                 pathname: `${ROUTES.USERS}/${connectionRequest.senderId}`,
               }}
             >
-              {senderUsername}
+              <Text style={connectionStyle.header}>
+                {senderUsername}
+              </Text>
+              
             </Link>
-            <span> would like to connect with you </span>
+            <Text style={connectionStyle.normal_text}> would like to connect with you </Text>
             <button
               onClick={() => acceptConnectionRequest(connectionRequest.uid)}
             >
-              {" "}
+              <Text style={connectionStyle.normal_text}>
               Accept Connection Request
+              </Text>
             </button>
             <button
               onClick={() => declineConnectionRequest(connectionRequest.uid)}
             >
-              {" "}
+              <Text style={connectionStyle.normal_text}>
               Decline Connection Request
+              </Text>
             </button>
           </span>
         )}
 
         {authUser.uid === connectionRequest.senderId && (
           <span>
-            <span> You sent a connection request to: </span>
+            <Text style={connectionStyle.normal_text}>You sent a connection request to: </Text>
             <Link
               to={{
                 pathname: `${ROUTES.USERS}/${connectionRequest.receiverId}`,
               }}
             >
-              {receiverUsername}
+              <Text style={connectionStyle.normal_text}>
+
+              
+              {receiverUsername}</Text>
             </Link>
             <button
               onClick={() => deleteConnectionRequest(connectionRequest.uid)}
             >
-              {" "}
+              <Text style={connectionStyle.normal_text}>
               Delete Connection Request
+              </Text>
             </button>
           </span>
         )}

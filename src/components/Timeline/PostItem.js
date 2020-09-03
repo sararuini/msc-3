@@ -3,7 +3,7 @@ import { withFirebase } from "../Firebase";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 import PostCommentList from "./PostCommentList";
-import { View } from "react-native-web";
+import { View, Text, TextInput } from "react-native-web";
 import postStyle from "./styles";
 
 class PostItem extends Component {
@@ -135,9 +135,9 @@ class PostItem extends Component {
     } = this.state;
 
     return (
-      <div>
+      <View>
         {authUser && canShowPost && (
-          <div>
+          <View>
             {editMode && (
               <input
                 type="text"
@@ -148,31 +148,33 @@ class PostItem extends Component {
 
             <View style={postStyle.postItem}>
               {!editMode && (
-                <span>
-                  <div>
+                <View>
+                  <View >
                     <Link
                       to={{
                         pathname: `${ROUTES.USERS}/${post.userId}`,
                       }}
                     >
-                      {username}
+                      <Text style={postStyle.userHeader}>{username}</Text>
                     </Link>
-                  </div>
-                  <div>{post.text}</div>
+                  </View>
+                  <View style={postStyle.post_text}>{post.text}</View>
 
-                  {post.editedAt && <span>(Edited)</span>}
-                </span>
+                  {post.editedAt && (<Text style={postStyle.normal_text}>(Edited)</Text>)}
+                </View>
               )}
 
               {authUser.uid === post.userId && (
-                <span>
+                <View style={postStyle.button_container}>
                   {editMode ? (
-                    <span>
-                      <button onClick={this.onSaveEditText}>Save</button>
-                      <button onClick={this.onToggleEditMode}>Reset</button>
-                    </span>
+                    <View>
+                      <button onClick={this.onSaveEditText}><Text style={postStyle.normal_text}>Save</Text></button>
+                      <button onClick={this.onToggleEditMode}><Text style={postStyle.normal_text}>Reset</Text></button>
+                    </View>
                   ) : (
-                    <button onClick={this.onToggleEditMode}>Edit</button>
+                    <View style={postStyle.button_container}>
+                    <button onClick={this.onToggleEditMode}><Text style={postStyle.normal_text}>Edit</Text></button>
+                    </View>
                   )}
 
                   {!editMode && (
@@ -180,39 +182,52 @@ class PostItem extends Component {
                       type="button"
                       onClick={() => onRemovePost(post.uid)}
                     >
-                      Delete
+                      <Text style={postStyle.normal_text}>
+                        Delete
+                      </Text>
+                      
                     </button>
                   )}
-                </span>
+                </View>
               )}
-
-              <span> Comments: </span>
-              <span>
-                <form onSubmit={() => this.writeComment(post.uid)}>
-                  <input
-                    type="text"
-                    value={comment}
-                    onChange={this.onChangeComment}
-                  />
-                  <button type="submit">Leave a comment</button>
+              
+              <View style={postStyle.comment_list_post_item}>
+              <Text style={postStyle.header}>Comments: </Text>
+              
+               <form onSubmit={() => this.writeComment(post.uid)}>
+    
+                  <TextInput
+                      style={postStyle.text_input}
+                      placeholder="Write a comment"
+                      value={comment}
+                      nativeID="comment"
+                      blurOnSubmit="false"
+                      onChangeText={(comment) => this.setState({ comment })}
+                    />
+                  <button type="submit"><Text style={postStyle.normal_text}>Leave a comment</Text></button>
                 </form>
-              </span>
+                </View>
+                
 
               <View style={postStyle.postComments}>
-                {!comments && <div> This post has no comments </div>}
+                {!comments && (<Text style={postStyle.normal_text}>This post has no comments</Text>)}
 
                 {comments && (
+                  <View>
+
                   <PostCommentList
                     authUser={authUser}
                     comments={comments}
                     post={post.uid}
                   />
+                  </View>
                 )}
               </View>
+
             </View>
-          </div>
+          </View>
         )}
-      </div>
+      </View>
     );
   }
 }

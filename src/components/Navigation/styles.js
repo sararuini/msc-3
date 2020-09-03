@@ -4,16 +4,18 @@ const page_styles = StyleSheet.create({
     menu_links: {
         flexDirection: "row",
         width: "100%",
-        height: "15%",
+        height: "10%",
+        alignSelf: "stretch",
         flexWrap: "wrap",
         justifyContent: "space-evenly",
         alignItems: "center",
-        alignSelf: "center"
-    },   
+        //alignSelf: "center"
+    },  
     align_icon: {
         flexDirection: "row",
-        alignItems: "center",
+        justifyContent: "space-between",
       }
+    
 });
 
 export default page_styles;

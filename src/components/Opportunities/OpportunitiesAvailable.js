@@ -95,8 +95,8 @@ class OpportunitiesAvailable extends Component {
         {(authUser) => (
 
           <div>
-            {loading && <div>Loading ...</div>}
-            <View style={opportunityStyle.main_opps_av}>
+            {loading && <div><Text style={opportunityStyle.normal_text}>Loading ...</Text></div>}
+            <View>
               <Link
                 to={{
                   pathname: `${ROUTES.OPPORTUNITIES}`,

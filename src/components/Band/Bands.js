@@ -5,6 +5,9 @@ import * as ROUTES from "../../constants/routes";
 import { AuthUserContext } from "../Session";
 import BandList from "./BandList";
 
+import bandStyle from "./styles";
+import { View, Text } from "react-native-web";
+
 class Bands extends Component {
   constructor(props) {
     super(props);
@@ -111,26 +114,26 @@ class Bands extends Component {
                 value={bandName}
                 onChange={this.onChangeBandName}
               />
-              <label> Your role in the band: </label>
+              <Text style={bandStyle.header}>Your role in the band: </Text>
               <input
                 type="text"
                 value={userRole}
                 onChange={this.onSelectRole}
               />
-              <button disabled={isInvalid}type="submit">Create Band</button>
+              <button disabled={isInvalid}type="submit"><Text style={bandStyle.normal_text}>Create Band</Text></button>
             </form>
 
-            {loading && <div>Loading ...</div>}
-            <div>Bands: </div>
+            {loading && <div><Text style={bandStyle.normal_text}>Loading ...</Text></div>}
+            <div><Text style={bandStyle.header}> Bands: </Text></div>
             {bands && <BandList authUser={authUser} bands={bands} />}
 
             {!loading && bands && bands.length > 5 && (
               <button type="button" onClick={this.onNextPage}>
-                View more bands
+               <Text style={bandStyle.normal_text}> View more bands </Text>
               </button>
             )}
 
-            {!bands && <div>There are no bands ...</div>}
+            {!bands && <div> <Text style={bandStyle.normal_text}> There are no bands ...</Text></div>}
           </div>
         )}
       </AuthUserContext.Consumer>

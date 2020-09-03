@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
-
+import { View, Text } from "react-native-web";
+import opportunityStyle from "./styles";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
@@ -11,8 +12,9 @@ class AppliedOpportunityItem extends Component {
 
     this.state = {
       loading: false,
-      title: "",
+      position: "",
       contact: "",
+      skills: "",
       description: "",
       jobType: "",
       jobTags: "",
@@ -76,7 +78,8 @@ class AppliedOpportunityItem extends Component {
 
     this.props.firebase.opportunity(opp).once("value", (snapshot) => {
       const oppObj = snapshot.val();
-      const title = oppObj.title;
+      const position = oppObj.position;
+      const skills = oppObj.skills;
       const contact = oppObj.contact;
       const description = oppObj.description;
       const jobType = oppObj.jobType;
@@ -87,7 +90,7 @@ class AppliedOpportunityItem extends Component {
       const startingDate = oppObj.startingDate;
 
       this.setState({
-        title: title,
+        position: position,
         contact: contact,
         description: description,
         jobType: jobType,
@@ -96,6 +99,7 @@ class AppliedOpportunityItem extends Component {
         salary: salary,
         startingDate: startingDate,
         createdBy: createdBy,
+        skills:skills,
       });
     });
   };
@@ -104,7 +108,8 @@ class AppliedOpportunityItem extends Component {
     const { authUser, appliedOpportunity } = this.props;
 
     const {
-      title,
+      position,
+      skills,
       contact,
       description,
       jobType,
@@ -121,32 +126,66 @@ class AppliedOpportunityItem extends Component {
       <div>
         {authUser && (
           <span>
-            <label>Created by: </label>
+            <ul>
+            <Text style={opportunityStyle.normal_text}>Created by: </Text>
             <Link
               to={{
                 pathname: `${ROUTES.USERS}/${createdBy}`,
               }}
             >
-              <strong>{opportunityCreator}</strong>
+              <Text style={opportunityStyle.normal_text}>{opportunityCreator}</Text>
             </Link>
-            <ul> Opportunity code: {appliedOpportunity.uid} </ul>
-            <ul> Title: {title}</ul>
-            <ul> Contact Details: {contact}</ul>
-            <ul> Description: {description}</ul>
-            <ul> Job Type: {jobType} </ul>
-            <ul> Job Tags: {jobTags}</ul>
-            <ul> Location: {location}</ul>
-            <ul> Salary: {salary} </ul>
-            <ul> Starting Date: {startingDate}</ul>
+            </ul>
+            <ul>
+          <Text style={opportunityStyle.header}>Position advertised:</Text>
+            <Text style={opportunityStyle.normal_text}>{position}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Description:</Text>
+            <Text style={opportunityStyle.normal_text}>{description}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Location:</Text>
+            <Text style={opportunityStyle.normal_text}>{location}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Job Type:</Text>
+            <Text style={opportunityStyle.normal_text}>{jobType}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Contact:</Text>
+            <Text style={opportunityStyle.normal_text}>{contact}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Job Tags:</Text>
+            <Text style={opportunityStyle.normal_text}>{jobTags}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Skills Required:</Text>
+            <Text style={opportunityStyle.normal_text}>{skills}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Salary:</Text>
+            <Text style={opportunityStyle.normal_text}>{salary}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Starting Date:</Text>
+            <Text style={opportunityStyle.normal_text}>{startingDate}</Text>
+          </ul>
+          <ul>
+            <Text style={opportunityStyle.header}>Opportunity Code:</Text>
+            <Text style={opportunityStyle.normal_text}>{appliedOpportunity.uid}</Text>
+          </ul>
           </span>
         )}
         {statusMessage === "" && (
-          <div> There is no application status message </div>
+           <Text style={opportunityStyle.normal_text}>There is no application status message</Text>
         )}
 
         {statusMessage && (
           <div>
-            <label>Application Status Message:</label> {statusMessage}
+            <Text style={opportunityStyle.header}>Application Status Message:</Text> 
+            <Text style={opportunityStyle.normal_text}>{statusMessage}</Text>
           </div>
         )}
       </div>

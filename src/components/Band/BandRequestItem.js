@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 
+import bandStyle from "./styles";
+import { View, Text } from "react-native-web";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
@@ -101,21 +103,27 @@ class BandRequestItem extends Component {
                 pathname: `${ROUTES.USERS}/${userId}`,
               }}
             >
-              {username}
+               <Text style={bandStyle.normal_text}>
+
+                  {username}
+               </Text>
+             
             </Link>
-            <div> Role requested: {roleRequest} </div>
+            <Text style={bandStyle.header}>Role requested: </Text>  <Text style={bandStyle.normal_text}> {roleRequest} </Text>
           </ul>
           <button
               onClick={() => this.approveMembership()}
             >
-              {" "}
+              <Text style={bandStyle.normal_text}>
               Accept Band Membership Request
+              </Text>
             </button>
             <button
               onClick={() => this.declineMembership()}
             >
-              {" "}
+             <Text style={bandStyle.normal_text}>
               Delete Band Membership Request
+              </Text>
             </button>
       </div>
     );

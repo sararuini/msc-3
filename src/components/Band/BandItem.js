@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
+import bandStyle from "./styles";
+import { View, Text } from "react-native-web";
+
 class BandItem extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +41,9 @@ class BandItem extends Component {
                   //state: { user },
                 }}
               >
+                <Text style={bandStyle.header}>
                 {band.name}
+                </Text>
               </Link>
             </ul>
           </span>

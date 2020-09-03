@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { AuthUserContext } from "../Session";
 import { withFirebase } from "../Firebase";
 import ConnectionRequestList from "./ConnectionRequestList";
+import connectionStyle from "./styles";
+import { View, Text } from "react-native-web";
 
 class ConnectionRequests extends Component {
   constructor(props) {
@@ -150,7 +152,7 @@ class ConnectionRequests extends Component {
       <AuthUserContext.Consumer>
         {(authUser) => (
           <div>
-            {loading && <div>Loading ...</div>}
+            {loading && <div><Text style={connectionStyle.normal_text}>Loading ...</Text></div>}
 
             {connectionRequests && (
               <ConnectionRequestList
@@ -164,12 +166,12 @@ class ConnectionRequests extends Component {
 
             {!loading && connectionRequests && connectionRequests.length > 5 && (
               <button type="button" onClick={this.onNextPage}>
-                View more connection requests
+                <Text style={connectionStyle.normal_text}>View more connection requests</Text>
               </button>
             )}
 
             {!connectionRequests && (
-              <div>There are no pending connection requests ...</div>
+              <Text style={connectionStyle.normal_text}>There are no pending connection requests ...</Text>
             )}
           </div>
         )}

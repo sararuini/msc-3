@@ -7,15 +7,23 @@ import {
   withEmailVerification,
 } from "../Session";
 import { Link } from 'react-router-dom';
+import connectionStyle from "./styles";
+import { View, Text } from "react-native-web";
 import * as ROUTES from '../../constants/routes';
 
 const ConnectionPage = () => (
     <div>
-      Your connection requests
+      <View>
+        <Text style={connectionStyle.header}>Your connection requests</Text>
+      
        <ConnectionRequests />
-
-       Your user connections
+      </View>
+      
+      <View>
+        <Text style={connectionStyle.header}>Your user connections</Text>
        <UserConnections />
+      </View>
+       
       
     </div>
   );

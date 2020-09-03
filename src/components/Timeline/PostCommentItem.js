@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
+import postStyle from "./styles";
+import { View, Text } from "react-native-web";
 
 class PostCommentItem extends Component {
   constructor(props) {
@@ -55,18 +57,22 @@ class PostCommentItem extends Component {
       <div>
         {authUser && (
           <ul>
-            <div>
-              Comment by:
+            <View style={postStyle.post_item_comment}>
+              <Text style={postStyle.normal_text}>
+                <strong>Comment by:</strong>
+              </Text>
+
               <Link
                 to={{
                   pathname: `${ROUTES.USERS}/${comment.createdBy}`,
                 }}
               >
-                {username}
+                {" "}
+                <Text style={postStyle.normal_text}>{username}</Text>
               </Link>
-            </div>
-
-            {commentText}
+            
+            <Text style={postStyle.normal_text}>{commentText}</Text>
+          </View>
           </ul>
         )}
       </div>
