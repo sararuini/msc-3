@@ -6,6 +6,19 @@ import ApplicantList from "./ApplicantList";
 import opportunityStyle from "./styles";
 import { View, Text, } from "react-native-web";
 
+import {
+  BsPlusSquare,
+  BsPersonFill,
+  BsFillTagFill,
+  BsFillPersonLinesFill,
+  BsReply,
+} from "react-icons/bs";
+import { MdDescription, MdLocationOn } from "react-icons/md";
+import { BiCalendarEvent, BiCalendarWeek, BiNotification } from "react-icons/bi";
+import { GrContact, GrMoney, GrDocumentUser} from "react-icons/gr";
+import {FaSave, FaSuitcase, FaHashtag, FaUsers} from "react-icons/fa";
+import {CgUserList } from "react-icons/cg";
+
 class CreatedOpportunityItem extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +31,7 @@ class CreatedOpportunityItem extends Component {
       editDescription: this.props.opportunityCreated.description,
       editLocation: this.props.opportunityCreated.location,
       editJobType: this.props.opportunityCreated.jobType,
+      editCompany: this.props.opportunityCreated.company,
       editSalary: this.props.opportunityCreated.salary,
       editJobTags: this.props.opportunityCreated.jobTags,
       editStartingDate: this.props.opportunityCreated.startingDate,
@@ -25,6 +39,7 @@ class CreatedOpportunityItem extends Component {
       createdOpportunity: "",
       applicants: "",
       position: "",
+      company: "",
       description: "",
       location: "",
       jobType: "",
@@ -162,6 +177,7 @@ class CreatedOpportunityItem extends Component {
     this.setState((state) => ({
       editMode: !state.editMode,
       editPosition: this.state.createdOpportunity.position,
+      editCompany: this.state.createdOpportunity.company,
       editSkills: this.state.createdOpportunity.skills,
       editDescription: this.state.createdOpportunity.description,
       editLocation: this.state.createdOpportunity.location,
@@ -187,6 +203,12 @@ class CreatedOpportunityItem extends Component {
       this.state.createdOpportunity,
       this.state.editDescription
     );
+
+    this.onEditOpportunity(
+      this.state.createdOpportunity,
+      this.state.editCompany
+    );
+
     this.onEditOpportunity(
       this.state.createdOpportunity,
       this.state.editLocation
@@ -225,6 +247,7 @@ class CreatedOpportunityItem extends Component {
       editMode,
       editPosition,
       editSkills,
+      editCompany,
       editDescription,
       editLocation,
       editJobType,
@@ -243,6 +266,7 @@ class CreatedOpportunityItem extends Component {
       editPosition === "" ||
       editLocation === "" ||
       editContact === "" ||
+      editCompany === "" ||
       editJobType === "";
 
     return (
@@ -257,6 +281,14 @@ class CreatedOpportunityItem extends Component {
                 type="text"
                 value={editPosition}
                 name="editPosition"
+                onChange={this.onChangeEdit}
+              />
+
+          <label> Company/ Person advertising </label>
+              <input
+                type="text"
+                name="editCompany"
+                value={editCompany}
                 onChange={this.onChangeEdit}
               />
 
@@ -328,59 +360,75 @@ class CreatedOpportunityItem extends Component {
 
         {!editMode && authUser && (
           <span>
-            <ul>
+            <View style={opportunityStyle.align_icon}>
+              <BsPersonFill />
           <Text style={opportunityStyle.header}>Position advertised:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.position}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+            <FaSuitcase />
+          <Text style={opportunityStyle.header}>Company/ Person advertising:</Text>
+            <Text style={opportunityStyle.normal_text}>{createdOpportunity.company}</Text>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <MdDescription />
           <Text style={opportunityStyle.header}>Description:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.description}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <MdLocationOn />
           <Text style={opportunityStyle.header}>Location:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.location}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <BiCalendarWeek />
           <Text style={opportunityStyle.header}>Job Type:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.jobType}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <GrContact />
           <Text style={opportunityStyle.header}>Contact:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.contact}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <BsFillTagFill />
           <Text style={opportunityStyle.header}>Job Tags:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.jobTags}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <BsFillPersonLinesFill />
           <Text style={opportunityStyle.header}>Skills Required:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.skills}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <GrMoney />
           <Text style={opportunityStyle.header}>Salary:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.salary}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+            <BiCalendarEvent />
           <Text style={opportunityStyle.header}>Starting Date:</Text>
             <Text style={opportunityStyle.normal_text}>{createdOpportunity.startingDate}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+            <FaHashtag />
             <Text style={opportunityStyle.header}>Opportunity Code:</Text>
             <Text style={opportunityStyle.normal_text}>{opportunityCreated.uid}</Text>
-          </ul>
+          </View>
             
           </span>
         )}
 
 
         {applicants && (
-          <span>
-            <Text style={opportunityStyle.normal_text}>Applicants for {createdOpportunity.position}:</Text>
-
+          <View style={opportunityStyle.align_icon}>
+            <FaUsers />
+            <Text style={opportunityStyle.header}>Applicants for {createdOpportunity.position}:</Text>
+            
             <ul>
               <ApplicantList authUser={authUser} applicants={applicants} opportunity={opportunityCreated.uid} />
             </ul>
-            </span>
+            </View>
         )}
 
             {/*

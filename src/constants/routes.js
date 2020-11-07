@@ -35,6 +35,7 @@ export const OPPORTUNITY_PROFILE = "/opportunities/:id/profile";
 export const OPPORTUNITIES_SAVED = "/opportunities/saved";
 export const OPPORTUNITIES_APPLIED = "/opportunities/applied";
 export const OPPORTUNITIES_PUBLISHED= "/opportunities/published";
+export const OPPORTUNITIES_RECOMMENDED= "/opportunities/recommended";
 
 //notifications
 export const NOTIFICATIONS= "/notifications"

@@ -5,6 +5,17 @@ import { View, Text } from "react-native-web";
 import opportunityStyle from "./styles";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
+import {
+  BsPlusSquare,
+  BsPersonFill,
+  BsFillTagFill,
+  BsFillPersonLinesFill,
+} from "react-icons/bs";
+import { MdDescription, MdLocationOn } from "react-icons/md";
+import { BiCalendarEvent, BiCalendarWeek, BiNotification} from "react-icons/bi";
+import { GrContact, GrMoney, GrDocumentUser} from "react-icons/gr";
+import {FaSave, FaSuitcase, FaHashtag} from "react-icons/fa";
+import {CgUserList } from "react-icons/cg";
 
 class AppliedOpportunityItem extends Component {
   constructor(props) {
@@ -13,6 +24,7 @@ class AppliedOpportunityItem extends Component {
     this.state = {
       loading: false,
       position: "",
+      company: "",
       contact: "",
       skills: "",
       description: "",
@@ -78,6 +90,7 @@ class AppliedOpportunityItem extends Component {
 
     this.props.firebase.opportunity(opp).once("value", (snapshot) => {
       const oppObj = snapshot.val();
+      const company = oppObj.company;
       const position = oppObj.position;
       const skills = oppObj.skills;
       const contact = oppObj.contact;
@@ -92,6 +105,7 @@ class AppliedOpportunityItem extends Component {
       this.setState({
         position: position,
         contact: contact,
+        company: company,
         description: description,
         jobType: jobType,
         jobTags: jobTags,
@@ -111,6 +125,7 @@ class AppliedOpportunityItem extends Component {
       position,
       skills,
       contact,
+      company,
       description,
       jobType,
       jobTags,
@@ -135,46 +150,74 @@ class AppliedOpportunityItem extends Component {
             >
               <Text style={opportunityStyle.normal_text}>{opportunityCreator}</Text>
             </Link>
-            </ul>
-            <ul>
-          <Text style={opportunityStyle.header}>Position advertised:</Text>
+            <View style={opportunityStyle.align_icon}>
+              <BsPersonFill />
+                <Text style={opportunityStyle.header}>Position advertised:</Text>
             <Text style={opportunityStyle.normal_text}>{position}</Text>
-          </ul>
-          <ul>
+            </View>
+
+            <View style={opportunityStyle.align_icon}>
+            <FaSuitcase />
+          <Text style={opportunityStyle.header}>Company/ Person advertising:</Text>
+            <Text style={opportunityStyle.normal_text}>{company}</Text>
+          </View>
+
+          <View style={opportunityStyle.align_icon}>
+          <MdDescription />         
           <Text style={opportunityStyle.header}>Description:</Text>
             <Text style={opportunityStyle.normal_text}>{description}</Text>
-          </ul>
-          <ul>
+          </View>
+
+          <View style={opportunityStyle.align_icon}>
+          <MdLocationOn />
+
           <Text style={opportunityStyle.header}>Location:</Text>
             <Text style={opportunityStyle.normal_text}>{location}</Text>
-          </ul>
-          <ul>
+          </View>
+
+          <View style={opportunityStyle.align_icon}>
+          <BiCalendarWeek />
+
           <Text style={opportunityStyle.header}>Job Type:</Text>
             <Text style={opportunityStyle.normal_text}>{jobType}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <GrContact />
+
           <Text style={opportunityStyle.header}>Contact:</Text>
             <Text style={opportunityStyle.normal_text}>{contact}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <BsFillTagFill />
+
           <Text style={opportunityStyle.header}>Job Tags:</Text>
             <Text style={opportunityStyle.normal_text}>{jobTags}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <BsFillPersonLinesFill />
+
           <Text style={opportunityStyle.header}>Skills Required:</Text>
             <Text style={opportunityStyle.normal_text}>{skills}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <GrMoney />
+
           <Text style={opportunityStyle.header}>Salary:</Text>
             <Text style={opportunityStyle.normal_text}>{salary}</Text>
-          </ul>
-          <ul>
+          </View>
+
+          <View style={opportunityStyle.align_icon}>
+            <BiCalendarEvent />
+
           <Text style={opportunityStyle.header}>Starting Date:</Text>
+
             <Text style={opportunityStyle.normal_text}>{startingDate}</Text>
-          </ul>
-          <ul>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+            <FaHashtag />
             <Text style={opportunityStyle.header}>Opportunity Code:</Text>
             <Text style={opportunityStyle.normal_text}>{appliedOpportunity.uid}</Text>
+          </View>
           </ul>
           </span>
         )}
@@ -184,10 +227,14 @@ class AppliedOpportunityItem extends Component {
 
         {statusMessage && (
           <div>
+                      <View style={opportunityStyle.align_icon}>
+            <BiNotification />
             <Text style={opportunityStyle.header}>Application Status Message:</Text> 
             <Text style={opportunityStyle.normal_text}>{statusMessage}</Text>
+            </View>
           </div>
         )}
+        
       </div>
     );
   }

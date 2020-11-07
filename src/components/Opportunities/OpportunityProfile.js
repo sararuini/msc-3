@@ -8,6 +8,20 @@ import { View, Text } from "react-native-web";
 import opportunityStyle from "./styles";
 import * as ROUTES from "../../constants/routes";
 
+
+import {
+  BsPlusSquare,
+  BsPersonFill,
+  BsFillTagFill,
+  BsFillPersonLinesFill,
+} from "react-icons/bs";
+import { MdDescription, MdLocationOn } from "react-icons/md";
+import { BiCalendarEvent, BiCalendarWeek, BiNotification, BiMailSend} from "react-icons/bi";
+import { GrContact, GrMoney, GrDocumentUser} from "react-icons/gr";
+
+import {FaSave, FaSuitcase, FaHashtag, FaHeart, FaRegHeart } from "react-icons/fa";
+import {CgUserList } from "react-icons/cg";
+
 let options = [];
 
 class OpportunityProfile extends Component {
@@ -18,6 +32,7 @@ class OpportunityProfile extends Component {
       savedAt: "",
       appliedAt: "",
       createdBy: "",
+      company: "",
       currentUserId: "",
       opportunityCreator: "",
       hasApplied: false,
@@ -259,6 +274,7 @@ class OpportunityProfile extends Component {
       description,
       jobTags,
       jobType,
+      company,
       location,
       salary,
       startingDate,
@@ -288,99 +304,134 @@ class OpportunityProfile extends Component {
       
           <View>
             <ul>
-              <Text style={opportunityStyle.normal_text}>Created by: </Text>
-              <Link
-                to={{
-                  pathname: `${ROUTES.USERS}/${createdBy}`,
-                }}
-              >
-                {opportunityCreator}
-              </Link>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Position advertised:</Text>
-              <Text style={opportunityStyle.normal_text}>{position}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Description:</Text>
-              <Text style={opportunityStyle.normal_text}>{description}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Location:</Text>
-              <Text style={opportunityStyle.normal_text}>{location}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Job Type:</Text>
-              <Text style={opportunityStyle.normal_text}>{jobType}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Contact:</Text>
-              <Text style={opportunityStyle.normal_text}>{contact}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Job Tags:</Text>
-              <Text style={opportunityStyle.normal_text}>{jobTags}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Skills Required:</Text>
-              <Text style={opportunityStyle.normal_text}>{skills}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Salary:</Text>
-              <Text style={opportunityStyle.normal_text}>{salary}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Starting Date:</Text>
-              <Text style={opportunityStyle.normal_text}>{startingDate}</Text>
-            </ul>
-            <ul>
-              <Text style={opportunityStyle.header}>Opportunity Code:</Text>
-              <Text style={opportunityStyle.normal_text}>{opportunityId}</Text>
+            <Text style={opportunityStyle.normal_text}>Created by: </Text>
+            <Link
+              to={{
+                pathname: `${ROUTES.USERS}/${createdBy}`,
+              }}
+            >
+              <Text style={opportunityStyle.normal_text}>{opportunityCreator}</Text>
+            </Link>
+            <View style={opportunityStyle.align_icon}>
+              <BsPersonFill />
+                <Text style={opportunityStyle.header}>Position advertised:</Text>
+            <Text style={opportunityStyle.normal_text}>{position}</Text>
+            </View>
+
+            <View style={opportunityStyle.align_icon}>
+            <FaSuitcase />
+          <Text style={opportunityStyle.header}>Company/ Person advertising:</Text>
+            <Text style={opportunityStyle.normal_text}>{company}</Text>
+          </View>
+
+          <View style={opportunityStyle.align_icon}>
+          <MdDescription />         
+          <Text style={opportunityStyle.header}>Description:</Text>
+            <Text style={opportunityStyle.normal_text}>{description}</Text>
+          </View>
+
+          <View style={opportunityStyle.align_icon}>
+          <MdLocationOn />
+
+          <Text style={opportunityStyle.header}>Location:</Text>
+            <Text style={opportunityStyle.normal_text}>{location}</Text>
+          </View>
+
+          <View style={opportunityStyle.align_icon}>
+          <BiCalendarWeek />
+
+          <Text style={opportunityStyle.header}>Job Type:</Text>
+            <Text style={opportunityStyle.normal_text}>{jobType}</Text>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <GrContact />
+
+          <Text style={opportunityStyle.header}>Contact:</Text>
+            <Text style={opportunityStyle.normal_text}>{contact}</Text>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <BsFillTagFill />
+
+          <Text style={opportunityStyle.header}>Job Tags:</Text>
+            <Text style={opportunityStyle.normal_text}>{jobTags}</Text>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <BsFillPersonLinesFill />
+
+          <Text style={opportunityStyle.header}>Skills Required:</Text>
+            <Text style={opportunityStyle.normal_text}>{skills}</Text>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+          <GrMoney />
+
+          <Text style={opportunityStyle.header}>Salary:</Text>
+            <Text style={opportunityStyle.normal_text}>{salary}</Text>
+          </View>
+
+          <View style={opportunityStyle.align_icon}>
+            <BiCalendarEvent />
+
+          <Text style={opportunityStyle.header}>Starting Date:</Text>
+
+            <Text style={opportunityStyle.normal_text}>{startingDate}</Text>
+          </View>
+          <View style={opportunityStyle.align_icon}>
+            <FaHashtag />
+            <Text style={opportunityStyle.header}>Opportunity Code:</Text>
+            <Text style={opportunityStyle.normal_text}>{opportunityId}</Text>
+          </View>
             </ul>
           </View>
 
           {currentUserId !== createdBy && hasSaved === true && (
-            <span>
+            <View style={opportunityStyle.align_icon}>
               <button
                 onClick={() => {
                   this.onUnsaveOpportunity(opportunityId);
                 }}
               >
+                <FaRegHeart />
                 Unsave Opportunity
               </button>
-            </span>
+            </View>
           )}
 
           {currentUserId !== createdBy && hasSaved === false && (
-            <span>
+            <View style={opportunityStyle.align_icon}>
               <button
                 onClick={() => {
                   this.onSaveOpportunity(opportunityId);
                 }}
               >
+                <FaHeart />
                 Save Opportunity
               </button>
-            </span>
+            </View>
           )}
 
           {currentUserId !== createdBy && !hasApplied && (
-            <span>
+            <View style={opportunityStyle.align_icon}>
               <form
                 onSubmit={() => {
                   this.onApplyToOpportunity(opportunityId);
                 }}
               >
+                <Text style={opportunityStyle.normal_text}>Write your application message here: </Text>
+
                 <input
                   type="text"
                   value={applicationText}
+                  placeholder="Application message"
                   onChange={this.onChangeApplicationText}
                 />
 
                 <button disabled={isInvalid} type="submit">
+
+                  <BiMailSend />
                   Send Application
                 </button>
               </form>
-            </span>
+            </View>
           )}
       </div>
     );

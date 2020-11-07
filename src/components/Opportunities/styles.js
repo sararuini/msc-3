@@ -1,3 +1,4 @@
+import { BsReverseBackspaceReverse } from "react-icons/bs";
 import { StyleSheet } from "react-native-web";
 
 const opportunityStyle = StyleSheet.create({
@@ -78,6 +79,9 @@ const opportunityStyle = StyleSheet.create({
     alignItems: "center",
     marginBottom: "1%",
     marginTop: "1%",
+  },
+  rec_opportunity_style: {
+    flexDirection: "row",
   },
 });
 

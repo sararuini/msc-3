@@ -12,11 +12,12 @@ import {
   BsPersonFill,
   BsFillTagFill,
   BsFillPersonLinesFill,
+  BsPersonSquare,
 } from "react-icons/bs";
 import { MdDescription, MdLocationOn } from "react-icons/md";
 import { BiCalendarEvent, BiCalendarWeek } from "react-icons/bi";
 import { GrContact, GrMoney, GrDocumentUser} from "react-icons/gr";
-import {FaSave } from "react-icons/fa";
+import {FaSave, FaSuitcase} from "react-icons/fa";
 import {CgUserList } from "react-icons/cg";
 
 class Opportunities extends Component {
@@ -26,6 +27,7 @@ class Opportunities extends Component {
     this.state = {
       position: "",
       description: "",
+      company: "",
       location: "",
       jobType: "",
       salary: "",
@@ -80,6 +82,7 @@ class Opportunities extends Component {
       createdBy: authUser.uid,
       createdAt: this.props.firebase.serverValue.TIMESTAMP,
       position: this.state.position,
+      company: this.state.company,
       description: this.state.description,
       location: this.state.location,
       jobType: this.state.jobType,
@@ -97,6 +100,7 @@ class Opportunities extends Component {
     this.setState({
       position: "",
       description: "",
+      company: "",
       contact: "",
       location: "",
       createdAt: "",
@@ -116,6 +120,7 @@ class Opportunities extends Component {
     const {
       position,
       description,
+      company,
       contact,
       location,
       jobType,
@@ -125,7 +130,7 @@ class Opportunities extends Component {
       startingDate,
       loading,
     } = this.state;
-    const isInvalid = position === "" || location === "" || contact === "";
+    const isInvalid = position === "" || location === "" || contact === "" || company === "";
 
     return (
       <AuthUserContext.Consumer>
@@ -167,6 +172,26 @@ class Opportunities extends Component {
                     onChangeText={(position) => this.setState({ position })}
                   />
                   </View>
+
+                  <View style={opportunityStyle.item_create}>
+                    <View style={opportunityStyle.align_icon}>
+                    <FaSuitcase />
+
+                  <Text style={opportunityStyle.normal_text}>
+                      Company/ Person advertising:
+                    </Text>
+                  </View>
+                  <TextInput
+                    style={opportunityStyle.text_input}
+                    placeholder="Company / Person that is advertising"
+                    value={company}
+                    nativeID="company"
+                    blurOnSubmit="false"
+                    onChangeText={(company) => this.setState({ company })}
+                  />
+                  </View>
+
+
                   
                   <View style={opportunityStyle.item_create}>
                     <View style={opportunityStyle.align_icon}>
@@ -358,7 +383,7 @@ class Opportunities extends Component {
                         pathname: `${ROUTES.OPPORTUNITIES_SAVED}`,
                       }}
                     >
-                      Saved opportunities
+                      Saved Opportunities
                     </Link>
                   </View>
                 </View>
@@ -377,7 +402,7 @@ class Opportunities extends Component {
                         pathname: `${ROUTES.OPPORTUNITIES_PUBLISHED}`,
                       }}
                     >
-                      Published opportunities
+                      Published Opportunities
                     </Link>
                   </View>
                 </View>
@@ -396,7 +421,27 @@ class Opportunities extends Component {
                         pathname: `${ROUTES.OPPORTUNITIES_APPLIED}`,
                       }}
                     >
-                      Applied opportunities
+                      Applied Opportunities
+                    </Link>
+                  </View>
+                </View>
+
+                
+                <View style={opportunityStyle.applied_opp}>
+                  <View style={opportunityStyle.align_icon}>
+                    <BsPersonSquare />
+                    <Link
+                      style={{
+                        color: "black",
+                        fontSize: "18px",
+                        fontFamily: "monospace",
+                        paddingLeft: "10px",
+                      }}
+                      to={{
+                        pathname: `${ROUTES.OPPORTUNITIES_RECOMMENDED}`,
+                      }}
+                    >
+                      Recommended Opportunities
                     </Link>
                   </View>
                 </View>

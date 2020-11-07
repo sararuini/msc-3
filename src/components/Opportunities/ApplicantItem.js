@@ -5,6 +5,19 @@ import { View, Text } from "react-native-web";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
+import { MdDescription, MdLocationOn } from "react-icons/md";
+import { BiCalendarEvent, BiCalendarWeek, BiNotification } from "react-icons/bi";
+import { GrContact, GrMoney, GrDocumentUser} from "react-icons/gr";
+import {FaSave, FaSuitcase, FaHashtag, FaUsers} from "react-icons/fa";
+import {CgUserList } from "react-icons/cg";
+import {
+  BsPlusSquare,
+  BsPersonFill,
+  BsFillTagFill,
+  BsFillPersonLinesFill,
+  BsReply,
+} from "react-icons/bs";
+
 class ApplicantItem extends Component {
   constructor(props) {
     super(props);
@@ -89,12 +102,14 @@ class ApplicantItem extends Component {
         )}
 
         
-          <div>
+          <View>
+            
             <form
               onSubmit={() => {
                 this.onSendApplicationStatus(opportunity);
               }}
             >
+              <BsReply />
               <input
                 type="text"
                 value={statusMessage}
@@ -103,7 +118,7 @@ class ApplicantItem extends Component {
               />
               <button type="submit"><Text style={opportunityStyle.normal_text}>Send Application Status</Text></button>
             </form>
-          </div>
+          </View>
 
       </div>
     );

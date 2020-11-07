@@ -7,6 +7,17 @@ import { View, Text, } from "react-native-web";
 import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 
+import {
+  BsPlusSquare,
+  BsPersonFill,
+  BsFillTagFill,
+  BsFillPersonLinesFill,
+} from "react-icons/bs";
+import { MdDescription, MdLocationOn } from "react-icons/md";
+import { BiCalendarEvent, BiCalendarWeek } from "react-icons/bi";
+import { GrContact, GrMoney, GrDocumentUser} from "react-icons/gr";
+import {FaSave, FaSuitcase} from "react-icons/fa";
+import {CgUserList } from "react-icons/cg";
 class SavedOpportunityItem extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +26,7 @@ class SavedOpportunityItem extends Component {
       loading: false,
       position: "",
       skills: "",
+      company: "",
       contact: "",
       description: "",
       jobType: "",
@@ -48,6 +60,7 @@ class SavedOpportunityItem extends Component {
 
             const oppObj = snapshot.val();
             const position = oppObj.position;
+            const company = oppObj.company;
             const skills = oppObj.skills;
             const contact = oppObj.contact;
             const description = oppObj.description;
@@ -62,6 +75,7 @@ class SavedOpportunityItem extends Component {
               position: position,
               contact: contact,
               description: description,
+              company: company,
               createdBy: createdBy,
               jobType: jobType,
               jobTags: jobTags,
@@ -101,6 +115,7 @@ class SavedOpportunityItem extends Component {
       skills,
       contact,
       createdBy,
+      company,
       description,
       jobType,
       jobTags,
@@ -130,6 +145,10 @@ class SavedOpportunityItem extends Component {
           <ul>
           <Text style={opportunityStyle.header}>Position advertised:</Text>
             <Text style={opportunityStyle.normal_text}>{position}</Text>
+          </ul>
+          <ul>
+          <Text style={opportunityStyle.header}>Company/ Person advertising:</Text>
+            <Text style={opportunityStyle.normal_text}>{company}</Text>
           </ul>
           <ul>
           <Text style={opportunityStyle.header}>Description:</Text>

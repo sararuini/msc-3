@@ -42,11 +42,14 @@ class OpportunitiesAvailable extends Component {
       .on("value", (snapshot) => {
         const opportunityObject = snapshot.val();
 
+
+
         if (opportunityObject) {
           const opportunityList = Object.keys(opportunityObject).map((key) => ({
             ...opportunityObject[key],
             uid: key,
           }));
+          console.log(opportunityList)
 
           this.setState({
             opportunities: opportunityList,
