@@ -81,8 +81,16 @@ const opportunityStyle = StyleSheet.create({
     marginTop: "1%",
   },
   rec_opportunity_style: {
-    flexDirection: "row",
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "space between"
   },
+  align_text: {
+    flexDirection: "row",
+  flexWrap: "wrap",
+  alignItems: "stretch",
+  },
+
 });
 
 export default opportunityStyle;

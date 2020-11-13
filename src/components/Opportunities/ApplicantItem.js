@@ -30,6 +30,7 @@ class ApplicantItem extends Component {
     };
   }
 
+  // retr
   retrieveInfo = () => {
     const thisUser = this.props.applicant.uid;
     const thisOpp = this.props.opportunity;

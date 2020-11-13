@@ -52,3 +52,11 @@ export const EVENTS = "/events";
 export const EVENT = "/events/:id";
 export const EVENT_EDIT = "/events/:id/edit";
 export const USER_EVENTS = "/events/user"
+
+
+{/* 
+Sources: 
+Used code template from book / code repo:
+Wieruch, R. (2019) The road to React with Firebase.    
+Wieruch, R. (2020) React-firebase-authentication. Available at: https://github.com/the-road-to-react-with-firebase/react-firebase-authentication (Accessed: 12 June 2020).
+*/}

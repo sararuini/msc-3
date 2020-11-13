@@ -21,3 +21,10 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+{/* 
+Sources: 
+Used code template from book / code repo:
+Wieruch, R. (2019) The road to React with Firebase.    
+Wieruch, R. (2020) React-firebase-authentication. Available at: https://github.com/the-road-to-react-with-firebase/react-firebase-authentication (Accessed: 12 June 2020).
+*/}
