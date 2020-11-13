@@ -1,0 +1,84 @@
+[{'repeat(100)': {
+    "users" : {
+    "uid" : "{{guid()}}",
+     "username" : "{{firstName()}} {{surname()}}",
+      "amazonMusic" : "https://www.amazon.co.uk/{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{lorem(1, 'words')}}/e/{{lorem(1, 'words')}}{{lorem(1, 'words')}}",
+      "appleMusic" :  "https://music.apple.com/gb/artist/{{lorem(1, 'words')}}/{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}",
+      "bandcamp" :  "https://{{lorem(1, 'words')}}.bandcamp.com/releases",
+      "biography" :  "{{lorem(4, 'paragraphs')}}",
+      "deezer" : "https://deezer.com/en/artist/{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}",
+      "email" : "{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{integer(6)}}{{integer(6)}}@{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{lorem(1, 'words')}}.com",
+      "facebook" : "wwww.facebook.com/{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}",
+      "headline" : "{{lorem(1, 'sentences')}}",
+      "instagram" : "@{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{integer(6)}}{{integer(6)}}",
+      "currentCompany": "{{company()}}",
+      "currentJob": "{{random('singer','song-writer', 'composer', 'music agent','music journalist','musical therapist', 'music teacher', 'dj','recording engineer', 'music director', 'music conductor','sound engineer','music producer', 'session musician', 'label manager', 'client engagement manager', 'talent partner', 'dj', 'music marketing assistant','lecturer', 'audio designer', 'music writer', 'concert booker', 'events organiser', 'performer', 'content manager', 'music producer', 'PA', 'team leader', 'stage manager', 'copyright assistant', 'legal adviser',  'audio technician', 'bassist', 'guitarist', 'drummer','pianist', 'cellist', 'artist manager', 'tour manager', 'booking agent', 'music publicist', 'music arranger', 'music photographer', 'social media manager')}}",
+      interests() {
+        const finalList = [];
+        const interestOptions = ['cooking','gardening', 'knitting', 'rock-climbing', 'drawing', 'painting', 'clubbing', 'travelling', 'sky-diving', 'eating', 'sleeping', 'gaming', 'sports', 'gym', 'reading', 'rock music', 'indie music', 'classical music', 'R&B', 'jazz', 'pop music', 'dubstep', 'house music', 'rap', 'contemporary music'];
+        let max = interestOptions.length;
+        for (let i = 0; i <= 6; i++){
+            let randomNum = Math.random() * (max - 0) + 0;
+          const interest = interestOptions[Math.round(randomNum)];
+          if (finalList.includes(interest)) {
+              continue;
+              } else {
+              	finalList.push(interest);
+              }  
+        }
+          return finalList;
+      },
+      "linkedin" : "https://www.linkedin.com/in/{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}/",
+      "location" : "{{random('London','Manchester', 'Bath', 'Bristol','Cardiff','Edinburgh', 'Glasgow', 'Belfast', 'Birmingham', 'Leeds', 'Chester', 'Coventry', 'Aberdeen','Oxford', 'Sheffield','Brighton')}}, United Kingdom",
+      musicalSkills() {
+        const finalList = [];
+        const skills = ['bass guitar', 'electric guitar','classical guitar', 'singing', 'teaching music', 'music production', 'DJing', 'rapping', 'music composition', 'drums', 'piano', 'keyboards', 'cello', 'violin', 'ableton','ukulele', 'trumpet', 'accordion', 'clarinet', 'harp', 'oboe', 'trombone','bassoon', 'harmonica', 'artist management', 'music publishing', 'record label management', 'events management'];
+        
+        let max = skills.length;
+        for (let i = 0; i <= 5; i++){
+            let randomNum = Math.random() * (max - 0) + 0;
+          const skill = skills[Math.round(randomNum)];
+          if (finalList.includes(skill)) {
+              continue;
+              } else {
+              	finalList.push(skill);
+              }  
+        }
+          return finalList;
+      },
+      "opportunities" : {
+        "oid" : "-{{guid()}}",
+          "savedOpportunity" : "{{bool()}}"
+      },
+       otherSkills() {
+        const finalList = [];
+        const skills = ['communication', 'teamwork','microsoft office', 'coding', 'photography', 'writing', 'time management', 'problem-solving', 'data analysis', 'driving', 'public speaking', 'creativity', 'emotional intelligence', 'ux design', 'video production'];
+        
+        let max = skills.length;
+        for (let i = 0; i <= 3; i++){
+            let randomNum = Math.random() * (max - 0) + 0;
+          const skill = skills[Math.round(randomNum)];
+          if (finalList.includes(skill)) {
+              continue;
+              } else {
+              	finalList.push(skill);
+              }  
+        }
+          return finalList;
+      },
+      "pandora" : "https://www.pandora.com/artist/all-songs/{{lorem(1, 'words')}}{{lorem(1, 'words')}}/{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}",
+      "phoneNumber" : "+44 {{phone()}}",
+      "publicEmailAddress" : "{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}@{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{lorem(1, 'words')}}.com",
+      "reasonsForJoining_connectOthers" : "{{bool()}}",
+      "reasonsForJoining_findOpportunities" :"{{bool()}}",
+      "reasonsForJoining_offerOpportunities" : "{{bool()}}",
+      "reasonsForJoining_promoteServices" : "{{bool()}}",
+      "soundcloud" : "https://www.soundcloud.com/{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}",
+      "spotify" : "https://www.spotify.com/artist/{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}",
+      "tiktok" : "@{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}",
+      "twitter" : "@{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}",
+      "website" : "https://{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{lorem(1, 'words')}}.com",
+      "youtube" : "https://www.youtube.com/user/{{lorem(1, 'words')}}{{lorem(1, 'words')}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}{{integer(6)}}}"
+    }
+}
+   }]
