@@ -124,11 +124,6 @@ class CreatedOpportunityItem extends Component {
     });
   };
 
-  onRemoveOpportunity = (authUser, uid) => {
-    this.props.firebase.opportunity(uid).remove();
-    console.log("removing");
-    this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
-    console.log("removed");
   };
 */
 
@@ -242,7 +237,7 @@ class CreatedOpportunityItem extends Component {
   };
 
   render() {
-    const { authUser, opportunityCreated } = this.props;
+    const { authUser, opportunityCreated, onRemoveOpportunity } = this.props;
     const {
       editMode,
       editPosition,
@@ -273,7 +268,7 @@ class CreatedOpportunityItem extends Component {
       <div>
         {loading && <div>Loading ...</div>}
 
-        {editMode && (
+        {editMode &&  opportunityCreated && (
           <div>
             <form>
               <label> Position </label>
@@ -358,7 +353,7 @@ class CreatedOpportunityItem extends Component {
           </div>
         )}
 
-        {!editMode && authUser && (
+        {!editMode && authUser && opportunityCreated && (
           <span>
             <View style={opportunityStyle.align_icon}>
               <BsPersonFill />
@@ -420,7 +415,7 @@ class CreatedOpportunityItem extends Component {
         )}
 
 
-        {applicants && (
+        {applicants && opportunityCreated && (
           <View style={opportunityStyle.align_icon}>
             <FaUsers />
             <Text style={opportunityStyle.header}>Applicants for {createdOpportunity.position}:</Text>
@@ -431,22 +426,33 @@ class CreatedOpportunityItem extends Component {
             </View>
         )}
 
-            {/*
-            {!loading && applicants && (
-              <Applicants />
-            )}
+
+        { authUser && opportunityCreated && (
+        <div>
+
+        <button
+              onClick={() => onRemoveOpportunity(authUser, opportunityCreated.uid)}
+            >
+              <Text style={opportunityStyle.normal_text}>
+              Delete Opportunity
+              </Text>
+            </button>
+            </div>
+        )}
+        {authUser && !opportunityCreated&& (
+          <div>
+             <Text style={opportunityStyle.normal_text}>
+              The opportunity does not exist anymore
+              </Text>
+          </div>
+        )}
+
            
-            {!loading && applicants && applicants.length > 3 && (
-              <button type="button" onClick={this.onNextPageApplicants}>
-                More applicants
-              </button>
-            )}
-            */}
-          
+           
 
         {authUser && !applicants && (
           <span>
-            <Text style={opportunityStyle.normal_text}> {createdOpportunity.position}</Text>
+            <Text style={opportunityStyle.normal_text}> There are no applicants </Text>
           </span>
         )}
       </div>

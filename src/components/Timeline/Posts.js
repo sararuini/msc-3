@@ -99,6 +99,7 @@ class Posts extends Component {
 
   render() {
     const { text, posts, loading } = this.state;
+    const isInvalid = text === "" ;
 
     return (
       <AuthUserContext.Consumer>
@@ -118,7 +119,7 @@ class Posts extends Component {
                     />
                   </View>
                   <View>
-                    <button type="submit">
+                    <button disabled={isInvalid} type="submit">
                       <Text style={postStyle.normal_text}>
                         Share a post with your connections
                       </Text>
@@ -178,3 +179,9 @@ class Posts extends Component {
 }
 
 export default withFirebase(Posts);
+{/* 
+Sources: 
+Used code template from book / code repo:
+Wieruch, R. (2019) The road to React with Firebase.    
+Wieruch, R. (2020) React-firebase-authentication. Available at: https://github.com/the-road-to-react-with-firebase/react-firebase-authentication (Accessed: 12 June 2020).
+*/}

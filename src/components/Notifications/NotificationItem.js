@@ -16,6 +16,7 @@ class NotificationItem extends Component {
     this.state = {
       loading: false,
       type: "",
+      notificationUser: ""
     };
   }
 
@@ -29,6 +30,8 @@ class NotificationItem extends Component {
     const notification = this.props.notification.uid;
     const user = this.props.authUser.uid;
     console.log("usseeer " + user);
+
+    this.setState({notificationUser: user})
 
     console.log("notificationitem " + notification);
 
@@ -57,8 +60,8 @@ class NotificationItem extends Component {
   };
 
   render() {
-    const { authUser, notification } = this.props;
-    const { loading, type } = this.state;
+    const { authUser, notification, deleteNotification} = this.props;
+    const { loading, type, notificationUser } = this.state;
 
     return (
       <span>
@@ -72,6 +75,14 @@ class NotificationItem extends Component {
             {" "}
            <Text style={notificationStyle.normal_text}> {type}</Text>
           </Link>
+
+          <button
+              onClick={() => deleteNotification(notificationUser, notification.uid)}
+            >
+              <Text style={notificationStyle.normal_text}>
+              Delete Notification
+              </Text>
+            </button>
         </ul>
       </span>
     );

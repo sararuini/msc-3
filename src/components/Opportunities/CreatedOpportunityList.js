@@ -6,7 +6,7 @@ const CreatedOpportunityList = ({
   authUser,
   opportunitiesCreated,
   //onEditOpportunity,
-  //onRemoveOpportunity,
+  onRemoveOpportunity,
 }) => (
   <ul>
     {opportunitiesCreated.map(opportunityCreated => (
@@ -15,7 +15,7 @@ const CreatedOpportunityList = ({
         key={opportunityCreated.uid}
         opportunityCreated={opportunityCreated}
         //onEditOpportunity={onEditOpportunity}
-        //onRemoveOpportunity={onRemoveOpportunity}
+        onRemoveOpportunity={onRemoveOpportunity}
       />
     ))}
   </ul>

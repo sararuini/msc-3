@@ -5,6 +5,7 @@ import NotificationItem from './NotificationItem';
 const NotificationList = ({
   authUser,
   notifications,
+  deleteNotification,
 }) => (
   <ul>
     {notifications.map(notification => (
@@ -12,6 +13,7 @@ const NotificationList = ({
         authUser={authUser}
         key={notification.uid}
         notification={notification}
+        deleteNotification={deleteNotification}
       />
     ))}
   </ul>

@@ -25,7 +25,7 @@ const App = () => {
     <Router>
       <View>
         <div>
-          <Navigation/> {/*  */}
+          <Navigation/> 
           <ScrollView style={page_styles_template.scrollable_container}>
             <div>
               

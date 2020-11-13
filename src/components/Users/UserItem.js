@@ -312,7 +312,6 @@ class UserItem extends Component {
           </div>
         </View>
         )}
-          
 
         {existingFriendship === false &&
           pendingConnection === false &&

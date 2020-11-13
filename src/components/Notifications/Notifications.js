@@ -21,6 +21,12 @@ class Notifications extends Component {
     this.onListenForNotifications();
   }
 
+
+  deleteNotification = (userUid, notificationUid) => {
+    console.log("deleted notification");
+    this.props.firebase.notification(userUid, notificationUid).remove();
+  };
+
   onListenForNotifications = () => {
     this.setState({ loading: true });
     this.props.firebase.auth.onAuthStateChanged((authUser) => {
@@ -83,6 +89,7 @@ class Notifications extends Component {
               <NotificationList
                 authUser={authUser}
                 notifications={notifications}
+                deleteNotification={this.deleteNotification}
               />
             )}
 

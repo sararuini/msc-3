@@ -15,7 +15,6 @@ const page_styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
       }
-    
 });
 
 export default page_styles;

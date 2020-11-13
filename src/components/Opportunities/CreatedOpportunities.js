@@ -99,12 +99,15 @@ class CreatedOpportunities extends Component {
       startingDate,
     });
   };
-
-  onRemoveOpportunity = (authUser, uid) => {
-    this.props.firebase.opportunity(uid).remove();
-    this.props.firebase.userCreatedOpportunity(authUser.uid, uid).remove();
-  };
 */
+  onRemoveOpportunity = (authUser, oppUid) => {
+    this.props.firebase.opportunity(oppUid).remove();
+    this.props.firebase.userCreatedOpportunity(authUser.uid, oppUid).remove();
+    this.props.firebase.appliedOpportunity(authUser.uid, oppUid).remove();
+    this.props.firebase.savedOpportunity(authUser.uid, oppUid).remove();
+
+  };
+
   onNextPage = () => {
     this.setState(
       (state) => ({ limit: state.limit + 3 }),
@@ -148,7 +151,7 @@ class CreatedOpportunities extends Component {
                 authUser={authUser}
                 opportunitiesCreated={opportunitiesCreated}
                 //onEditOpportunity={this.onEditOpportunity}
-                //onRemoveOpportunity={this.onRemoveOpportunity}
+                onRemoveOpportunity={this.onRemoveOpportunity}
               />
             )}
 
