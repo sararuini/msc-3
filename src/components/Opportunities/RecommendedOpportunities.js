@@ -65,7 +65,7 @@ class RecommendedOpportunities extends Component {
                 <Text style={opportunityStyle.normal_text}>Loading ...</Text>
               </div>
             )}
-
+            {/*
             {!loading && (
               <View>
                 <Text style={opportunityStyle.header}>
@@ -334,6 +334,9 @@ class RecommendedOpportunities extends Component {
                     </View>
                   </View>
                 </View>
+            
+         
+            
 
                 <Link
                   to={{
@@ -344,8 +347,8 @@ class RecommendedOpportunities extends Component {
                     Go back to main opportunities page
                   </Text>
                 </Link>
-              </View>
-            )}
+              </View>   
+            )}*/}
           </div>
         )}
       </AuthUserContext.Consumer>
