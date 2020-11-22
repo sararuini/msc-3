@@ -9,11 +9,11 @@ The functionalities I took from the book are:
 - Database setup on Realtime
 - Authentication
 
-This application requires to be used along with Firebase console so it won't run on your local machine. To view the live website, please follow the URL: https://sara-ruini-msc-project.web.app/
+The current version (Version 3) of this application requires to be used along with Firebase console so it won't run on your local machine.  To view the live website, please follow the URL: https://sara-ruini-msc-project.web.app/
 
-In order to access the application, you can use the following login:
-Email: s.ruini@se18.qmul.ac.uk
-Password: password
+Previous versions of the application:
+MVP / Version 1 - https://github.com/sararuini/qmul-msc-project-sara-ruini/tree/dfb0988790d8012f1e2b5af89989fcb1ed8288a4 
+Version 2 - https://github.com/sararuini/qmul-msc-project-sara-ruini/tree/85949a5ef2591da63fc771b3e796691c227e4c27/src/components
 
 References:
 Wieruch, R. (2019) The road to React with Firebase.    
