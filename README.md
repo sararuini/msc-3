@@ -1,12 +1,26 @@
-The setup app was created using the book "The Road to React with Firebase" by Robin Wieruch.
+This application, "Music Connector" was created by Sara Ruini (studying MSc Computing and Information Systems at Queen Mary University of London).
+
+The setup app was created using the book "The Road to React with Firebase" by Robin Wieruch. 
+
 The functionalities I took from the book are:
 - User SignIn/Logout/SignUp
 - Admin
 - Navigation + Homepage
+- Database setup on Realtime
+- Authentication
 
-Up to https://github.com/sararuini/msc-3/tree/79f43b3aa6143f20992e3d1d122422ca2a509ce3, the code is exactly the same as the book.
-I then proceeded to develop further functionalities for the purpose of my app.
+This application requires to be used along with Firebase console so it won't run on your local machine. To view the live website, please follow the URL: https://sara-ruini-msc-project.web.app/
 
+In order to access the application, you can use the following login:
+Email: s.ruini@se18.qmul.ac.uk
+Password: password
+
+References:
+Wieruch, R. (2019) The road to React with Firebase.    
+
+Wieruch, R. (2020) React-firebase-authentication. Available at: https://github.com/the-road-to-react-with-firebase/react-firebase-authentication (Accessed: 12 June 2020).
+
+*******
 *******
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

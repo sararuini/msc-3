@@ -4,7 +4,7 @@ const page_styles = StyleSheet.create({
     menu_links: {
         flexDirection: "row",
         width: "100%",
-        height: "10%",
+        height: "10vh",
         alignSelf: "stretch",
         flexWrap: "wrap",
         justifyContent: "space-evenly",
@@ -14,6 +14,7 @@ const page_styles = StyleSheet.create({
     align_icon: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
       }
 });
 

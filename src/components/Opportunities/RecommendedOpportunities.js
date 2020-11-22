@@ -40,11 +40,11 @@ class RecommendedOpportunities extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    this.loadHardcodedData();
+    this.loadImages();
     this.setState({ loading: false });
   }
 
-  loadHardcodedData = () => {
+  loadImages = () => {
     console.log("trial");
   };
   /*
@@ -65,290 +65,41 @@ class RecommendedOpportunities extends Component {
                 <Text style={opportunityStyle.normal_text}>Loading ...</Text>
               </div>
             )}
-            {/*
+
             {!loading && (
-              <View>
-                <Text style={opportunityStyle.header}>
-                  Your Recommended Opportunities
-                </Text>
-
-                <View style={opportunityStyle.rec_opportunity_style}>
-                  <View style={opportunityStyle.align_icon}>
-                    <BsPersonFill />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Position advertised:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Senior Artist Manager (UK)
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <FaSuitcase />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Company/ Person advertising:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        Handle Recruitment
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <MdLocationOn />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>Location:</Text>
-                      <Text style={opportunityStyle.normal_text}>London</Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View
-                  style={{
-                    borderBottomColor: "black",
-                    borderBottomWidth: 1,
-                    padding: "3px",
-                  }}
-                />
-
-                <View style={opportunityStyle.rec_opportunity_style}>
-                  <View style={opportunityStyle.align_icon}>
-                    <BsPersonFill />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Position advertised:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Artist Management Assistant{" "}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <FaSuitcase />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Company/ Person advertising:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        One House Artists{" "}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <MdLocationOn />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>Location:</Text>
-                      <Text style={opportunityStyle.normal_text}> London</Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View
-                  style={{
-                    borderBottomColor: "black",
-                    borderBottomWidth: 1,
-                    padding: "3px",
-                  }}
-                />
-                <View style={opportunityStyle.rec_opportunity_style}>
-                  <View style={opportunityStyle.align_icon}>
-                    <BsPersonFill />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Position advertised:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Executive and Team Assistant
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <FaSuitcase />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Company/ Person advertising:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Hardlivings Artist Management{" "}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <MdLocationOn />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>Location:</Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        London, United Kingdom
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    borderBottomColor: "black",
-                    borderBottomWidth: 1,
-                    padding: "3px",
-                  }}
-                />
-                <View style={opportunityStyle.rec_opportunity_style}>
-                  <View style={opportunityStyle.align_icon}>
-                    <BsPersonFill />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Position advertised:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Day-to-Day Artist Manager
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <FaSuitcase />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Company/ Person advertising:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        !k7 music
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <MdLocationOn />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>Location:</Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Germany/ UK
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View
-                  style={{
-                    borderBottomColor: "black",
-                    borderBottomWidth: 1,
-                    padding: "3px",
-                  }}
-                />
-
-                <View style={opportunityStyle.rec_opportunity_style}>
-                  <View style={opportunityStyle.align_icon}>
-                    <BsPersonFill />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Position advertised:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Day to Day Manager
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <FaSuitcase />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Company/ Person advertising:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Prolifica Management
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <MdLocationOn />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>Location:</Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        London, United Kingdom
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View
-                  style={{
-                    borderBottomColor: "black",
-                    borderBottomWidth: 1,
-                    padding: "3px",
-                  }}
-                />
-
-                <View style={opportunityStyle.rec_opportunity_style}>
-                  <View style={opportunityStyle.align_icon}>
-                    <BsPersonFill />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Position advertised:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        Senior manager, Artist relations
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <FaSuitcase />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>
-                        Company/ Person advertising:
-                      </Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Soundcloud
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View style={opportunityStyle.align_icon}>
-                    <MdLocationOn />
-                    <View style={opportunityStyle.align_text}>
-                      <Text style={opportunityStyle.header}>Location:</Text>
-                      <Text style={opportunityStyle.normal_text}>
-                        {" "}
-                        Los Angeles, United States
-                      </Text>
-                    </View>
-                  </View>
-                </View>
+              <div>
+                <Text> Examples of job recommendations: </Text>
+                 <Image
+                style={{ width: 1293, height: 580 }}
+                source={{
+                 uri:
+              "https://live.staticflickr.com/65535/50633474997_afd22a7f7b_o.png",
+            }}
+              />
+              <Image
+                style={{ width: 1302, height: 601 }}
+                source={{
+                 uri:
+              "https://live.staticflickr.com/65535/50633387231_b1f8dc82b3_o.png",
+            }}
+              />
+              <Image
+                style={{ width: 1319, height: 618 }}
+                source={{
+                 uri:
+              "https://live.staticflickr.com/65535/50633387271_a040b7b332_o.png",
+            }}
+              />
+              <Image
+                style={{ width: 1289, height: 582 }}
+                source={{
+                 uri:
+              "https://live.staticflickr.com/65535/50633475057_f1b46324c8_o.png",
+            }}
+              />
+              </div>
+            )}
             
-         
-            
-
-                <Link
-                  to={{
-                    pathname: `${ROUTES.OPPORTUNITIES}`,
-                  }}
-                >
-                  <Text style={opportunityStyle.normal_text}>
-                    Go back to main opportunities page
-                  </Text>
-                </Link>
-              </View>   
-            )}*/}
           </div>
         )}
       </AuthUserContext.Consumer>

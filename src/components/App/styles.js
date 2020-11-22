@@ -6,7 +6,7 @@ const page_styles_template = StyleSheet.create({
     color: "black",
     padding: "20%",
     width: "100%",
-    height: "100%",
+    height: "80vh",
     maxHeight: "95%",
     padding: "10px",
     backgroundColor: "white",
